@@ -31,7 +31,7 @@ void CameraController::Update(float elapsedTime)
 	{
 		angle.y -= DirectX::XM_2PI;
 	}
-
+	//
 	//ƒJƒƒ‰‰ñ“]’l‚ğ‰ñ“]s—ñ‚É•ÏŠ·
 	DirectX::XMMATRIX Transform = DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z);
 
