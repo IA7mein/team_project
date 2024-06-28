@@ -1,4 +1,4 @@
-#include "Camera.h"
+ #include "Camera.h"
 
 //Žw’è•ûŒü‚ðŒü‚­
 void Camera::SetLookAt(const DirectX::XMFLOAT3& eye, const DirectX::XMFLOAT3& focus,
