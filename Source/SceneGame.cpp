@@ -8,7 +8,6 @@
 #include "Input/Input.h"
 #include "StageManager.h"
 #include "StageMain.h"
-#include "StageMoveFloor.h"
 
 // ‰Šú‰»
 void SceneGame::Initialize()
@@ -17,11 +16,6 @@ void SceneGame::Initialize()
 	StageManager& stageManager = StageManager::Instance();
 	StageMain* stageMain = new StageMain();
 	stageManager.Register(stageMain);
-	StageMoveFloor* stageMoveFloor = new StageMoveFloor();
-	stageMoveFloor->SetStartPoint(DirectX::XMFLOAT3(0, 1, 3));
-	stageMoveFloor->SetGoalPoint(DirectX::XMFLOAT3(10, 2, 3));
-	stageMoveFloor->SetTorque(DirectX::XMFLOAT3(0, 1.0f, 0));
-	stageManager.Register(stageMoveFloor);
 
 	//ƒvƒŒƒCƒ„[‰Šú‰»
 	player = new Player();

@@ -3,7 +3,6 @@
 #include "Graphics/Shader.h"
 #include "Graphics/Model.h"
 #include "Character.h"
-#include "ProjectileManager.h"
 #include "Effect.h"
 
 //プレイヤー
@@ -31,9 +30,7 @@ public:
 	//ジャンプ入力処理
 	bool InputJump();
 
-	//弾丸と敵の衝突処理
-	void CollisionProjectileVsEnemies();
-
+	
 protected:
 	//着地した際に呼ばれる
 	void OnLanding() override;
@@ -46,9 +43,6 @@ protected:
 
 	//プレイヤーとエネミーの衝突判定
 	void CollisionPlayerVsEnemies();
-
-	//弾丸入力処理
-	void InputProjectile();
 
 	//ダメージを受けた際に呼ばれる
 	void OnDamaged() override;
@@ -151,7 +145,6 @@ private:
 	Model* model = nullptr;
 	float moveSpeed = 10.0f;
 	float turnSpeed = DirectX::XMConvertToRadians(720);
-	ProjectileManager projectileManager;
 	float jumpSpeed = 20.0f;
 	int jumpCount = 0;
 	int jumpLimit = 2;

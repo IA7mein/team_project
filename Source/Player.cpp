@@ -5,8 +5,6 @@
 #include "Graphics/Graphics.h"
 #include "EnemyManager.h"
 #include "Collision.h"
-#include "ProjectileStraight.h"
-#include "ProjectileHoming.h"
 
 static Player* instance = nullptr;
 
@@ -85,12 +83,6 @@ void Player::Update(float elapsedTime)
 	//プレイヤーと敵の衝突判定
 	CollisionPlayerVsEnemies();
 
-	//弾丸と敵の衝突判定
-	CollisionProjectileVsEnemies();
-
-	//弾丸更新処理
-	projectileManager.Update(elapsedTime);
-
 	//無敵時間更新処理
 	UpdateInvincibleTimer(elapsedTime);
 
@@ -108,9 +100,6 @@ void Player::Update(float elapsedTime)
 void Player::Render(ID3D11DeviceContext* dc, Shader* shader)
 {
 	shader->Draw(dc, model);
-
-	//弾丸描画処理
-	projectileManager.Render(dc, shader);
 }
 //デバッグ用GUI描画
 void Player::DrawDebugGUI()
@@ -148,9 +137,6 @@ void Player::DrawDebugPrimitive()
 
 	//衝突判定用にデバッグ球を描画
 	debugRenderer->DrawCylinder(position, radius, height, DirectX::XMFLOAT4(0, 0, 0, 1));
-
-	//弾丸デバッグプリミティブ描画
-	projectileManager.DrawDebugPrimitive();
 
 	//攻撃衝突用の左手ノードのデバッグ球を描画
 	if (attackColisionFlag)
@@ -325,153 +311,6 @@ void Player::OnDead()
 	TransitionDeathState();
 }
 
-void Player::InputProjectile()
-{
-	GamePad& gamePad = Input::Instance().GetGamePad();
-
-	//直進弾丸
-	if (gamePad.GetButtonDown() & GamePad::BTN_X)
-	{
-		//前方向
-		DirectX::XMFLOAT3 dir;
-		dir.x = transform._31;
-		dir.y = transform._32;
-		dir.z= transform._33;
-		//発射位置
-		DirectX::XMFLOAT3 pos;
-		pos.x = position.x;
-		pos.y = position.y;
-		pos.z = position.z;
-
-		ProjectileStraight* projectile = new ProjectileStraight(&projectileManager);
-		projectile->Launch(dir, pos);
-	}
-	//追尾弾丸発射
-	if (gamePad.GetButtonDown() & GamePad::BTN_Y)
-	{
-		//前方向
-		DirectX::XMFLOAT3 dir;
-		dir.x = sinf(angle.y); //dir.x = 
-		dir.y = 0.0f;
-		dir.z = cosf(angle.y);
-
-		DirectX::XMFLOAT3 pos;
-		pos.x = position.x;
-		pos.y = position.y + height * 0.5f;
-		pos.z = position.z;
-
-		//ターゲット(デフォルトはプレイヤーの前方)
-		DirectX::XMFLOAT3 target;
-		target.x = pos.x + dir.x * 1000.0f;
-		target.y = pos.y + dir.y * 1000.0f;
-		target.z = pos.z + dir.z * 1000.0f;
-
-		//一番近くの敵をターゲット
-		//一番遠い場所を設定
-		float dist = FLT_MAX;
-		//敵のマネージャーを取得
-		EnemyManager& enemyManager = EnemyManager::Instance();
-		//敵の数を取得
-		int enemyCount = enemyManager.GetEnemyCount();
-
-		//一番遠い敵を敵の数だけチェック
-		for (int i = 0; i < enemyCount; i++)
-		{
-			//敵との距離判定
-			//i番目の敵を取得
-			Enemy* enemy = EnemyManager::Instance().GetEnemy(i);
-			//プレイヤーの位置をXMVECTORに変換
-			DirectX::XMVECTOR P = DirectX::XMLoadFloat3(&position);			
-			DirectX::XMVECTOR E = DirectX::XMLoadFloat3(&enemy->GetPosition());
-			// 敵方向へのベクトルを計算
-			DirectX::XMVECTOR V = DirectX::XMVectorSubtract(E, P);
-			//その長さを計算し
-			DirectX::XMVECTOR D = DirectX::XMVector3LengthSq(V);
-			//単一の値にする
-			float d;
-			DirectX::XMStoreFloat(&d, D);
-			//今まで計算した距離の中で一番小さい距離なら
-			if (d < dist)
-			{
-				dist = d;
-				//targetの位置を更新(敵の位置を設定)
-				target = enemy->GetPosition();
-				//targetのyだけ腰の高さにしておく
-				target.y += enemy->GetHeight() * 0.5f;
-			}
-		}
-		//発射
-		ProjectileHoming* projectilehoming = new ProjectileHoming(&projectileManager);
-		projectilehoming->Launch(dir, pos, target);
-	}
-}
-
-//弾丸と敵の衝突判定
-void Player::CollisionProjectileVsEnemies()
-{
-	EnemyManager& enemyManager = EnemyManager::Instance();
-
-	//全ての弾丸とすべての敵を総当たりで衝突判定
-	int projectileCount = projectileManager.GetProjectileCount();
-	int enemyCount = enemyManager.GetEnemyCount();
-	for (int i = 0; i < projectileCount; i++)
-	{
-		Projectile* projectile = projectileManager.GetProjectile(i);
-
-		for (int j = 0; j < enemyCount; j++)
-		{
-			Enemy* enemy = enemyManager.GetEnemy(j);
-
-			//衝突処理
-			DirectX::XMFLOAT3 outPosition;
-			if (Collision::IntersectSpherVsCyling
-			(projectile->GetPosition(),
-				projectile->GetRadius(),
-				enemy->GetPosition(),
-				enemy->GetRadius(),
-				enemy->GetHeight(),
-				outPosition))
-			{
-				//ダメージを与える
-				if(enemy->ApplyDamage(1, 0.5f))
-				{
-					//吹き飛ばす
-					{
-						DirectX::XMFLOAT3 impulse;
-						const float power = 10.0f;//吹き飛ばす力
-
-						//敵の位置を取得
-						const DirectX::XMFLOAT3& e = enemy->GetPosition();
-						//弾の位置を取得
-						const DirectX::XMFLOAT3& p = projectile->GetPosition();
-						//弾から敵へのベクトルを取得
-						float vx = e.x - p.x;
-						float vz = e.z - p.z;
-						//そのベクトルを正規化(長さを計算し、長さで割る)
-						float lengthXZ = sqrtf(vx * vx + vz * vz);
-						vx /= lengthXZ;
-						vz /= lengthXZ;
-						//衝撃の値を設定(xzは正規化したベクトルをpower文スケーリング)
-						impulse.x = vx * power;
-						impulse.y = power * 0.5f;
-						impulse.z = vz * power;
-						
-						enemy->AddImpulse(impulse);
-					}
-					//ヒットエフェクト再生
-					{
-						DirectX::XMFLOAT3 e = enemy->GetPosition();
-						e.y += enemy->GetHeight() * 0.5f;
-						hitEffect->Play(e);
-					}
-					//弾丸破棄
-					projectile->Destroy();
-				}
-			}
-		}
-	}
-}
-
 //攻撃入力処理
 bool Player::InputAttack()
 {
@@ -514,9 +353,6 @@ void Player::UpdateIdleState(float elapsedTime)
 	{
 		TransitionAttackState();
 	}
-
-	//弾丸入力処理
-	InputProjectile();
 }
 
 void Player::TransitionMoveState()
@@ -547,9 +383,6 @@ void Player::UpdateMoveState(float elapsedTime)
 	{
 		TransitionAttackState();
 	}
-
-	//弾丸入力処理
-	InputProjectile();
 }
 
 //ジャンプステートへ遷移
