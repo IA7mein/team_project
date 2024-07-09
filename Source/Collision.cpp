@@ -422,56 +422,56 @@ void QuadtreeNode::ClearAllTriangleObject(std::vector<QuadtreeNode>& node)
 }
 
 // 全てのノードで三角形と垂直レイの交差判定を行う
-bool QuadtreeNode::IntersectVerticalRayVsTriangle(std::vector<QuadtreeNode>* node, uint32_t depth, const DirectX::XMFLOAT3& rayStart, const DirectX::XMFLOAT3& rayEnd, HitResult& result)
-{
-	DirectX::XMFLOAT3 routeCenter = node->front().center;
-	float routeHalfSize = node->front().halfSize;
-	uint32_t shiftXZ = 0;
-	bool minus = false;
-	bool ret = false;
-
-	// レイの長さでヒット情報の距離を初期化
-	DirectX::XMFLOAT3 rayDirection =
-	{
-		rayEnd.x - rayStart.x,
-		rayEnd.y - rayStart.y,
-		rayEnd.z - rayStart.z,
-	};
-	float rayDist = sqrtf(rayDirection.x * rayDirection.x + rayDirection.y * rayDirection.y + rayDirection.z * rayDirection.z);
-	rayDirection.x /= rayDist;
-	rayDirection.y /= rayDist;
-	rayDirection.z /= rayDist;
-
-	result.distance = rayDist;
-
-	// レイの始点のモートンコード
-	uint32_t mortonCode = GetMortonCode(rayStart, node->front(), node->back().halfSize);
-	int linerIndex = mortonCode + GetLevelStart(depth);
-
-	for (uint32_t level = depth + 1; level > 0; level--)
-	{
-		if (linerIndex < node->size())
-		{
-			QuadtreeNode targetNode = node->at(linerIndex);
-
-			// 各ノードが持つ三角形全てとレイの当たり判定を行う
-			for (int i = 0; i < targetNode.triangles.size(); i++)
-			{
-				HitResult tmpResult;
-				if (Collision::IntersectRayVsTriangle(rayStart, rayDirection, rayDist, targetNode.triangles.at(i).position, tmpResult))
-				{
-					if (result.distance > tmpResult.distance)
-					{
-						result = tmpResult;
-						result.materialIndex = targetNode.triangles.at(i).materialIndex;
-						ret = true;
-					}
-				}
-			}
-		}
-
-		linerIndex = (linerIndex - 1) >> 2;	// 親階層にインデックスを移動
-	}
-
-	return ret;
-}
+//bool QuadtreeNode::IntersectVerticalRayVsTriangle(std::vector<QuadtreeNode>* node, uint32_t depth, const DirectX::XMFLOAT3& rayStart, const DirectX::XMFLOAT3& rayEnd, HitResult& result)
+//{
+//	DirectX::XMFLOAT3 routeCenter = node->front().center;
+//	float routeHalfSize = node->front().halfSize;
+//	uint32_t shiftXZ = 0;
+//	bool minus = false;
+//	bool ret = false;
+//
+//	// レイの長さでヒット情報の距離を初期化
+//	DirectX::XMFLOAT3 rayDirection =
+//	{
+//		rayEnd.x - rayStart.x,
+//		rayEnd.y - rayStart.y,
+//		rayEnd.z - rayStart.z,
+//	};
+//	float rayDist = sqrtf(rayDirection.x * rayDirection.x + rayDirection.y * rayDirection.y + rayDirection.z * rayDirection.z);
+//	rayDirection.x /= rayDist;
+//	rayDirection.y /= rayDist;
+//	rayDirection.z /= rayDist;
+//
+//	result.distance = rayDist;
+//
+//	// レイの始点のモートンコード
+//	uint32_t mortonCode = GetMortonCode(rayStart, node->front(), node->back().halfSize);
+//	int linerIndex = mortonCode + GetLevelStart(depth);
+//
+//	for (uint32_t level = depth + 1; level > 0; level--)
+//	{
+//		if (linerIndex < node->size())
+//		{
+//			QuadtreeNode targetNode = node->at(linerIndex);
+//
+//			// 各ノードが持つ三角形全てとレイの当たり判定を行う
+//			for (int i = 0; i < targetNode.triangles.size(); i++)
+//			{
+//				HitResult tmpResult;
+//				if (Collision::IntersectRayVsTriangle(rayStart, rayDirection, rayDist, targetNode.triangles.at(i).position, tmpResult))
+//				{
+//					if (result.distance > tmpResult.distance)
+//					{
+//						result = tmpResult;
+//						result.materialIndex = targetNode.triangles.at(i).materialIndex;
+//						ret = true;
+//					}
+//				}
+//			}
+//		}
+//
+//		linerIndex = (linerIndex - 1) >> 2;	// 親階層にインデックスを移動
+//	}
+//
+//	return ret;
+//}

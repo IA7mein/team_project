@@ -67,48 +67,48 @@ void StageMoveFloor::Render(ID3D11DeviceContext* dc, Shader* shader)
 }
 
 //レイキャスト
-bool StageMoveFloor::RayCast(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, HitResult& hit)
-{
-	//前回のワールド行列と逆行列を求める
-	DirectX::XMMATRIX WorldTransform = DirectX::XMLoadFloat4x4(&oldTransform);//ワールド行列
-	DirectX::XMMATRIX ReverseTransform = DirectX::XMMatrixInverse(nullptr, WorldTransform);//逆行列
-
-	//前回のローカル空間でのレイに変換
-	DirectX::XMVECTOR startVec = DirectX::XMLoadFloat3(&start);
-	DirectX::XMVECTOR endVec = DirectX::XMLoadFloat3(&end);
-
-	startVec = DirectX::XMVector3TransformCoord(startVec, ReverseTransform);
-	endVec = DirectX::XMVector3TransformCoord(endVec, ReverseTransform);
-	
-	//ローカル座標でのレイとの交点を求める
-	DirectX::XMFLOAT3 localStart, localEnd;
-	DirectX::XMStoreFloat3(&localStart, startVec);
-	DirectX::XMStoreFloat3(&localEnd, endVec);
-
-	HitResult localHit;
-	if (Collision::IntersectRayVsModel(localStart, localEnd, model, localHit))
-	{
-		//TODO:00
-		//前回のローカル空間から今回のワールド空間へ変換
-		//前回から今回にかけて変更された内容が乗っているオブジェクトに反映される
-		DirectX::XMMATRIX NowTransform = DirectX::XMLoadFloat4x4(&transform);
-		DirectX::XMVECTOR localHitPointVec = DirectX::XMLoadFloat3(&localHit.position);
-		localHitPointVec = DirectX::XMVector3TransformCoord(localHitPointVec, NowTransform);
-
-		DirectX::XMStoreFloat3(&hit.position, localHitPointVec);
-		
-		hit.normal = localHit.normal;
-		hit.distance = localHit.distance;
-
-		//回転差分を計算
-		hit.rotetion.x = angle.x + localHit.rotetion.x - oldAngle.x;
-		hit.rotetion.y = angle.y + localHit.rotetion.y - oldAngle.y;
-		hit.rotetion.z = angle.z + localHit.rotetion.z - oldAngle.z;
-
-		return true;
-	}
-	return false;
-}
+//bool StageMoveFloor::RayCast(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, HitResult& hit)
+//{
+//	//前回のワールド行列と逆行列を求める
+//	DirectX::XMMATRIX WorldTransform = DirectX::XMLoadFloat4x4(&oldTransform);//ワールド行列
+//	DirectX::XMMATRIX ReverseTransform = DirectX::XMMatrixInverse(nullptr, WorldTransform);//逆行列
+//
+//	//前回のローカル空間でのレイに変換
+//	DirectX::XMVECTOR startVec = DirectX::XMLoadFloat3(&start);
+//	DirectX::XMVECTOR endVec = DirectX::XMLoadFloat3(&end);
+//
+//	startVec = DirectX::XMVector3TransformCoord(startVec, ReverseTransform);
+//	endVec = DirectX::XMVector3TransformCoord(endVec, ReverseTransform);
+//	
+//	//ローカル座標でのレイとの交点を求める
+//	DirectX::XMFLOAT3 localStart, localEnd;
+//	DirectX::XMStoreFloat3(&localStart, startVec);
+//	DirectX::XMStoreFloat3(&localEnd, endVec);
+//
+//	HitResult localHit;
+//	if (Collision::IntersectRayVsModel(localStart, localEnd, model, localHit))
+//	{
+//		//TODO:00
+//		//前回のローカル空間から今回のワールド空間へ変換
+//		//前回から今回にかけて変更された内容が乗っているオブジェクトに反映される
+//		DirectX::XMMATRIX NowTransform = DirectX::XMLoadFloat4x4(&transform);
+//		DirectX::XMVECTOR localHitPointVec = DirectX::XMLoadFloat3(&localHit.position);
+//		localHitPointVec = DirectX::XMVector3TransformCoord(localHitPointVec, NowTransform);
+//
+//		DirectX::XMStoreFloat3(&hit.position, localHitPointVec);
+//		
+//		hit.normal = localHit.normal;
+//		hit.distance = localHit.distance;
+//
+//		//回転差分を計算
+//		hit.rotetion.x = angle.x + localHit.rotetion.x - oldAngle.x;
+//		hit.rotetion.y = angle.y + localHit.rotetion.y - oldAngle.y;
+//		hit.rotetion.z = angle.z + localHit.rotetion.z - oldAngle.z;
+//
+//		return true;
+//	}
+//	return false;
+//}
 
 //行列更新処理
 void StageMoveFloor::UpdateTransform()

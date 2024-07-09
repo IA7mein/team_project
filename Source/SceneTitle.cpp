@@ -4,11 +4,15 @@
 #include "SceneManager.h"
 #include "Input/Input.h"
 #include "SceneLoading.h"
+#include"Stage1.h"
+#include"Stage2.h"
+#include"Stage3.h"
 
 void SceneTitle::Initialize()
 {
 	//スプライト初期化
 	sprite = new Sprite("Data/Sprite/Title.png");
+	table = 0;
 }
 
 void SceneTitle::Finalize()
@@ -25,6 +29,35 @@ void SceneTitle::Finalize()
 void SceneTitle::Update(float elapsedTime)
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();
+
+	/*if (gamePad.GetButtonDown() & GamePad::BTN_RIGHT)table++;
+	if (gamePad.GetButtonDown() & GamePad::BTN_LEFT)table--;
+	if (table < 0)table = 0;
+	if (table > 2)table = 2;
+	switch (table)
+	{
+	case 0:
+		if (gamePad.GetButtonDown() & GamePad::BTN_START)
+		{
+			SceneManager::Instance().ChangeScene(new Stage1);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new Stage1));
+		}
+		break;
+	case 1:
+		if (gamePad.GetButtonDown() & GamePad::BTN_START)
+		{
+			SceneManager::Instance().ChangeScene(new Stage2);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new Stage2));
+		}
+		break;
+	case 2:
+		if (gamePad.GetButtonDown() & GamePad::BTN_START)
+		{
+			SceneManager::Instance().ChangeScene(new Stage3);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new Stage3));
+		}
+		break;
+	}*/
 	//何かボタンを押したらゲームシーンへ切り替え
 	const GamePadButton anyButton =
 		  GamePad::BTN_A
@@ -34,9 +67,10 @@ void SceneTitle::Update(float elapsedTime)
 
 	if (gamePad.GetButtonDown()& anyButton)
 	{
-		//SceneManager::Instance().ChangeScene(new SceneGame);
+		SceneManager::Instance().ChangeScene(new SceneGame);
 		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
 	}
+
 }
 
 //描画処理

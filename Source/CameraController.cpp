@@ -14,23 +14,23 @@ void CameraController::Update(float elapsedTime)
 	angle.y += ax * speed;
 
 	//X²‚ÌƒJƒƒ‰‰ñ“]‚ğ§ŒÀ
-	if (angle.x > maxAngleX)
+	/*if (angle.x > maxAngleX)
 	{
 		angle.x = maxAngleX;
 	}
 	if (angle.x < minAngleX)
 	{
 		angle.x = minAngleX;
-	}
+	}*/
 	//Y²‚Ì‰ñ“]’l‚ğ-3.14`3.14‚Éû‚Ü‚é‚æ‚¤‚É‚·‚é
-	if (angle.y < -DirectX::XM_PI)
+	/*if (angle.y < -DirectX::XM_PI)
 	{
 		angle.y += DirectX::XM_2PI;
 	}
 	if (angle.y > DirectX::XM_PI)
 	{
 		angle.y -= DirectX::XM_2PI;
-	}
+	}*/
 	//
 	//ƒJƒƒ‰‰ñ“]’l‚ğ‰ñ“]s—ñ‚É•ÏŠ·
 	DirectX::XMMATRIX Transform = DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z);

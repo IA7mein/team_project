@@ -24,4 +24,5 @@ public:
 
 private:
 	Sprite* sprite = nullptr;
+	int table;
 };

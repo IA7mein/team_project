@@ -46,7 +46,7 @@ Player::~Player()
 void Player::Update(float elapsedTime)
 {
 	if (position.y < -10.0f)position = { 0, 1, 0 };
-	
+	/*if (position.y < 6)position.y = 5;*/
 	//ステート毎の処理
 	switch (state)
 	{
