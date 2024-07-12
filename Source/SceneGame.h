@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Player.h"
+#include "Enemy.h"
 #include "CameraController.h"
 #include "Scene.h"
 #include "Graphics/Sprite.h"
@@ -25,15 +26,9 @@ public:
 	void Render() override;
 
 private:
-	//エネミーHPゲージ
-	void RenderEnemyGauge(
-		ID3D11DeviceContext* dc,
-		const DirectX::XMFLOAT4X4& view,
-		const DirectX::XMFLOAT4X4& projection
-	);
-
-private:
 	Player* player = nullptr;
+	Enemy* enemy = nullptr;
 	CameraController* cameraController = nullptr;
-	Sprite* gauge = nullptr;
+
+	DirectX::XMFLOAT3 target = {0, 0, 0};
 };

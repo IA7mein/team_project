@@ -117,7 +117,7 @@ int Framework::Run()
 
 			float elapsedTime = syncInterval == 0
 				? timer.TimeInterval()
-				: syncInterval / static_cast<float>(GetDeviceCaps(hDC, VREFRESH))
+				: syncInterval / 120.0f
 				;
 			Update(elapsedTime);
 			Render(elapsedTime);
