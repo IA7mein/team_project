@@ -215,7 +215,7 @@ void Enemy::CollisionPlayerVsEnemies()
 			}
 			else
 			{
-				//outPosition.x = position.x + power;
+				outPosition.x = position.x + L;
 				player.SetPosition(outPosition);
 			}
 		}

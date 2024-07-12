@@ -38,6 +38,8 @@ void SceneGame::Initialize()
 	//エネミーAI初期化
 	enemy = new Enemy();
 	enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
+
+	text = new Sprite("Data/Font/font6.png");
 }
 
 // 終了化
@@ -60,6 +62,11 @@ void SceneGame::Finalize()
 	{
 		delete enemy;
 		enemy = nullptr;
+	}
+	if (text != nullptr)
+	{
+		delete text;
+		text = nullptr;
 	}
 	//ステージ終了化
 	StageManager::Instance().Clear();
@@ -143,5 +150,7 @@ void SceneGame::Render()
 	{
 		//プレイヤーデバッグ描画
 		player->DrawDebugGUI();
+
+		text->textout(dc, "Test", 0, 0, 30, 30, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 	}
 }

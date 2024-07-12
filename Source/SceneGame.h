@@ -28,6 +28,7 @@ public:
 private:
 	Player* player = nullptr;
 	Enemy* enemy = nullptr;
+	Sprite* text = nullptr;
 	CameraController* cameraController = nullptr;
 
 	DirectX::XMFLOAT3 target = {0, 0, 0};
