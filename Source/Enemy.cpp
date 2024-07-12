@@ -186,22 +186,38 @@ void Enemy::CollisionPlayerVsEnemies()
 		DirectX::XMFLOAT3 normal;
 		DirectX::XMStoreFloat3(&normal, N);
 		{
+			float L{};
+			DirectX::XMFLOAT3 l{};
+			DirectX::XMStoreFloat3(&l, DirectX::XMVectorScale(V, -1.0f));
+			if (l.x > 0.0f)
+			{
+				L = 1.0f;
+			}
+			else if (l.x < 0.0f)
+			{
+				L = -1.0f;
+			}
+
 			if (jumpFlag && player.GetJump())
 			{
-				outPosition.x = position.x + (2.0f * power);
+				outPosition.x = position.x + (2.0f * L);
 				player.SetPosition(outPosition);
 			}
 			else if (power != 0.0f && player.GetPower() * -1.0f == power)
 			{
-				outPosition.x = position.x + ((player.GetRadius() * 0.5f) * power);
+				outPosition.x = position.x + ((player.GetRadius() * 0.5f) * L);
 				player.SetPosition(outPosition);
 			}
 			else if (power != 0.0f && player.GetPower() == 0.0f)
 			{
-				outPosition.x = position.x + (2.0f * power);
+				outPosition.x = position.x + L;
 				player.SetPosition(outPosition);
 			}
-			else player.SetPosition(outPosition);
+			else
+			{
+				//outPosition.x = position.x + power;
+				player.SetPosition(outPosition);
+			}
 		}
 	}
 }

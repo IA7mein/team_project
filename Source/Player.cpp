@@ -209,8 +209,6 @@ bool Player::InputMove(float elapsedTime)
 	else if (!jumpFlag && power != 0.0f)
 	{
 		//”ñƒWƒƒƒ“ƒvŽž‚È‚ç—Í‚ð0‚É–ß‚·
-		/*if (power < 0.0f)power += 1.0f * elapsedTime;
-		else power -= 1.0f * elapsedTime;*/
 		power = 0.0f;
 	}
 	//ˆÚ“®ˆ—
@@ -251,22 +249,38 @@ void Player::CollisionPlayerVsEnemies()
 		DirectX::XMFLOAT3 normal;
 		DirectX::XMStoreFloat3(&normal, N);
 		{
+			float L{};
+			DirectX::XMFLOAT3 l{};
+			DirectX::XMStoreFloat3(&l, DirectX::XMVectorScale(V, -1.0f));
+			if (l.x > 0.0f)
+			{
+				L = 1.0f;
+			}
+			else if (l.x < 0.0f)
+			{
+				L = -1.0f;
+			}
+
 			if (jumpFlag && enemy.GetJump())
 			{
-				outPosition.x = position.x + (2.0f * power);
+				outPosition.x = position.x + (2.0f * L);
 				enemy.SetPosition(outPosition);
 			}
 			else if (power != 0.0f && enemy.GetPower() * -1.0f == power)
 			{
-				outPosition.x = position.x + ((enemy.GetRadius() * 0.5f) * power);
+				outPosition.x = position.x + ((enemy.GetRadius() * 0.5f) * L);
 				enemy.SetPosition(outPosition);
 			}
 			else if (power != 0.0f && enemy.GetPower() == 0.0f)
 			{
-				outPosition.x = position.x + (2.0f * power);
+				outPosition.x = position.x + L;
 				enemy.SetPosition(outPosition);
 			}
-			else enemy.SetPosition(outPosition);
+			else
+			{
+				//outPosition.x = position.x + power;
+				enemy.SetPosition(outPosition);
+			}
 		}
 	}
 }
