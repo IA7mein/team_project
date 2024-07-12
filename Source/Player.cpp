@@ -209,8 +209,6 @@ bool Player::InputMove(float elapsedTime)
 	else if (!jumpFlag && power != 0.0f)
 	{
 		//”ñƒWƒƒƒ“ƒvŽž‚È‚ç—Í‚ð0‚É–ß‚·
-		/*if (power < 0.0f)power += 1.0f * elapsedTime;
-		else power -= 1.0f * elapsedTime;*/
 		power = 0.0f;
 	}
 	//ˆÚ“®ˆ—
