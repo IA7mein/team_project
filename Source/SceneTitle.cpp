@@ -9,6 +9,7 @@ void SceneTitle::Initialize()
 {
 	//スプライト初期化
 	sprite = new Sprite("Data/Sprite/Title.png");
+=======
 	//BGM,SE設定
 	bgm = Audio::Instance().LoadAudioSource("Data/BGM/野良猫のワルツ.wav");
 	bgm->Play(true);
