@@ -10,7 +10,7 @@ StageMain::StageMain(int s)
 		model = new Model("Data/Model/ExampleStage/team.mdl");
 		break;
 	case 1:
-
+		model = new Model("Data/Model/ExampleStage/team1.mdl");
 		break;
 	case 2:
 

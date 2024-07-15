@@ -28,7 +28,8 @@ Player::Player()
 	scale.x = scale.y = scale.z = 0.01f;
 
 	//ヒットエフェクト読み込み
-	hitEffect = new Effect("Data/Effect/Hit.efk");
+	hitEffect = new Effect("Data/Effect/buck.efk");
+
 
 	//待機ステートへ遷移
 	TransitionIdleState();
@@ -102,6 +103,13 @@ void Player::Update(float elapsedTime)
 
 	//モデル行列更新
 	model->UpdateTransform(transform);
+	GamePad& gamePad = Input::Instance().GetGamePad();
+	if (gamePad.GetButtonDown() & GamePad::BTN_X)
+	{
+		DirectX::XMFLOAT3 e = position;
+		e.y += this->height * 0.5f;
+		hitEffect->Play(e);
+	}
 }
 
 //描画処理
@@ -693,9 +701,9 @@ void Player::CollisionNodeVsEnemies(const char* nodeName, float nodeRadius)
 				}
 				//ヒットエフェクト再生
 				{
-					DirectX::XMFLOAT3 e = enemy->GetPosition();
+					/*DirectX::XMFLOAT3 e = enemy->GetPosition();
 					e.y += enemy->GetHeight() * 0.5f;
-					hitEffect->Play(e);
+					hitEffect->Play(e);*/
 				}
 			}
 	}

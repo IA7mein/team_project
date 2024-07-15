@@ -8,11 +8,14 @@
 #include"Stage2.h"
 #include"Stage3.h"
 
+bool multimode;
 void SceneTitle::Initialize()
 {
 	//スプライト初期化
 	sprite = new Sprite("Data/Sprite/Title.png");
-	table = 0;
+	multimode = false;
+	statemode = 0;
+	tablestage = 0;
 }
 
 void SceneTitle::Finalize()
@@ -29,37 +32,47 @@ void SceneTitle::Finalize()
 void SceneTitle::Update(float elapsedTime)
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();
-
-	/*if (gamePad.GetButtonDown() & GamePad::BTN_RIGHT)table++;
-	if (gamePad.GetButtonDown() & GamePad::BTN_LEFT)table--;
-	if (table < 0)table = 0;
-	if (table > 2)table = 2;
-	switch (table)
+	switch (statemode)
 	{
 	case 0:
-		if (gamePad.GetButtonDown() & GamePad::BTN_START)
-		{
-			SceneManager::Instance().ChangeScene(new Stage1);
-			SceneManager::Instance().ChangeScene(new SceneLoading(new Stage1));
-		}
+		if (gamePad.GetButtonDown() & GamePad::BTN_RIGHT)multimode = true;
+		if (gamePad.GetButtonDown() & GamePad::BTN_LEFT)multimode = false;
+		if (gamePad.GetButtonDown() & GamePad::BTN_START)statemode++;
 		break;
 	case 1:
-		if (gamePad.GetButtonDown() & GamePad::BTN_START)
+		//ステージ 選択
+		if (gamePad.GetButtonDown() & GamePad::BTN_RIGHT)tablestage++;
+		if (gamePad.GetButtonDown() & GamePad::BTN_LEFT)tablestage--;
+		if (tablestage < 0)tablestage = 0;
+		if (tablestage > 2)tablestage = 2;
+		switch (tablestage)
 		{
-			SceneManager::Instance().ChangeScene(new Stage2);
-			SceneManager::Instance().ChangeScene(new SceneLoading(new Stage2));
+		case 0:
+			if (gamePad.GetButtonDown() & GamePad::BTN_START)
+			{
+				SceneManager::Instance().ChangeScene(new Stage1);
+				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage1));
+			}
+			break;
+		case 1:
+			if (gamePad.GetButtonDown() & GamePad::BTN_START)
+			{
+				SceneManager::Instance().ChangeScene(new Stage2);
+				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage2));
+			}
+			break;
+		case 2:
+			if (gamePad.GetButtonDown() & GamePad::BTN_START)
+			{
+				SceneManager::Instance().ChangeScene(new Stage3);
+				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage3));
+			}
+			break;
 		}
-		break;
-	case 2:
-		if (gamePad.GetButtonDown() & GamePad::BTN_START)
-		{
-			SceneManager::Instance().ChangeScene(new Stage3);
-			SceneManager::Instance().ChangeScene(new SceneLoading(new Stage3));
-		}
-		break;
-	}*/
+	}
+	timer++;
 	//何かボタンを押したらゲームシーンへ切り替え
-	const GamePadButton anyButton =
+	/*const GamePadButton anyButton =
 		  GamePad::BTN_A
 		| GamePad::BTN_B
 		| GamePad::BTN_X
@@ -69,7 +82,7 @@ void SceneTitle::Update(float elapsedTime)
 	{
 		SceneManager::Instance().ChangeScene(new SceneGame);
 		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
-	}
+	}*/
 
 }
 
@@ -86,6 +99,7 @@ void SceneTitle::Render()
 	dc->ClearRenderTargetView(rtv, color);
 	dc->ClearDepthStencilView(dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	dc->OMSetRenderTargets(1, &rtv, dsv);
+	
 
 	//2Dスプライト描画
 	{
@@ -99,5 +113,7 @@ void SceneTitle::Render()
 			0, 0, textureWidth, textureHeight,
 			0,
 			1, 1, 1, 1);
+
+		
 	}
 }

@@ -24,5 +24,8 @@ public:
 
 private:
 	Sprite* sprite = nullptr;
-	int table;
+	int statemode;
+	int tablestage;
+	int timer;
 };
+extern bool multimode;
