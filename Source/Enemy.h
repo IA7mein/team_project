@@ -132,4 +132,9 @@ private:
 	bool jumpFlag = false;
 	float jumpCT = 0.0f;
 	float power = 0.0f;
+
+	//オーディオリソース
+	std::unique_ptr<AudioSource>JumpStart;
+	std::unique_ptr<AudioSource>JumpEnd;
+	std::unique_ptr<AudioSource>Hit;
 };

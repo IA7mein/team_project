@@ -22,6 +22,10 @@ Player::Player()
 
 	model = new Model("Data/Model/Jammo/Jammo.mdl");
 
+	JumpStart = Audio::Instance().LoadAudioSource("Data/SE/JumpStart.wav");
+	JumpEnd = Audio::Instance().LoadAudioSource("Data/SE/JumpEnd.wav");
+	Hit = Audio::Instance().LoadAudioSource("Data/SE/Hit.wav");
+
 	//モデルが大きいのでスケーリング
 	scale.x = scale.y = scale.z = 0.01f;
 
@@ -35,6 +39,10 @@ Player::Player()
 //デストラクタ
 Player::~Player()
 {
+	JumpStart->Stop();
+	JumpEnd->Stop();
+	Hit->Stop();
+
 	delete model;
 
 	delete hitEffect;
@@ -261,8 +269,9 @@ void Player::CollisionPlayerVsEnemies()
 				L = -1.0f;
 			}
 
-			if (jumpFlag && enemy.GetJump())
+			if (jumpFlag && !enemy.GetJump())
 			{
+				Hit->Play(false);//攻撃のヒット音再生
 				outPosition.x = position.x + (2.0f * L);
 				enemy.SetPosition(outPosition);
 			}
@@ -273,12 +282,14 @@ void Player::CollisionPlayerVsEnemies()
 			}
 			else if (power != 0.0f && enemy.GetPower() == 0.0f)
 			{
-				outPosition.x = position.x + L;
+				Hit->Play(false);
+				outPosition.x = position.x + (2.0f * L);
 				enemy.SetPosition(outPosition);
 			}
 			else
 			{
-				outPosition.x = position.x + L;
+				Hit->Play(false);
+				outPosition.x = position.x + (2.0f * L);
 				enemy.SetPosition(outPosition);
 			}
 		}
@@ -295,6 +306,7 @@ bool Player::InputJump()
 		//ジャンプ回数制限
 		if (jumpCount < jumpLimit && jumpCT <= 0.0f)
 		{
+			JumpStart->Play(false);//ジャンプSE再生
 			jumpFlag = true;
 			//ジャンプ
 			jumpCount++;
@@ -321,6 +333,7 @@ void Player::OnLanding()
 {
 	if (jumpFlag == true)
 	{
+		JumpEnd->Play(false);
 		jumpCT = 1.0f;
 		jumpFlag = false;
 		jumpCount = 0;

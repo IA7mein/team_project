@@ -20,6 +20,10 @@ Enemy::Enemy()
 
 	model = new Model("Data/Model/Slime/Slime.mdl");
 
+	JumpStart = Audio::Instance().LoadAudioSource("Data/SE/JumpStart.wav");
+	JumpEnd = Audio::Instance().LoadAudioSource("Data/SE/JumpEnd.wav");
+	Hit = Audio::Instance().LoadAudioSource("Data/SE/Hit.wav");
+
 	//モデルのスケーリング
 	scale.x = scale.y = scale.z = 0.01f;
 
@@ -30,6 +34,10 @@ Enemy::Enemy()
 //デストラクタ
 Enemy::~Enemy()
 {
+	JumpStart->Stop();
+	JumpEnd->Stop();
+	Hit->Stop();
+
 	delete model;
 }
 
@@ -131,6 +139,7 @@ void Enemy::eJump()
 		//ジャンプ回数制限
 	if (jumpCount < jumpLimit && jumpCT <= 0.0f)
 	{
+		JumpStart->Play(false);//ジャンプSE再生
 		jumpFlag = true;
 		//ジャンプ
 		 jumpCount++;
@@ -153,6 +162,7 @@ void Enemy::OnLanding()
 {
 	if (jumpFlag == true)
 	{
+		JumpEnd->Play(false);//着地SE再生
 		jumpCT = 2.0f;
 		jumpFlag = false;
 		jumpCount = 0;
@@ -198,8 +208,9 @@ void Enemy::CollisionPlayerVsEnemies()
 				L = -1.0f;
 			}
 
-			if (jumpFlag && player.GetJump())
+			if (jumpFlag && !player.GetJump())
 			{
+				Hit->Play(false);//攻撃のヒット音再生
 				outPosition.x = position.x + (2.0f * L);
 				player.SetPosition(outPosition);
 			}
@@ -210,12 +221,14 @@ void Enemy::CollisionPlayerVsEnemies()
 			}
 			else if (power != 0.0f && player.GetPower() == 0.0f)
 			{
-				outPosition.x = position.x + L;
+				Hit->Play(false);
+				outPosition.x = position.x + (2.0f * L);
 				player.SetPosition(outPosition);
 			}
 			else
 			{
-				outPosition.x = position.x + L;
+				Hit->Play(false);
+				outPosition.x = position.x + (2.0f * L);
 				player.SetPosition(outPosition);
 			}
 		}
@@ -236,7 +249,7 @@ void Enemy::SetRandomTargetPosition()
 		|| (position.z <= targetPosition.z + 0.5f && position.z >= targetPosition.z - 0.5f))
 	{
 		targetRandomX = static_cast<int>(Mathf::RandomRange(-2.5f, 2.5f));
-
+		
 		if (targetRandomX >= 2 || targetRandomX <= -2)
 		{
 			eJump();

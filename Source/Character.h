@@ -1,6 +1,9 @@
 #pragma once
 
 #include <DirectXMath.h>
+//オーディオ追加
+#include"Audio/Audio.h"
+#include"Audio/AudioSource.h"
 
 //キャラクター
 class Character

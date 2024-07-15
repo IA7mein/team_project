@@ -32,4 +32,5 @@ private:
 	CameraController* cameraController = nullptr;
 
 	DirectX::XMFLOAT3 target = {0, 0, 0};
+	std::unique_ptr<AudioSource>bgm;
 };

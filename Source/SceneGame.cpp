@@ -40,11 +40,15 @@ void SceneGame::Initialize()
 	enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
 
 	text = new Sprite("Data/Font/font6.png");
+
+	bgm = Audio::Instance().LoadAudioSource("Data/BGM/た、たいへん！どうしよう！！.wav");
+	bgm->Play(true);
 }
 
 // 終了化
 void SceneGame::Finalize()
 {
+	bgm->Stop();
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
 	{
