@@ -24,8 +24,4 @@ public:
 
 private:
 	Sprite* sprite = nullptr;
-	//オーディオリソース
-	std::unique_ptr<AudioSource>bgm;
-	std::unique_ptr<AudioSource>PushButtan;
-	std::unique_ptr<AudioSource>MoveCarsol;
 };

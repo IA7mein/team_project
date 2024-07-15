@@ -9,25 +9,10 @@ void SceneTitle::Initialize()
 {
 	//スプライト初期化
 	sprite = new Sprite("Data/Sprite/Title.png");
-<<<<<<< Updated upstream
-=======
-	//BGM,SE設定
-	bgm = Audio::Instance().LoadAudioSource("Data/BGM/野良猫のワルツ.wav");
-	bgm->Play(true);
-	PushButtan = Audio::Instance().LoadAudioSource("Data/SE/PushButtan.wav");
-	MoveCarsol = Audio::Instance().LoadAudioSource("Data/SE/MoveCarsol.wav");
->>>>>>> Stashed changes
 }
 
 void SceneTitle::Finalize()
 {
-<<<<<<< Updated upstream
-=======
-	//BGM,SE再生終了
-	bgm->Stop();
-	PushButtan->Stop();
-	MoveCarsol->Stop();
->>>>>>> Stashed changes
 	//スプライト終了化
 	if (sprite != nullptr)
 	{
@@ -49,11 +34,6 @@ void SceneTitle::Update(float elapsedTime)
 
 	if (gamePad.GetButtonDown()& anyButton)
 	{
-<<<<<<< Updated upstream
-		//SceneManager::Instance().ChangeScene(new SceneGame);
-=======
-		PushButtan->Play(false);
->>>>>>> Stashed changes
 		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
 	}
 }
