@@ -23,6 +23,8 @@ Enemy::Enemy()
 	JumpStart = Audio::Instance().LoadAudioSource("Data/SE/JumpStart.wav");
 	JumpEnd = Audio::Instance().LoadAudioSource("Data/SE/JumpEnd.wav");
 	Hit = Audio::Instance().LoadAudioSource("Data/SE/Hit.wav");
+	ItemGet = Audio::Instance().LoadAudioSource("Data/SE/ItemGet.wav");
+	HitObject = Audio::Instance().LoadAudioSource("Data/SE/HitObject.wav");
 
 	//モデルのスケーリング
 	scale.x = scale.y = scale.z = 0.01f;
@@ -37,6 +39,8 @@ Enemy::~Enemy()
 	JumpStart->Stop();
 	JumpEnd->Stop();
 	Hit->Stop();
+	ItemGet->Stop();
+	HitObject->Stop();
 
 	delete model;
 }

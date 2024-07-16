@@ -24,7 +24,11 @@ public:
 
 private:
 	Sprite* sprite = nullptr;
+
+	float scene_timer = 0.0f;
+	bool scene_change = false;
 	//オーディオリソース
 	std::unique_ptr<AudioSource>bgm;
-	std::unique_ptr<AudioSource>se;
+	std::unique_ptr<AudioSource>PushButtan;
+	std::unique_ptr<AudioSource>MoveCarsol;
 };

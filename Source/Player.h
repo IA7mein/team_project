@@ -165,7 +165,9 @@ private:
 	float power = 0.0f;
 
 	//オーディオリソース
-	std::unique_ptr<AudioSource>JumpStart;
-	std::unique_ptr<AudioSource>JumpEnd;
-	std::unique_ptr<AudioSource>Hit;
+	std::unique_ptr<AudioSource>JumpStart;//ジャンプ入力SE
+	std::unique_ptr<AudioSource>JumpEnd;//着地のSE
+	std::unique_ptr<AudioSource>Hit;//敵の攻撃に当たった際のSE
+	std::unique_ptr<AudioSource>ItemGet;//アイテム、スコア入手SE
+	std::unique_ptr<AudioSource>HitObject;//障害物ヒットSE
 };

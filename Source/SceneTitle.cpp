@@ -13,14 +13,16 @@ void SceneTitle::Initialize()
 	//BGM,SE設定
 	bgm = Audio::Instance().LoadAudioSource("Data/BGM/野良猫のワルツ.wav");
 	bgm->Play(true);
-	se = Audio::Instance().LoadAudioSource("Data/SE/SE.wav");
+	PushButtan = Audio::Instance().LoadAudioSource("Data/SE/PushButtan.wav");
+	MoveCarsol = Audio::Instance().LoadAudioSource("Data/SE/MoveCarsol.wav");
 }
 
 void SceneTitle::Finalize()
 {
 	//BGM,SE再生終了
 	bgm->Stop();
-	se->Stop();
+	PushButtan->Stop();
+	MoveCarsol->Stop();
 	//スプライト終了化
 	if (sprite != nullptr)
 	{
@@ -42,8 +44,17 @@ void SceneTitle::Update(float elapsedTime)
 
 	if (gamePad.GetButtonDown()& anyButton)
 	{
-		se->Play(false);
-		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+		PushButtan->Play(false);
+		scene_change = true;
+	}
+
+	if (scene_change)
+	{
+		scene_timer += 1.0f * elapsedTime;
+		if (scene_timer >= 1.0f)
+		{
+			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+		}
 	}
 }
 
