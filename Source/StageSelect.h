@@ -3,13 +3,12 @@
 #include "Graphics/Sprite.h"
 #include "Scene.h"
 
-
 //タイトルシーン
-class SceneTitle :public Scene
+class StageSelect :public Scene
 {
 public:
-	SceneTitle(){}
-	~SceneTitle() override{}
+	StageSelect() {}
+	~StageSelect() override {}
 
 	//初期化
 	void Initialize() override;
@@ -25,11 +24,7 @@ public:
 
 private:
 	Sprite* sprite = nullptr;
-	Sprite* sprite2 = nullptr;
-	Sprite* spriterule = nullptr;
-	Sprite* font;
 	int statemode;
+	int tablestage;
 	int timer;
-	int mode;
 };
-//extern bool muluchmode;

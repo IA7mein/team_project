@@ -4,18 +4,23 @@
 #include "SceneManager.h"
 #include "Input/Input.h"
 #include "SceneLoading.h"
-#include"Stage1.h"
-#include"Stage2.h"
-#include"Stage3.h"
+#include"StageSelect.h"
+#include"SceneRule.h"
 
-bool multimode;
+#include <sstream>
+//bool mulchmode;
 void SceneTitle::Initialize()
 {
 	//スプライト初期化
-	sprite = new Sprite("Data/Sprite/Title.png");
-	multimode = false;
+	sprite = new Sprite("Data/Sprite/1.png");
+	sprite2 = new Sprite("Data/Sprite/2.png");
+	spriterule = new Sprite("Data/Sprite/3.png");
+	font = new Sprite("Data/Font/font0.png");
+	
+	mode=0;
 	statemode = 0;
-	tablestage = 0;
+	
+	
 }
 
 void SceneTitle::Finalize()
@@ -32,43 +37,37 @@ void SceneTitle::Finalize()
 void SceneTitle::Update(float elapsedTime)
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();
-	switch (statemode)
+	if (gamePad.GetButtonDown() & GamePad::BTN_RIGHT)mode++;
+	if (gamePad.GetButtonDown() & GamePad::BTN_LEFT)mode--;
+	if (gamePad.GetButtonDown() & GamePad::BTN_START)statemode++;
+	if (mode < 0)mode = 0;
+	if (mode > 2)mode = 2;
+	switch (mode)
 	{
-	case 0:
-		if (gamePad.GetButtonDown() & GamePad::BTN_RIGHT)multimode = true;
-		if (gamePad.GetButtonDown() & GamePad::BTN_LEFT)multimode = false;
-		if (gamePad.GetButtonDown() & GamePad::BTN_START)statemode++;
-		break;
-	case 1:
-		//ステージ 選択
-		if (gamePad.GetButtonDown() & GamePad::BTN_RIGHT)tablestage++;
-		if (gamePad.GetButtonDown() & GamePad::BTN_LEFT)tablestage--;
-		if (tablestage < 0)tablestage = 0;
-		if (tablestage > 2)tablestage = 2;
-		switch (tablestage)
+	case 0://一人モード
+		if (gamePad.GetButtonDown() & GamePad::BTN_START)
 		{
-		case 0:
-			if (gamePad.GetButtonDown() & GamePad::BTN_START)
-			{
-				SceneManager::Instance().ChangeScene(new Stage1);
-				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage1));
-			}
-			break;
-		case 1:
-			if (gamePad.GetButtonDown() & GamePad::BTN_START)
-			{
-				SceneManager::Instance().ChangeScene(new Stage2);
-				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage2));
-			}
-			break;
-		case 2:
-			if (gamePad.GetButtonDown() & GamePad::BTN_START)
-			{
-				SceneManager::Instance().ChangeScene(new Stage3);
-				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage3));
-			}
-			break;
+			//muluchmode = false;
+			SceneManager::Instance().ChangeScene(new StageSelect);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
 		}
+		break;
+	case 1://二人モード
+		if (gamePad.GetButtonDown() & GamePad::BTN_START)
+		{
+			//mulchmode = true;
+			SceneManager::Instance().ChangeScene(new StageSelect);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
+		}
+		break;
+	case 2://ルール
+		if (gamePad.GetButtonDown() & GamePad::BTN_START)
+		{
+			SceneManager::Instance().ChangeScene(new SceneRule);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneRule));
+		}
+		break;
+		
 	}
 	timer++;
 	//何かボタンを押したらゲームシーンへ切り替え
@@ -108,12 +107,31 @@ void SceneTitle::Render()
 		float textureWidth = static_cast<float>(sprite->GetTextureWidth());
 		float textureHeight = static_cast<float>(sprite->GetTextureHeight());
 		//タイトルスプライト描画
-		sprite->Render(dc,
-			0, 0, screenWidth, screenHeight,
-			0, 0, textureWidth, textureHeight,
-			0,
-			1, 1, 1, 1);
-
+		switch (mode)
+		{
+		case 0:
+			sprite->Render(dc,
+				0, 0, screenWidth, screenHeight,
+				0, 0, textureWidth, textureHeight,
+				0,
+				1, 1, 1, 1);
+			break;
+		case 1:
+			sprite2->Render(dc,
+				0, 0, screenWidth, screenHeight,
+				0, 0, textureWidth, textureHeight,
+				0,
+				1, 1, 1, 1);
+			break;
+		case 2:
+			spriterule->Render(dc,
+				0, 0, screenWidth, screenHeight,
+				0, 0, textureWidth, textureHeight,
+				0,
+				1, 1, 1, 1);
+			break;
+		}
+		font->textout(dc, "ECC College of Computer & Multimedia", 10, 10, 160, 160, 1, 1, 1, 1);
 		
 	}
 }

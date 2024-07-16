@@ -353,9 +353,9 @@ void Sprite::Render(ID3D11DeviceContext *immediate_context,
 		// •`‰æ
 		immediate_context->Draw(4, 0);
 	}
-}
-
-void Sprite::textout(ID3D11DeviceContext* immediate_context,
+ }   
+        
+ void Sprite::textout(ID3D11DeviceContext* immediate_context,
 	std::string s, float x, float y, float w, float h,
 	float r, float g, float b, float a)
 {
