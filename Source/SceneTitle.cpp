@@ -23,6 +23,7 @@ void SceneTitle::Finalize()
 	bgm->Stop();
 	PushButtan->Stop();
 	MoveCarsol->Stop();
+
 	//スプライト終了化
 	if (sprite != nullptr)
 	{
