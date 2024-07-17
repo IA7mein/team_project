@@ -4,7 +4,9 @@
 #include "SceneManager.h"
 #include "Input/Input.h"
 #include "SceneLoading.h"
-
+#include "StageSelect.h"
+#include "SceneRule.h"
+bool muluchmode;
 void SceneTitle::Initialize()
 {
 	//スプライト初期化
@@ -32,6 +34,16 @@ void SceneTitle::Finalize()
 		delete sprite;
 		sprite = nullptr;
 	}
+	if (sprite2 != nullptr)
+	{
+		delete sprite;
+		sprite = nullptr;
+	}
+	if (spriterule != nullptr)
+	{
+		delete sprite;
+		sprite = nullptr;
+	}
 }
 
 //更新処理
@@ -39,7 +51,38 @@ void SceneTitle::Update(float elapsedTime)
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();
 	//何かボタンを押したらゲームシーンへ切り替え
-	const GamePadButton anyButton =
+	if (gamePad.GetButtonDown() & GamePad::BTN_DOWN)mode++;
+	if (gamePad.GetButtonDown() & GamePad::BTN_UP)mode--;
+	if (mode < 0)mode = 0;
+	if (mode > 2)mode = 2;
+	switch (mode)
+	{
+	case 0://一人モード
+		if (gamePad.GetButtonDown() & GamePad::BTN_X)
+		{
+			muluchmode = false;
+			SceneManager::Instance().ChangeScene(new StageSelect);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
+		}
+		break;
+	case 1://二人モード
+		if (gamePad.GetButtonDown() & GamePad::BTN_X)
+		{
+			muluchmode = true;
+			SceneManager::Instance().ChangeScene(new StageSelect);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
+		}
+		break;
+	case 2://ルール
+		if (gamePad.GetButtonDown() & GamePad::BTN_X)
+		{
+			SceneManager::Instance().ChangeScene(new SceneRule);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneRule));
+		}
+		break;
+
+	}
+	/*const GamePadButton anyButton =
 		  GamePad::BTN_A
 		| GamePad::BTN_B
 		| GamePad::BTN_X
@@ -58,7 +101,7 @@ void SceneTitle::Update(float elapsedTime)
 		{
 			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
 		}
-	}
+	}*/
 }
 
 //描画処理
@@ -82,10 +125,29 @@ void SceneTitle::Render()
 		float textureWidth = static_cast<float>(sprite->GetTextureWidth());
 		float textureHeight = static_cast<float>(sprite->GetTextureHeight());
 		//タイトルスプライト描画
-		sprite->Render(dc,
-			0, 0, screenWidth, screenHeight,
-			0, 0, textureWidth, textureHeight,
-			0,
-			1, 1, 1, 1);
+		switch (mode)
+		{
+		case 0:
+			sprite->Render(dc,
+				0, 0, screenWidth, screenHeight,
+				0, 0, textureWidth, textureHeight,
+				0,
+				1, 1, 1, 1);
+			break;
+		case 1:
+			sprite2->Render(dc,
+				0, 0, screenWidth, screenHeight,
+				0, 0, textureWidth, textureHeight,
+				0,
+				1, 1, 1, 1);
+			break;
+		case 2:
+			spriterule->Render(dc,
+				0, 0, screenWidth, screenHeight,
+				0, 0, textureWidth, textureHeight,
+				0,
+				1, 1, 1, 1);
+			break;
+		}
 	}
 }

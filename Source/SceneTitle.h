@@ -7,8 +7,8 @@
 class SceneTitle :public Scene
 {
 public:
-	SceneTitle(){}
-	~SceneTitle() override{}
+	SceneTitle() {}
+	~SceneTitle() override {}
 
 	//‰Šú‰»
 	void Initialize() override;
@@ -37,3 +37,4 @@ private:
 	std::unique_ptr<AudioSource>PushButtan;
 	std::unique_ptr<AudioSource>MoveCarsol;
 };
+extern bool muluchmode;
