@@ -1,16 +1,16 @@
-#include "SceneRule.h"
+#include "SceneClear.h"
 #include "Graphics/Graphics.h"
 #include "SceneTitle.h"
 #include "SceneGame.h"
 #include "SceneManager.h"
 #include "Input/Input.h"
 #include "SceneLoading.h"
-void SceneRule::Initialize()
+void SceneClear::Initialize()
 {
-	sprite = new Sprite("Data/Sprite/Title.png");
+	//sprite = new Sprite("Data/Sprite/Title.png");
 }
 
-void SceneRule::Finalize()
+void SceneClear::Finalize()
 {
 	if (sprite != nullptr)
 	{
@@ -19,7 +19,7 @@ void SceneRule::Finalize()
 	}
 }
 
-void SceneRule::Update(float elapsedTime)
+void SceneClear::Update(float elapsedTime)
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();
 	if (gamePad.GetButtonDown() & GamePad::BTN_X)
@@ -28,7 +28,7 @@ void SceneRule::Update(float elapsedTime)
 	}
 }
 
-void SceneRule::Render()
+void SceneClear::Render()
 {
 	Graphics& graphics = Graphics::Instance();
 	ID3D11DeviceContext* dc = graphics.GetDeviceContext();

@@ -189,6 +189,7 @@
     <ClCompile Include="Source\Input\Mouse.cpp" />
     <ClCompile Include="Source\Mathf.cpp" />
     <ClCompile Include="Source\ResourceManager.cpp" />
+    <ClCompile Include="Source\SceneClear.cpp" />
     <ClCompile Include="Source\SceneLoading.cpp" />
     <ClCompile Include="Source\Logger.cpp" />
     <ClCompile Include="Source\Main.cpp" />

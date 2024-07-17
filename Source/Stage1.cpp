@@ -1,8 +1,8 @@
 #include "Stage1.h"
-#include "stage1.h"
 #include <imgui.h>
 #include "Graphics/Graphics.h"
 #include "Camera.h"
+#include"Enemy.h"
 #include "EffectManager.h"
 #include "Input/Input.h"
 #include "StageManager.h"
@@ -18,6 +18,7 @@ void Stage1::Initialize()
 
 	//プレイヤー初期化
 	player = new Player();
+	player->SetPosition({ -1.0f, 0.0f, -10.0f });
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
 	Camera& camera = Camera::Instance();
@@ -35,16 +36,24 @@ void Stage1::Initialize()
 	player->SetPosition(DirectX::XMFLOAT3(0, 5, 10));
 	//カメラコントローラー初期化
 	cameraController = new CameraController();
+	enemy = new Enemy();
+	enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
+	text = new Sprite("Data/Font/font6.png");
+
+	bgm = Audio::Instance().LoadAudioSource("Data/BGM/た、たいへん！どうしよう！！.wav");
+	bgm->Play(true);
 	gauge = new Sprite();
 }
 
 void Stage1::Finalize()
 {
+	bgm->Stop();
 	if (gauge != nullptr)
 	{
 		delete gauge;
 		gauge = nullptr;
 	}
+
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
 	{
@@ -57,6 +66,18 @@ void Stage1::Finalize()
 		delete player;
 		player = nullptr;
 	}
+	//エネミーAI終了化
+	if (enemy != nullptr)
+	{
+		delete enemy;
+		enemy = nullptr;
+	}
+	if (text != nullptr)
+	{
+		delete text;
+		text = nullptr;
+	}
+	
 	//ステージ終了化
 	StageManager::Instance().Clear();
 }
@@ -64,14 +85,18 @@ void Stage1::Finalize()
 void Stage1::Update(float elapsedTime)
 {
 	//カメラコントローラー更新処理
-	DirectX::XMFLOAT3 target = player->GetPosition();
-	target.y += 0.5f;
+	DirectX::XMFLOAT3 playerPos = player->GetPosition();
+	target.y = 5.0f;
+	target.z = playerPos.z - 5.0f;
 	cameraController->SetTarget(target);
 	cameraController->Update(elapsedTime);
 	//ステージ更新処理
 	StageManager::Instance().Update(elapsedTime);
+	//エネミーAI更新処理
+	enemy->Update(elapsedTime);
 	//プレイヤー更新処理
 	player->Update(elapsedTime);
+
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsedTime);
 }
@@ -107,6 +132,8 @@ void Stage1::Render()
 		StageManager::Instance().Render(dc, shader);
 		//プレイヤー描画
 		player->Render(dc, shader);
+		enemy->Render(dc, shader);
+		shader->End(dc);
 	}
 
 	//3Dエフェクト描画
@@ -119,7 +146,7 @@ void Stage1::Render()
 		//プレイヤーデバッグプリミティブ描画
 		player->DrawDebugPrimitive();
 
-
+		enemy->DrawDebugPrimitive();
 		// ラインレンダラ描画実行
 		graphics.GetLineRenderer()->Render(dc, rc.view, rc.projection);
 
@@ -131,5 +158,6 @@ void Stage1::Render()
 	{
 		//プレイヤーデバッグ描画
 		player->DrawDebugGUI();
+		text->textout(dc, "Test", 0, 0, 30, 30, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 	}
 }

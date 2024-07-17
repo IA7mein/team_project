@@ -1,6 +1,7 @@
 ﻿#pragma once
-#pragma once
+
 #include "Player.h"
+#include "Enemy.h"
 #include "CameraController.h"
 #include "Scene.h"
 #include "Graphics/Sprite.h"
@@ -26,6 +27,10 @@ public:
 
 private:
 	Player* player = nullptr;
+	Enemy* enemy = nullptr;
+	Sprite* text = nullptr;
 	CameraController* cameraController = nullptr;
 	Sprite* gauge = nullptr;
+	DirectX::XMFLOAT3 target = { 0, 0, 0 };
+	std::unique_ptr<AudioSource>bgm;
 };
