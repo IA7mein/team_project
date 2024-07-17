@@ -1,30 +1,28 @@
+#include "Stage3.h"
 #include <imgui.h>
 #include "Graphics/Graphics.h"
-#include "SceneGame.h"
 #include "Camera.h"
 #include "EffectManager.h"
 #include "Input/Input.h"
 #include "StageManager.h"
 #include "StageMain.h"
 
-// 初期化
-void SceneGame::Initialize()
+void Stage3::Initialize()
 {
-	//ステージ初期化
 	StageManager& stageManager = StageManager::Instance();
-	StageMain* stageMain = new StageMain(1);
+	StageMain* stageMain = new StageMain(2);
 	stageManager.Register(stageMain);
+
 
 	//プレイヤー初期化
 	player = new Player();
-	player->SetPosition({ -1.0f, 0.0f, -10.0f });
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
 	Camera& camera = Camera::Instance();
 	camera.SetLookAt(
-		DirectX::XMFLOAT3(0, 0, -10),
+		DirectX::XMFLOAT3(0, 10, -10),
 		DirectX::XMFLOAT3(0, 0, 0),
-		DirectX::XMFLOAT3(0, 10, 0)
+		DirectX::XMFLOAT3(0, 1, 0)
 	);
 	camera.SetPerspectiveFov(
 		DirectX::XMConvertToRadians(45),
@@ -32,23 +30,19 @@ void SceneGame::Initialize()
 		0.1f,
 		1000.0f
 	);
+	player->SetPosition(DirectX::XMFLOAT3(0, 5, 10));
 	//カメラコントローラー初期化
 	cameraController = new CameraController();
-
-	//エネミーAI初期化
-	enemy = new Enemy();
-	enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
-
-	text = new Sprite("Data/Font/font6.png");
-
-	bgm = Audio::Instance().LoadAudioSource("Data/BGM/た、たいへん！どうしよう！！.wav");
-	bgm->Play(true);
+	gauge = new Sprite();
 }
 
-// 終了化
-void SceneGame::Finalize()
+void Stage3::Finalize()
 {
-	bgm->Stop();
+	if (gauge != nullptr)
+	{
+		delete gauge;
+		gauge = nullptr;
+	}
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
 	{
@@ -61,43 +55,25 @@ void SceneGame::Finalize()
 		delete player;
 		player = nullptr;
 	}
-	//エネミーAI終了化
-	if (enemy != nullptr)
-	{
-		delete enemy;
-		enemy = nullptr;
-	}
-	if (text != nullptr)
-	{
-		delete text;
-		text = nullptr;
-	}
 	//ステージ終了化
 	StageManager::Instance().Clear();
 }
 
-// 更新処理
-void SceneGame::Update(float elapsedTime)
+void Stage3::Update(float elapsedTime)
 {
-	//カメラコントローラー更新処理
-	DirectX::XMFLOAT3 playerPos = player->GetPosition();
-	target.y = 5.0f;
-	target.z = playerPos.z - 5.0f;
+	DirectX::XMFLOAT3 target = player->GetPosition();
+	target.y += 0.5f;
 	cameraController->SetTarget(target);
 	cameraController->Update(elapsedTime);
 	//ステージ更新処理
 	StageManager::Instance().Update(elapsedTime);
-	//エネミーAI更新処理
-	enemy->Update(elapsedTime);
 	//プレイヤー更新処理
 	player->Update(elapsedTime);
-	
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsedTime);
 }
 
-// 描画処理
-void SceneGame::Render()
+void Stage3::Render()
 {
 	Graphics& graphics = Graphics::Instance();
 	ID3D11DeviceContext* dc = graphics.GetDeviceContext();
@@ -118,7 +94,7 @@ void SceneGame::Render()
 	Camera& camera = Camera::Instance();
 	rc.view = camera.GetView();
 	rc.projection = camera.GetProjection();
-	
+
 	// 3Dモデル描画
 	{
 		Shader* shader = graphics.GetShader();
@@ -128,9 +104,6 @@ void SceneGame::Render()
 		StageManager::Instance().Render(dc, shader);
 		//プレイヤー描画
 		player->Render(dc, shader);
-		//エネミー描画
-		enemy->Render(dc, shader);
-		shader->End(dc);
 	}
 
 	//3Dエフェクト描画
@@ -143,18 +116,17 @@ void SceneGame::Render()
 		//プレイヤーデバッグプリミティブ描画
 		player->DrawDebugPrimitive();
 
-		enemy->DrawDebugPrimitive();
+
 		// ラインレンダラ描画実行
 		graphics.GetLineRenderer()->Render(dc, rc.view, rc.projection);
 
 		// デバッグレンダラ描画実行
 		graphics.GetDebugRenderer()->Render(dc, rc.view, rc.projection);
 	}
+
 	// 2DデバッグGUI描画
 	{
 		//プレイヤーデバッグ描画
 		player->DrawDebugGUI();
-
-		text->textout(dc, "Test", 0, 0, 30, 30, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 	}
 }

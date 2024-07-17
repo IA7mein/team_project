@@ -105,8 +105,6 @@ void StageSelect::Render()
 			break;
 
 
-
-
 		}
 
 	

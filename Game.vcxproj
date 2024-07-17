@@ -144,14 +144,20 @@
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\SceneClear.h" />
     <ClInclude Include="Source\SceneGame.h" />
     <ClInclude Include="Source\SceneLoading.h" />
     <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\SceneTitle.h" />
     <ClInclude Include="Source\Stage.h" />
+    <ClInclude Include="Source\Stage1.h" />
+    <ClInclude Include="Source\Stage2.h" />
+    <ClInclude Include="Source\Stage3.h" />
     <ClInclude Include="Source\StageMain.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\StageManager.h" />
+    <ClInclude Include="Source\SceneRule.h" />
+    <ClInclude Include="Source\StageSelect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\DirectXTex\WICTextureLoader.cpp" />
@@ -189,9 +195,14 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\SceneGame.cpp" />
     <ClCompile Include="Source\SceneManager.cpp" />
+    <ClCompile Include="Source\SceneRule.cpp" />
     <ClCompile Include="Source\SceneTitle.cpp" />
+    <ClCompile Include="Source\Stage1.cpp" />
+    <ClCompile Include="Source\Stage2.cpp" />
+    <ClCompile Include="Source\Stage3.cpp" />
     <ClCompile Include="Source\StageMain.cpp" />
     <ClCompile Include="Source\StageManager.cpp" />
+    <ClCompile Include="Source\StageSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HLSL\Debug.hlsli" />
