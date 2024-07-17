@@ -29,7 +29,7 @@ Player::Player()
 
 	//ヒットエフェクト読み込み
 	hitEffect = new Effect("Data/Effect/buck.efk");
-
+	hart = new Effect("Data/Effect/Hit.efk");
 
 	//待機ステートへ遷移
 	TransitionIdleState();
@@ -108,7 +108,7 @@ void Player::Update(float elapsedTime)
 	{
 		DirectX::XMFLOAT3 e = position;
 		e.y += this->height * 0.5f;
-		hitEffect->Play(e);
+		hart->Play(e);
 	}
 }
 

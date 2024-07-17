@@ -1,14 +1,14 @@
 #pragma once
-
 #include "Graphics/Sprite.h"
 #include "Scene.h"
 
-//タイトルシーン
-class StageSelect :public Scene
+
+
+class SceneClear :public Scene
 {
 public:
-	StageSelect() {}
-	~StageSelect() override {}
+	SceneClear() {}
+	~SceneClear() override {}
 
 	//初期化
 	void Initialize() override;
@@ -24,9 +24,5 @@ public:
 
 private:
 	Sprite* sprite = nullptr;
-	Sprite* sprite2 = nullptr;
-	Sprite* sprite3 = nullptr;
-	int statemode;
-	int tablestage;
-	int timer;
+	
 };

@@ -33,21 +33,31 @@ void SceneTitle::Finalize()
 		delete sprite;
 		sprite = nullptr;
 	}
+	if(sprite2 != nullptr)
+	{
+		delete sprite;
+		sprite = nullptr;
+	}
+	if(spriterule != nullptr)
+	{
+		delete sprite;
+		sprite = nullptr;
+	}
 }
 
 //更新処理
 void SceneTitle::Update(float elapsedTime)
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();
-	if (gamePad.GetButtonDown() & GamePad::BTN_RIGHT)mode++;
-	if (gamePad.GetButtonDown() & GamePad::BTN_LEFT)mode--;
-	if (gamePad.GetButtonDown() & GamePad::BTN_START)statemode++;
+	if (gamePad.GetButtonDown() & GamePad::BTN_DOWN)mode++;
+	if (gamePad.GetButtonDown() & GamePad::BTN_UP)mode--;
+	
 	if (mode < 0)mode = 0;
 	if (mode > 2)mode = 2;
 	switch (mode)
 	{
 	case 0://一人モード
-		if (gamePad.GetButtonDown() & GamePad::BTN_START)
+		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
 			muluchmode = false;
 			SceneManager::Instance().ChangeScene(new StageSelect);
@@ -55,7 +65,7 @@ void SceneTitle::Update(float elapsedTime)
 		}
 		break;
 	case 1://二人モード
-		if (gamePad.GetButtonDown() & GamePad::BTN_START)
+		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
 			muluchmode = true;
 			SceneManager::Instance().ChangeScene(new StageSelect);
@@ -63,7 +73,7 @@ void SceneTitle::Update(float elapsedTime)
 		}
 		break;
 	case 2://ルール
-		if (gamePad.GetButtonDown() & GamePad::BTN_START)
+		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
 			SceneManager::Instance().ChangeScene(new SceneRule);
 			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneRule));
