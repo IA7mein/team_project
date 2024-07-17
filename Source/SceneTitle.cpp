@@ -8,7 +8,9 @@
 #include"SceneRule.h"
 
 #include <sstream>
-//bool mulchmode;
+
+bool muluchmode;
+
 void SceneTitle::Initialize()
 {
 	//スプライト初期化
@@ -47,7 +49,7 @@ void SceneTitle::Update(float elapsedTime)
 	case 0://一人モード
 		if (gamePad.GetButtonDown() & GamePad::BTN_START)
 		{
-			//muluchmode = false;
+			muluchmode = false;
 			SceneManager::Instance().ChangeScene(new StageSelect);
 			SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
 		}
@@ -55,7 +57,7 @@ void SceneTitle::Update(float elapsedTime)
 	case 1://二人モード
 		if (gamePad.GetButtonDown() & GamePad::BTN_START)
 		{
-			//mulchmode = true;
+			muluchmode = true;
 			SceneManager::Instance().ChangeScene(new StageSelect);
 			SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
 		}
@@ -131,7 +133,8 @@ void SceneTitle::Render()
 				1, 1, 1, 1);
 			break;
 		}
-		font->textout(dc, "ECC College of Computer & Multimedia", 10, 10, 160, 160, 1, 1, 1, 1);
+		//font->textout(dc, "ECC College of Computer & Multimedia", 10, 10, 160, 160, 1, 1, 1, 1);
 		
 	}
 }
+;

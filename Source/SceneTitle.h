@@ -32,4 +32,4 @@ private:
 	int timer;
 	int mode;
 };
-//extern bool muluchmode;
+extern bool muluchmode;
