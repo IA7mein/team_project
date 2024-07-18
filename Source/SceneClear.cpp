@@ -75,7 +75,7 @@ void SceneClear::Render()
 				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
 			}
-			else if(goalP2 == true)
+			else
 			{
 				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Lose", 440, 400, 130, 110, 150, 150, 30, 30, 0, 0, 0, 1, 1);
@@ -88,7 +88,7 @@ void SceneClear::Render()
 				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
 			}
-			else if(goalP2 == true)
+			else
 			{
 				text->textout(dc, "Player2", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
