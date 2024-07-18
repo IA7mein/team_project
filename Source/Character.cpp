@@ -364,7 +364,7 @@ void Character::UpdateHorizontalMove(float elapsedTime)
 		{
 			position.z += mz;
 		}
-		else if (position.x < -24.6f && velocity.x < 0)
+			else
 		{
 			position.z += mz;
 		}
