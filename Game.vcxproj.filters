@@ -141,18 +141,6 @@
     <ClInclude Include="Source\Collision.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Projectile.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ProjectileManager.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ProjectileStraight.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ProjectileHoming.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\EffectManager.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -178,9 +166,6 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\StageManager.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\StageMoveFloor.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\ResourceManager.h">
@@ -296,18 +281,6 @@
     <ClCompile Include="Source\Collision.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Projectile.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectileStraight.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectileManager.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ProjectileHoming.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\EffectManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -330,9 +303,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\StageManager.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\StageMoveFloor.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\ResourceManager.cpp">

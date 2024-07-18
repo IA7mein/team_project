@@ -36,12 +36,15 @@ public:
 	int GetTextureHeight() const { return textureHeight; }
 
 	//•¶Žš•`‰æ
-	void textout(ID3D11DeviceContext* immediate_context,
+	void textout(ID3D11DeviceContext* dc,
 		std::string s,
-		float x, float y, float w, float h,
-		float r, float g, float b, float a
-	);
-
+		float dx, float dy,
+		float dw, float dh,
+		float sx, float sy,
+		float sw, float sh,
+		float angle,
+		float r, float g, float b, float a);
+	
 private:
 	Microsoft::WRL::ComPtr<ID3D11VertexShader>			vertexShader;
 	Microsoft::WRL::ComPtr<ID3D11PixelShader>			pixelShader;

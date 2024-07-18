@@ -7,8 +7,8 @@
 class SceneTitle :public Scene
 {
 public:
-	SceneTitle(){}
-	~SceneTitle() override{}
+	SceneTitle() {}
+	~SceneTitle() override {}
 
 	//初期化
 	void Initialize() override;
@@ -24,4 +24,17 @@ public:
 
 private:
 	Sprite* sprite = nullptr;
+	Sprite* sprite2 = nullptr;
+	Sprite* spriterule = nullptr;
+	Sprite* font;
+	int statemode;
+	int timer;
+	int mode;
+	float scene_timer = 0.0f;
+	bool scene_change = false;
+	//オーディオリソース
+	std::unique_ptr<AudioSource>bgm;
+	std::unique_ptr<AudioSource>PushButtan;
+	std::unique_ptr<AudioSource>MoveCarsol;
 };
+extern bool muluchmode;

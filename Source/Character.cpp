@@ -106,7 +106,6 @@ void Character::UpdateVelocity(float elapsedTime)
 
 	//…•½ˆÚ“®XVˆ—
 	UpdateHorizontalMove(elapsedTime);
-
 }
 
 bool Character::ApplyDamage(int damage, float invincibleTime)

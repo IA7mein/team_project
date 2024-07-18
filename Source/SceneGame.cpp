@@ -16,7 +16,7 @@ void SceneGame::Initialize()
 {
 	//ステージ初期化
 	StageManager& stageManager = StageManager::Instance();
-	StageMain* stageMain = new StageMain();
+	StageMain* stageMain = new StageMain(1);
 	stageManager.Register(stageMain);
 	/*StageMoveFloor* stageMoveFloor = new StageMoveFloor();
 	stageMoveFloor->SetStartPoint(DirectX::XMFLOAT3(0, 1, 3));
@@ -26,13 +26,14 @@ void SceneGame::Initialize()
 
 	//プレイヤー初期化
 	player = new Player();
+	player->SetPosition({ -1.0f, 0.0f, -10.0f });
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
 	Camera& camera = Camera::Instance();
 	camera.SetLookAt(
-		DirectX::XMFLOAT3(0, 10, -10),
+		DirectX::XMFLOAT3(0, 0, -10),
 		DirectX::XMFLOAT3(0, 0, 0),
-		DirectX::XMFLOAT3(0, 1, 0)
+		DirectX::XMFLOAT3(0, 10, 0)
 	);
 	camera.SetPerspectiveFov(
 		DirectX::XMConvertToRadians(45),
@@ -133,15 +134,7 @@ void SceneGame::Initialize()
 // 終了化
 void SceneGame::Finalize()
 {
-	//ゲージ終了化
-	if (gauge != nullptr)
-	{
-		delete gauge;
-		gauge = nullptr;
-	}
-
-	//アイテム終了化
-	ItemManager::Instance().Clear();
+	bgm->Stop();
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
 	{
@@ -154,6 +147,17 @@ void SceneGame::Finalize()
 		delete player;
 		player = nullptr;
 	}
+	//エネミーAI終了化
+	if (enemy != nullptr)
+	{
+		delete enemy;
+		enemy = nullptr;
+	}
+	if (text != nullptr)
+	{
+		delete text;
+		text = nullptr;
+	}
 	//ステージ終了化
 	StageManager::Instance().Clear();
 }
@@ -162,12 +166,15 @@ void SceneGame::Finalize()
 void SceneGame::Update(float elapsedTime)
 {
 	//カメラコントローラー更新処理
-	DirectX::XMFLOAT3 target = player->GetPosition();
-	target.y += 0.5f;
+	DirectX::XMFLOAT3 playerPos = player->GetPosition();
+	target.y = 5.0f;
+	target.z = playerPos.z - 5.0f;
 	cameraController->SetTarget(target);
 	cameraController->Update(elapsedTime);
 	//ステージ更新処理
 	StageManager::Instance().Update(elapsedTime);
+	//エネミーAI更新処理
+	enemy->Update(elapsedTime);
 	//プレイヤー更新処理
 	player->Update(elapsedTime);
 	//アイテム更新処理
@@ -230,147 +237,11 @@ void SceneGame::Render()
 		// デバッグレンダラ描画実行
 		graphics.GetDebugRenderer()->Render(dc, rc.view, rc.projection);
 	}
-
-	// 2Dスプライト描画
-	{
-		RenderEnemyGauge(dc, rc.view, rc.projection);
-	}
-
 	// 2DデバッグGUI描画
 	{
 		//プレイヤーデバッグ描画
 		player->DrawDebugGUI();
+
+		text->textout(dc, "Test", 0, 0, 30, 30, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 	}
-}
-
-//エネミーHPゲージ描画
-void SceneGame::RenderEnemyGauge(
-	ID3D11DeviceContext* dc,
-	const DirectX::XMFLOAT4X4& view,
-	const DirectX::XMFLOAT4X4& projection
-)
-{
-	//ビューポート
-	D3D11_VIEWPORT viewport;
-	UINT numViewPorts = 1;
-	dc->RSGetViewports(&numViewPorts, &viewport);
-
-	//変換行列
-	DirectX::XMMATRIX View = DirectX::XMLoadFloat4x4(&view);
-	DirectX::XMMATRIX Projection = DirectX::XMLoadFloat4x4(&projection);
-	DirectX::XMMATRIX World = DirectX::XMMatrixIdentity();
-
-	////全ての敵の頭の上にHPゲージを描画
-	//EnemyManager& enemyManager = EnemyManager::Instance();
-	//int enemyCount = enemyManager.GetEnemyCount();
-
-	////全ての敵の頭の上にHPゲージを描画
-	//for (int i = 0; i < enemyCount; ++i)
-	//{
-	//	Enemy* enemy = enemyManager.GetEnemy(i);
-
-	//	DirectX::XMFLOAT3 worldPosition = enemy->GetPosition();
-	//	worldPosition.y = enemy->GetHeight();
-	//	DirectX::XMVECTOR EnemyWorldPosition = DirectX::XMLoadFloat3(&worldPosition);
-	//	//ワールド座標をスクリーン座標に変換
-	//	DirectX::XMVECTOR ScreenPosition = DirectX::XMVector3Project(
-	//		EnemyWorldPosition,
-	//		viewport.TopLeftX,
-	//		viewport.TopLeftY,
-	//		viewport.Width,
-	//		viewport.Height,
-	//		viewport.MinDepth,
-	//		viewport.MaxDepth,
-	//		Projection,
-	//		View,
-	//		World
-	//	);
-
-	//	//スクリーン座標
-	//	DirectX::XMFLOAT2 screenPosition;
-	//	DirectX::XMStoreFloat2(&screenPosition, ScreenPosition);
-
-	//	// HPゲージの描画位置とサイズを計算
-	//	float barWidth = 30.0f; // HPバーの幅
-	//	float barHeight = 5.0f; // HPバーの高さ
-
-	//	// HPゲージの色を設定（例: HPが50%未満の場合は赤、それ以外は緑）
-	//	float hpRatio = enemy->GetHealth() / static_cast<float>(enemy->GetMaxHealth());
-
-	//	// HPバーの描画
-	//	gauge->Render(dc,
-	//		screenPosition.x - barWidth * 0.5f,
-	//		screenPosition.y - barHeight,
-	//		barWidth * hpRatio,
-	//		barHeight,
-	//		0, 0,
-	//		static_cast<float>(gauge->GetTextureWidth()),
-	//		static_cast<float>(gauge->GetTextureHeight()),
-	//		0,
-	//		1.0f, 0.0f, 0.0f, 1.0f);
-	//}
-
-	////マウスカーソル位置による敵配置
-	//Mouse& mouse = Input::Instance().GetMouse();
-	//if (mouse.GetButtonDown() & Mouse::BTN_LEFT)
-	//{
-	//	//マウスカーソル座標を取得
-	//	DirectX::XMFLOAT3 screenPositionA{};
-	//	screenPositionA.x = static_cast<float> (mouse.GetOldPositionX());
-	//	screenPositionA.y = static_cast<float> (mouse.GetOldPositionY());
-
-	//	DirectX::XMVECTOR ScreenPositionA = DirectX::XMLoadFloat3(&screenPositionA);
-
-	//	DirectX::XMFLOAT3 screenPositionB{};
-	//	screenPositionB.x = static_cast<float> (mouse.GetOldPositionX());
-	//	screenPositionB.y = static_cast<float> (mouse.GetOldPositionY());
-	//	screenPositionB.z = 1.0f;
-
-	//	DirectX::XMVECTOR ScreenPositionB = DirectX::XMLoadFloat3(&screenPositionB);
-	//	//Z値が0.0の時のワールド座標
-	//	//スクリーン座標をワールド座標に設定		
-	//	DirectX::XMVECTOR WorldPositionA = DirectX::XMVector3Unproject(
-	//		ScreenPositionA,
-	//		viewport.TopLeftX,
-	//		viewport.TopLeftY,
-	//		viewport.Width,
-	//		viewport.Height,
-	//		viewport.MinDepth,
-	//		viewport.MaxDepth,
-	//		Projection,
-	//		View,
-	//		World
-	//	);
-	//	//Z値が1.0の時のワールド座標
-	//	DirectX::XMVECTOR WorldPositionB = DirectX::XMVector3Unproject(
-	//		ScreenPositionB,
-	//		viewport.TopLeftX,
-	//		viewport.TopLeftY,
-	//		viewport.Width,
-	//		viewport.Height,
-	//		viewport.MinDepth,
-	//		viewport.MaxDepth,
-	//		Projection,
-	//		View,
-	//		World
-	//	);
-
-	//	DirectX::XMVECTOR Ray = DirectX::XMVectorSubtract(WorldPositionB, WorldPositionA);//ベクトルの長さ求める
-	//	DirectX::XMVECTOR V = DirectX::XMVector3Normalize(Ray);//正規化
-	//	DirectX::XMVECTOR Length = DirectX::XMVector3Length(V);
-
-	//	HitResult hitResult;
-	//	DirectX::XMFLOAT3 start;
-	//	DirectX::XMStoreFloat3(&start, WorldPositionA);
-	//	DirectX::XMFLOAT3 end;
-	//	DirectX::XMStoreFloat3(&end, WorldPositionB);
-	//	//レイキャストで敵追加
-	//	bool hit = StageManager::Instance().RayCast(start, end, hitResult);
-	//	if (hit)
-	//	{
-	//		Enemyheart* heart = new Enemyheart();
-	//		heart->SetPosition(hitResult.position);//レイキャスト後のポジションを設定
-	//		enemyManager.Register(heart);
-	//	}
-	//}
 }

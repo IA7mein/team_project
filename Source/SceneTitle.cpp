@@ -4,20 +4,51 @@
 #include "SceneManager.h"
 #include "Input/Input.h"
 #include "SceneLoading.h"
-
+#include "StageSelect.h"
+#include "SceneRule.h"
+#include "SceneClear.h"
+bool muluchmode;
 void SceneTitle::Initialize()
 {
 	//スプライト初期化
-	sprite = new Sprite("Data/Sprite/Title.png");
+	sprite = new Sprite("Data/Sprite/1.png");
+	sprite2 = new Sprite("Data/Sprite/2.png");
+	spriterule = new Sprite("Data/Sprite/3.png");
+	font = new Sprite("Data/Font/font0.png");
+	//BGM,SE設定
+	bgm = Audio::Instance().LoadAudioSource("Data/BGM/野良猫のワルツ.wav");
+	bgm->Play(true);
+	PushButtan = Audio::Instance().LoadAudioSource("Data/SE/PushButtan.wav");
+	MoveCarsol = Audio::Instance().LoadAudioSource("Data/SE/MoveCarsol.wav");
 }
 
 void SceneTitle::Finalize()
 {
+	//BGM,SE再生終了
+	bgm->Stop();
+	PushButtan->Stop();
+	MoveCarsol->Stop();
+
 	//スプライト終了化
 	if (sprite != nullptr)
 	{
 		delete sprite;
 		sprite = nullptr;
+	}
+	if (sprite2 != nullptr)
+	{
+		delete sprite;
+		sprite = nullptr;
+	}
+	if (spriterule != nullptr)
+	{
+		delete sprite;
+		sprite = nullptr;
+	}
+	if (font != nullptr)
+	{
+		delete font;
+		font = nullptr;
 	}
 }
 
@@ -26,7 +57,38 @@ void SceneTitle::Update(float elapsedTime)
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();
 	//何かボタンを押したらゲームシーンへ切り替え
-	const GamePadButton anyButton =
+	if (gamePad.GetButtonDown() & GamePad::BTN_DOWN)mode++;
+	if (gamePad.GetButtonDown() & GamePad::BTN_UP)mode--;
+	if (mode < 0)mode = 0;
+	if (mode > 2)mode = 2;
+	switch (mode)
+	{
+	case 0://一人モード
+		if (gamePad.GetButtonDown() & GamePad::BTN_X)
+		{
+			muluchmode = false;
+			SceneManager::Instance().ChangeScene(new SceneClear);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneClear));
+		}
+		break;
+	case 1://二人モード
+		if (gamePad.GetButtonDown() & GamePad::BTN_X)
+		{
+			muluchmode = true;
+			SceneManager::Instance().ChangeScene(new StageSelect);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
+		}
+		break;
+	case 2://ルール
+		if (gamePad.GetButtonDown() & GamePad::BTN_X)
+		{
+			SceneManager::Instance().ChangeScene(new SceneRule);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneRule));
+		}
+		break;
+
+	}
+	/*const GamePadButton anyButton =
 		  GamePad::BTN_A
 		| GamePad::BTN_B
 		| GamePad::BTN_X
@@ -34,9 +96,18 @@ void SceneTitle::Update(float elapsedTime)
 
 	if (gamePad.GetButtonDown()& anyButton)
 	{
-		//SceneManager::Instance().ChangeScene(new SceneGame);
-		SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+		PushButtan->Play(false);
+		scene_change = true;
 	}
+
+	if (scene_change)
+	{
+		scene_timer += 1.0f * elapsedTime;
+		if (scene_timer >= 1.0f)
+		{
+			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneGame));
+		}
+	}*/
 }
 
 //描画処理
@@ -60,10 +131,29 @@ void SceneTitle::Render()
 		float textureWidth = static_cast<float>(sprite->GetTextureWidth());
 		float textureHeight = static_cast<float>(sprite->GetTextureHeight());
 		//タイトルスプライト描画
-		sprite->Render(dc,
-			0, 0, screenWidth, screenHeight,
-			0, 0, textureWidth, textureHeight,
-			0,
-			1, 1, 1, 1);
+		switch (mode)
+		{
+		case 0:
+			sprite->Render(dc,
+				0, 0, screenWidth, screenHeight,
+				0, 0, textureWidth, textureHeight,
+				0,
+				1, 1, 1, 1);
+			break;
+		case 1:
+			sprite2->Render(dc,
+				0, 0, screenWidth, screenHeight,
+				0, 0, textureWidth, textureHeight,
+				0,
+				1, 1, 1, 1);
+			break;
+		case 2:
+			spriterule->Render(dc,
+				0, 0, screenWidth, screenHeight,
+				0, 0, textureWidth, textureHeight,
+				0,
+				1, 1, 1, 1);
+			break;
+		}
 	}
 }

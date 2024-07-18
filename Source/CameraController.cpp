@@ -10,8 +10,8 @@ void CameraController::Update(float elapsedTime)
 	float ay = gamePad.GetAxisRY();
 	float speed = rollSpeed * elapsedTime;
 	//スティックの入力値に合わせてX軸とY軸を回転
-	angle.x += ay * speed;
-	angle.y += ax * speed;
+	angle.x = DirectX::XMConvertToRadians(45);
+	angle.y = 0.0f;
 
 	//X軸のカメラ回転を制限
 	if (angle.x > maxAngleX)

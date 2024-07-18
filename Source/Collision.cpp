@@ -67,9 +67,9 @@ bool Collision::IntersectCylinderVsCylinder(
 	//A‚ªB‚ğ‰Ÿ‚µo‚·
 	vx /= distXZ;
 	vz /= distXZ;
-	outPositionB.x = positionA.x + (vx * range);
+	outPositionB.x = positionB.x + (vx * 2.0f);
 	outPositionB.y = positionB.y;
-	outPositionB.z = positionA.z + (vz * range);
+	outPositionB.z = positionB.z;
 	return true;
 }
 
