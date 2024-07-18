@@ -204,23 +204,23 @@ void Stage3::Render()
 
 	// 3Dデバッグ描画
 	{
-		//プレイヤーデバッグプリミティブ描画
-		player->DrawDebugPrimitive();
+		////プレイヤーデバッグプリミティブ描画
+		//player->DrawDebugPrimitive();
 
-		if (muluchmode == false)enemy->DrawDebugPrimitive();
-		// ラインレンダラ描画実行
-		graphics.GetLineRenderer()->Render(dc, rc.view, rc.projection);
+		//if (muluchmode == false)enemy->DrawDebugPrimitive();
+		//// ラインレンダラ描画実行
+		//graphics.GetLineRenderer()->Render(dc, rc.view, rc.projection);
 
-		// デバッグレンダラ描画実行
-		graphics.GetDebugRenderer()->Render(dc, rc.view, rc.projection);
-		//アイテムデバックプリミティブ描画
-		ItemManager::Instance().DrawDebugPrimitive();
+		//// デバッグレンダラ描画実行
+		//graphics.GetDebugRenderer()->Render(dc, rc.view, rc.projection);
+		////アイテムデバックプリミティブ描画
+		//ItemManager::Instance().DrawDebugPrimitive();
 	}
 
 	// 2DデバッグGUI描画
 	{
-		//プレイヤーデバッグ描画
-		player->DrawDebugGUI();
-		text->textout(dc, "Test", 0, 0, 30, 30, 150, 150, 30, 30, 0, 1, 1, 1, 1);
+		////プレイヤーデバッグ描画
+		//player->DrawDebugGUI();
+		//text->textout(dc, "Test", 0, 0, 30, 30, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 	}
 }
