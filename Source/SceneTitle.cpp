@@ -102,7 +102,7 @@ void SceneTitle::Update(float elapsedTime)
 			scene_timer += 1.0f * elapsedTime;
 			if (scene_timer >= 1.0f)
 			{
-				SceneManager::Instance().ChangeScene(new SceneClear);
+				//SceneManager::Instance().ChangeScene(new SceneClear);
 				SceneManager::Instance().ChangeScene(new SceneLoading(new SceneClear));
 			}
 
@@ -120,7 +120,7 @@ void SceneTitle::Update(float elapsedTime)
 			scene_timer += 1.0f * elapsedTime;
 			if (scene_timer >= 1.0f)
 			{
-				SceneManager::Instance().ChangeScene(new StageSelect);
+				//SceneManager::Instance().ChangeScene(new StageSelect);
 				SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
 			}
 		}
@@ -136,7 +136,7 @@ void SceneTitle::Update(float elapsedTime)
 			scene_timer += 1.0f * elapsedTime;
 			if (scene_timer >= 1.0f)
 			{
-				SceneManager::Instance().ChangeScene(new SceneRule);
+				//SceneManager::Instance().ChangeScene(new SceneRule);
 				SceneManager::Instance().ChangeScene(new SceneLoading(new SceneRule));
 			}
 		}

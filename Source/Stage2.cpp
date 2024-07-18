@@ -12,7 +12,8 @@
 #include <ItemHeart.h>
 #include <hari.h>
 #include "../ItemShield.h"
-
+#include "SceneManager.h"
+#include "SceneClear.h"
 
 
 
@@ -117,7 +118,7 @@ void Stage2::Finalize()
 		delete text;
 		text = nullptr;
 	}
-
+	goal = false;
 	//ステージ終了化
 	StageManager::Instance().Clear();
 }
@@ -137,6 +138,10 @@ void Stage2::Update(float elapsedTime)
 	//プレイヤー更新処理
 	player->Update(elapsedTime);
 
+	if (goal)//ゴールしたら
+	{
+		SceneManager::Instance().ChangeScene(new SceneClear);
+	}
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsedTime);
 	//アイテム更新処理

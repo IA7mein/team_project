@@ -7,7 +7,7 @@
 #include "Collision.h"
 #include "SceneTitle.h"
 static Player* instance = nullptr;
-
+bool goal;
 //インスタンス取得
 Player& Player::Instance()
 {
@@ -34,8 +34,10 @@ Player::Player()
 	position.y = 5.4f;
 
 	//ヒットエフェクト読み込み
-	hitEffect = new Effect("Data/Effect/Hit.efk");
-
+	hitEffect = new Effect("Data/Effect/damage.efk");
+	hart = new Effect("Data/Effect/efec1.efk");
+	shield = new Effect("Data/Effect/efec3.efk");
+	goal = false;
 	//待機ステートへ遷移
 	TransitionIdleState();
 }
@@ -59,6 +61,11 @@ void Player::Update(float elapsedTime)
 {
 	if (position.y < -10.0f)position = { 0, 1, -10 };
 	
+	//if(ゴールについたら)
+	{
+		goal = true;
+	}
+
 	//ステート毎の処理
 	switch (state)
 	{

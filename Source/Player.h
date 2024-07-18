@@ -157,6 +157,8 @@ private:
 	int jumpLimit = 1;
 	
 	Effect* hitEffect = nullptr;
+	Effect* hart = nullptr;
+	Effect* shield = nullptr;
 	State state = State::Idle;
 	float leftHandRadius = 0.4f;
 	bool attackColisionFlag = false;
@@ -171,3 +173,4 @@ private:
 	std::unique_ptr<AudioSource>ItemGet;//アイテム、スコア入手SE
 	std::unique_ptr<AudioSource>HitObject;//障害物ヒットSE
 };
+extern  bool goal;
