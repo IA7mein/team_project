@@ -1,6 +1,6 @@
- #include "Camera.h"
- #include "CameraController.h"
- #include "Input/Input.h"
+#include "Camera.h"
+#include "CameraController.h"
+#include "Input/Input.h"
 
 //更新処理
 void CameraController::Update(float elapsedTime)
@@ -10,28 +10,28 @@ void CameraController::Update(float elapsedTime)
 	float ay = gamePad.GetAxisRY();
 	float speed = rollSpeed * elapsedTime;
 	//スティックの入力値に合わせてX軸とY軸を回転
-	angle.x = DirectX::XMConvertToRadians(45);
-	angle.y = 0.0f;
+	angle.x += ay * speed;
+	angle.y += ax * speed;
 
 	//X軸のカメラ回転を制限
-	if (angle.x > maxAngleX)
+	/*if (angle.x > maxAngleX)
 	{
 		angle.x = maxAngleX;
 	}
 	if (angle.x < minAngleX)
 	{
 		angle.x = minAngleX;
-	}
+	}*/
 	//Y軸の回転値を-3.14～3.14に収まるようにする
-	if (angle.y < -DirectX::XM_PI)
+	/*if (angle.y < -DirectX::XM_PI)
 	{
 		angle.y += DirectX::XM_2PI;
 	}
 	if (angle.y > DirectX::XM_PI)
 	{
 		angle.y -= DirectX::XM_2PI;
-	}
-
+	}*/
+	//
 	//カメラ回転値を回転行列に変換
 	DirectX::XMMATRIX Transform = DirectX::XMMatrixRotationRollPitchYaw(angle.x, angle.y, angle.z);
 
@@ -48,4 +48,4 @@ void CameraController::Update(float elapsedTime)
 
 	//カメラの視点と注視点を設定
 	Camera::Instance().SetLookAt(eye, target, DirectX::XMFLOAT3(0, 1, 0));
-}	
+}
