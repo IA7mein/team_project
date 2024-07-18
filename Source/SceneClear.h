@@ -23,6 +23,6 @@ public:
 
 private:
 	Sprite* sprite = nullptr;
-
+	Sprite* text = nullptr;
 	int timer;
 };
