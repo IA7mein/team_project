@@ -34,8 +34,9 @@ Player::Player()
 	position.y = 5.4f;
 
 	//ヒットエフェクト読み込み
-	hitEffect = new Effect("Data/Effect/Hit.efk");
-
+	hitEffect = new Effect("Data/Effect/damage.efk");
+	hart = new Effect("Data/Effect/efec1.efk");
+	shield = new Effect("Data/Effect/efec3.efk");
 	//待機ステートへ遷移
 	TransitionIdleState();
 }
