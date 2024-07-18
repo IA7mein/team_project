@@ -13,11 +13,19 @@ void StageSelect::Initialize()
 	sprite = new Sprite("Data/Sprite/senntaku1.png");
 	sprite2 = new Sprite("Data/Sprite/senntaku2.png");
 	sprite3 = new Sprite("Data/Sprite/senntaku3.png");
+	//BGM,SEÝ’è
+	bgm = Audio::Instance().LoadAudioSource("Data/BGM/‚Ì‚ñ‚Ñ‚è‚¨ŽU•à.wav");
+	bgm->Play(true);
+	PushButtan = Audio::Instance().LoadAudioSource("Data/SE/PushButtan.wav");
+	MoveCarsol = Audio::Instance().LoadAudioSource("Data/SE/MoveCarsol.wav");
 	tablestage = 0;
 }
 
 void StageSelect::Finalize()
 {
+	bgm->Stop();
+	PushButtan->Stop();
+	MoveCarsol->Stop();
 	if (sprite != nullptr)
 	{
 		delete sprite;
@@ -38,32 +46,80 @@ void StageSelect::Finalize()
 
 void StageSelect::Update(float elapsedTime)
 {
+	if (carsol_timer > 0.0f)
+	{
+		carsol_timer -= 1.0f * elapsedTime;
+	}
 	GamePad& gamePad = Input::Instance().GetGamePad();
-	if (gamePad.GetButtonDown() & GamePad::BTN_RIGHT)tablestage++;
-	if (gamePad.GetButtonDown() & GamePad::BTN_LEFT)tablestage--;
-	if (tablestage < 0)tablestage = 0;
-	if (tablestage > 2)tablestage = 2;
+	float ax = gamePad.GetAxisLX();
+	if (carsol_timer <= 0.0f)
+	{
+		if (ax > 0.0f && scene_change != true)
+		{
+			MoveCarsol->Play(false);
+			tablestage++;
+			carsol_timer = 1.0f;
+		}
+		if (ax < 0.0f && scene_change != true)
+		{
+			MoveCarsol->Play(false);
+			tablestage--;
+			carsol_timer = 1.0f;
+		}
+	}
+	if (tablestage < 0)tablestage = 2;
+	if (tablestage > 2)tablestage = 0;
 	switch (tablestage)
 	{
 	case 0:
 		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
-			SceneManager::Instance().ChangeScene(new Stage1);
-			SceneManager::Instance().ChangeScene(new SceneLoading(new Stage1));
+			muluchmode = false;
+			PushButtan->Play(false);
+			scene_change = true;
+		}
+		if (scene_change)
+		{
+			scene_timer += 1.0f * elapsedTime;
+			if (scene_timer >= 1.0f)
+			{
+				SceneManager::Instance().ChangeScene(new Stage1);
+				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage1));
+			}
 		}
 		break;
 	case 1:
 		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
-			SceneManager::Instance().ChangeScene(new Stage2);
-			SceneManager::Instance().ChangeScene(new SceneLoading(new Stage2));
+			muluchmode = false;
+			PushButtan->Play(false);
+			scene_change = true;
+		}
+		if (scene_change)
+		{
+			scene_timer += 1.0f * elapsedTime;
+			if (scene_timer >= 1.0f)
+			{
+				SceneManager::Instance().ChangeScene(new Stage2);
+				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage2));
+			}
 		}
 		break;
 	case 2:
 		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
-			SceneManager::Instance().ChangeScene(new Stage3);
-			SceneManager::Instance().ChangeScene(new SceneLoading(new Stage3));
+			muluchmode = false;
+			PushButtan->Play(false);
+			scene_change = true;
+		}
+		if (scene_change)
+		{
+			scene_timer += 1.0f * elapsedTime;
+			if (scene_timer >= 1.0f)
+			{
+				SceneManager::Instance().ChangeScene(new Stage3);
+				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage3));
+			}
 		}
 		break;
 	}

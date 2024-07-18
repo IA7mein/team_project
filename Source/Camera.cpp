@@ -15,7 +15,6 @@ void Camera::SetLookAt(const DirectX::XMFLOAT3& eye, const DirectX::XMFLOAT3& fo
 	DirectX::XMMATRIX World = DirectX::XMMatrixInverse(nullptr, View);
 	DirectX::XMFLOAT4X4 world;
 	DirectX::XMStoreFloat4x4(&world, World);
-
 	//ƒJƒƒ‰‚Ì•ûŒü‚ðŽæ‚èo‚·
 	this->right.x = world._11;
 	this->right.y = world._12;

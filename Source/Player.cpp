@@ -31,6 +31,8 @@ Player::Player()
 	//モデルが大きいのでスケーリング
 	scale.x = scale.y = scale.z = 0.01f;
 
+	position.y = 5.4f;
+
 	//ヒットエフェクト読み込み
 	hitEffect = new Effect("Data/Effect/Hit.efk");
 
@@ -76,7 +78,7 @@ void Player::Update(float elapsedTime)
 		UpdateJumpFlipState(elapsedTime);
 		break;*/
 	}
-
+	
 	//速力更新処理
 	UpdateVelocity(elapsedTime);
 
@@ -130,11 +132,11 @@ void Player::DrawDebugGUI()
 			ImGui::InputFloat3("Scale", &scale.x);
 			ImGui::InputFloat("Power", &power);
 
-			float enemypower = Enemy::Instance().GetPower();
+			/*float enemypower = Enemy::Instance().GetPower();
 			ImGui::InputFloat("EnemyPower", &enemypower);
 			ImGui::Checkbox("jumpFlag", &jumpFlag);
 			bool enemyjump = Enemy::Instance().GetJump();
-			ImGui::Checkbox("EnemyjumpFlag", &enemyjump);
+			ImGui::Checkbox("EnemyjumpFlag", &enemyjump);*/
 		}
 	}
 	ImGui::End();
@@ -308,7 +310,7 @@ bool Player::InputJump()
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();
 	float ay = gamePad.GetAxisLY();
-	if (ay <= -0.1f)
+	if (ay >= 0.1f)
 	{		
 		//ジャンプ回数制限
 		if (jumpCount < jumpLimit && jumpCT <= 0.0f)
@@ -319,14 +321,17 @@ bool Player::InputJump()
 			jumpCount++;
 			Jump(jumpSpeed);
 			//敵の位置がプレイヤーと比べて大きいかどうかで力の向きを変える
-			DirectX::XMFLOAT3 Epos = Enemy::Instance().GetPosition();
-			if (position.x - Epos.x > 0.0f)
+			if (muluchmode != true)
 			{
-				power = 1.0f;
-			}
-			else if (position.x - Epos.x < 0.0f)
-			{
-				power = -1.0f;
+				DirectX::XMFLOAT3 Epos = Enemy::Instance().GetPosition();
+				if (position.x - Epos.x > 0.0f)
+				{
+					power = 1.0f;
+				}
+				else if (position.x - Epos.x < 0.0f)
+				{
+					power = -1.0f;
+				}
 			}
 			//ジャンプ入力した
 			return true;

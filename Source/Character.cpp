@@ -155,6 +155,20 @@ void Character::UpdateVerticalVelocity(float elapsedFrame)
 
 void Character::UpdateVerticalMove(float elapsedTime)
 {
+	/*if (position.y < 5.4f)
+	{
+		position.y = 5.4f;
+	}*/
+	//垂直方向の移動量
+	float my = velocity.y * elapsedTime;
+
+	//キャラクターのY軸方向となる法線ベクトル
+	DirectX::XMFLOAT3 normal = { 0, 1, 0 };
+
+	slopeRate = 0.0f;
+
+	//落下中
+	if (my < 0.0f)
 	position.y += velocity.y * elapsedTime;
 	if (position.y <= 5.5f)
 	{
@@ -310,6 +324,8 @@ void Character::UpdateHorizontalVelocity(float elapsedFrame)
 	//移動ベクトルをリセット
 	moveVecX = 0.0f;
 	moveVecZ = 0.0f;
+
+
 }
 
 

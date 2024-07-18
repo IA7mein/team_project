@@ -18,6 +18,8 @@ StageMain::StageMain(int s)
 	}
 	QuadtreeNode::CreateQuadtree({ 30.5f, 5.0f , 0.0f }, 65.0f, segmentDepth, &stageNodesQuadtree);
 
+	
+
 	int count = 0;
 	// ƒ‚ƒfƒ‹‚ÌƒƒbƒVƒ…‚ÌŽOŠpŒ`‚ðŽl•ªŠ„‹óŠÔ‚É“o˜^
 	const ModelResource* resource = model->GetResource();
