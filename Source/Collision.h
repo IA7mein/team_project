@@ -119,5 +119,5 @@ public:
 	static void ClearAllTriangleObject(std::vector<QuadtreeNode>& node);
 
 	// 全てのノードで三角形と垂直レイの交差判定を行う
-	static bool IntersectVerticalRayVsTriangle(std::vector<QuadtreeNode>* node, uint32_t depth, const DirectX::XMFLOAT3& rayStart, const DirectX::XMFLOAT3& rayEnd, HitResult& result);
+	/*static bool IntersectVerticalRayVsTriangle(std::vector<QuadtreeNode>* node, uint32_t depth, const DirectX::XMFLOAT3& rayStart, const DirectX::XMFLOAT3& rayEnd, HitResult& result);*/
 };

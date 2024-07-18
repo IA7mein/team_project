@@ -11,7 +11,7 @@
 void Stage3::Initialize()
 {
 	StageManager& stageManager = StageManager::Instance();
-	StageMain* stageMain = new StageMain(0);
+	StageMain* stageMain = new StageMain(2);
 	stageManager.Register(stageMain);
 
 
