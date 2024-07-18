@@ -7,7 +7,7 @@ StageMain::StageMain(int s)
 	switch (s)
 	{
 	case 0:
-		model = new Model("Data/Model/ExampleStage/team.mdl");
+		model = new Model("Data/Model/ExampleStage/stg1.mdl");
 		break;
 	case 1:
 		model = new Model("Data/Model/ExampleStage/team1.mdl");
