@@ -7,7 +7,6 @@
 void SceneLoading::Initialize()
 {
 	//スプライト初期化
-	sprite = new Sprite("Data/Sprite/LoadingIcon.png");
 	//スレッド開始(第1引数に動かしたい処理、第2引数に関数の第1引数)
 	thread = new std::thread(LoadingThread, this);
 }
@@ -24,13 +23,6 @@ void SceneLoading::Finalize()
 		delete thread;
 		//スレッドにnullを入れる
 		thread = nullptr;
-	}
-	
-	//スプライト終了化
-	if (sprite != nullptr)
-	{
-		delete sprite;
-		sprite = nullptr;
 	}
 }
 
@@ -64,23 +56,6 @@ void SceneLoading::Render()
 	dc->ClearRenderTargetView(rtv, color);
 	dc->ClearDepthStencilView(dsv, D3D11_CLEAR_STENCIL, 1.0f, 0);
 	dc->OMSetRenderTargets(1, &rtv, dsv);
-
-	//2Dスプライト描画
-	{
-		//画面右下にローディングアイコンを描画
-		float screenWidth = static_cast<float>(graphics.GetScreenWidth());
-		float screenHeight = static_cast<float>(graphics.GetScreenHeight());
-		float textureWidth = static_cast<float>(sprite->GetTextureWidth());
-		float textureHeight = static_cast<float>(sprite->GetTextureHeight());
-		float positionX = screenWidth - textureWidth;
-		float positionY = screenHeight - textureHeight;
-
-		sprite->Render(dc,
-			positionX, positionY, textureWidth, textureHeight,
-			0, 0, textureWidth, textureHeight,
-			angle,
-			1, 1, 1, 1);
-	}
 }
 
 void SceneLoading::LoadingThread(SceneLoading* scene)

@@ -23,8 +23,8 @@ void Stage1::Initialize()
 
 
 	//プレイヤー初期化
-	/*player = new Player();
-	player->SetPosition({ -1.0f, 0.0f, -10.0f });*/
+	player = new Player();
+	player->SetPosition({ -1.0f, 0.0f, -10.0f });
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
 	Camera& camera = Camera::Instance();
@@ -39,7 +39,7 @@ void Stage1::Initialize()
 		0.1f,
 		1000.0f
 	);
-	//player->SetPosition(DirectX::XMFLOAT3(0, 5, 10));
+	player->SetPosition(DirectX::XMFLOAT3(0, 5, 10));
 	//カメラコントローラー初期化
 	cameraController = new CameraController();
 	if (muluchmode == false)//一人用
@@ -126,94 +126,94 @@ void Stage1::Finalize()
 
 void Stage1::Update(float elapsedTime)
 {
-	////カメラコントローラー更新処理
-	//DirectX::XMFLOAT3 playerPos = player->GetPosition();
-	//target.y = 5.0f;
-	//target.z = playerPos.z - 5.0f;
-	//cameraController->SetTarget(target);
-	//cameraController->Update(elapsedTime);
-	////ステージ更新処理
-	//StageManager::Instance().Update(elapsedTime);
-	////エネミーAI更新処理
-	//if (muluchmode==false)
-	//{
-	//	enemy->Update(elapsedTime);
-	//}
-	////プレイヤー更新処理
-	//player->Update(elapsedTime);
+	//カメラコントローラー更新処理
+	DirectX::XMFLOAT3 playerPos = player->GetPosition();
+	target.y = 5.0f;
+	target.z = playerPos.z - 5.0f;
+	cameraController->SetTarget(target);
+	cameraController->Update(elapsedTime);
+	//ステージ更新処理
+	StageManager::Instance().Update(elapsedTime);
+	//エネミーAI更新処理
+	if (muluchmode==false)
+	{
+		enemy->Update(elapsedTime);
+	}
+	//プレイヤー更新処理
+	player->Update(elapsedTime);
 
 	if (goal)//ゴールしたら
 	{
 		SceneManager::Instance().ChangeScene(new SceneClear);
 	}
-	////エフェクト更新処理
-	//EffectManager::Instance().Update(elapsedTime);
-	////アイテム更新処理
-	//ItemManager::Instance().Update(elapsedTime);
+	//エフェクト更新処理
+	EffectManager::Instance().Update(elapsedTime);
+	//アイテム更新処理
+	ItemManager::Instance().Update(elapsedTime);
 }
 
 void Stage1::Render()
 {
-	//Graphics& graphics = Graphics::Instance();
-	//ID3D11DeviceContext* dc = graphics.GetDeviceContext();
-	//ID3D11RenderTargetView* rtv = graphics.GetRenderTargetView();
-	//ID3D11DepthStencilView* dsv = graphics.GetDepthStencilView();
+	Graphics& graphics = Graphics::Instance();
+	ID3D11DeviceContext* dc = graphics.GetDeviceContext();
+	ID3D11RenderTargetView* rtv = graphics.GetRenderTargetView();
+	ID3D11DepthStencilView* dsv = graphics.GetDepthStencilView();
 
-	//// 画面クリア＆レンダーターゲット設定
-	//FLOAT color[] = { 0.0f, 0.0f, 0.5f, 1.0f };	// RGBA(0.0～1.0)
-	//dc->ClearRenderTargetView(rtv, color);
-	//dc->ClearDepthStencilView(dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	//dc->OMSetRenderTargets(1, &rtv, dsv);
+	// 画面クリア＆レンダーターゲット設定
+	FLOAT color[] = { 0.0f, 0.0f, 0.5f, 1.0f };	// RGBA(0.0～1.0)
+	dc->ClearRenderTargetView(rtv, color);
+	dc->ClearDepthStencilView(dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	dc->OMSetRenderTargets(1, &rtv, dsv);
 
-	//// 描画処理
-	//RenderContext rc;
-	//rc.lightDirection = { 0.0f, -1.0f, 0.0f, 0.0f };	// ライト方向（下方向）
+	// 描画処理
+	RenderContext rc;
+	rc.lightDirection = { 0.0f, -1.0f, 0.0f, 0.0f };	// ライト方向（下方向）
 
-	////カメラパラメータ設定
-	//Camera& camera = Camera::Instance();
-	//rc.view = camera.GetView();
-	//rc.projection = camera.GetProjection();
+	//カメラパラメータ設定
+	Camera& camera = Camera::Instance();
+	rc.view = camera.GetView();
+	rc.projection = camera.GetProjection();
 
-	//// 3Dモデル描画
-	//{
-	//	Shader* shader = graphics.GetShader();
-	//	shader->Begin(dc, rc);
+	// 3Dモデル描画
+	{
+		Shader* shader = graphics.GetShader();
+		shader->Begin(dc, rc);
 
-	//	//ステージ描画	
-	//	StageManager::Instance().Render(dc, shader);
-	//	//プレイヤー描画
-	//	player->Render(dc, shader);
-	//	if (muluchmode == false)
-	//	{
-	//		enemy->Render(dc, shader);
-	//	}
-	//	//アイテム描画
-	//	ItemManager::Instance().Render(dc, shader);
-	//	shader->End(dc);
-	//}
+		//ステージ描画	
+		StageManager::Instance().Render(dc, shader);
+		//プレイヤー描画
+		player->Render(dc, shader);
+		if (muluchmode == false)
+		{
+			enemy->Render(dc, shader);
+		}
+		//アイテム描画
+		ItemManager::Instance().Render(dc, shader);
+		shader->End(dc);
+	}
 
-	////3Dエフェクト描画
-	//{
-	//	EffectManager::Instance().Render(rc.view, rc.projection);
-	//}
+	//3Dエフェクト描画
+	{
+		EffectManager::Instance().Render(rc.view, rc.projection);
+	}
 
-	//// 3Dデバッグ描画
-	//{
-	//	//プレイヤーデバッグプリミティブ描画
-	//	player->DrawDebugPrimitive();
-	//	if(muluchmode == false)enemy->DrawDebugPrimitive();
-	//	// ラインレンダラ描画実行
-	//	graphics.GetLineRenderer()->Render(dc, rc.view, rc.projection);
-	//	//アイテムデバックプリミティブ描画
-	//	ItemManager::Instance().DrawDebugPrimitive();
-	//	// デバッグレンダラ描画実行
-	//	graphics.GetDebugRenderer()->Render(dc, rc.view, rc.projection);
-	//}
+	// 3Dデバッグ描画
+	{
+		//プレイヤーデバッグプリミティブ描画
+		player->DrawDebugPrimitive();
+		if(muluchmode == false)enemy->DrawDebugPrimitive();
+		// ラインレンダラ描画実行
+		graphics.GetLineRenderer()->Render(dc, rc.view, rc.projection);
+		//アイテムデバックプリミティブ描画
+		ItemManager::Instance().DrawDebugPrimitive();
+		// デバッグレンダラ描画実行
+		graphics.GetDebugRenderer()->Render(dc, rc.view, rc.projection);
+	}
 
-	//// 2DデバッグGUI描画
-	//{
-	//	//プレイヤーデバッグ描画
-	//	//player->DrawDebugGUI();
-	//	text->textout(dc, "Test", 0, 0, 30, 30, 150, 150, 30, 30, 0, 1, 1, 1, 1);
-	//}
+	// 2DデバッグGUI描画
+	{
+		//プレイヤーデバッグ描画
+		//player->DrawDebugGUI();
+		text->textout(dc, "Test", 0, 0, 30, 30, 150, 150, 30, 30, 0, 1, 1, 1, 1);
+	}
 }
