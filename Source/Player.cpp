@@ -61,6 +61,11 @@ void Player::Update(float elapsedTime)
 {
 	if (position.y < -10.0f)position = { 0, 1, -10 };
 	
+	//if(ゴールについたら)
+	{
+		goal = true;
+	}
+
 	//ステート毎の処理
 	switch (state)
 	{
