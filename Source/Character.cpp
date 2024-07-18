@@ -218,28 +218,6 @@ void Character::UpdateVerticalMove(float elapsedTime)
 	//		float normalLengthXZ = sqrtf(hit.normal.x * hit.normal.x + hit.normal.z * hit.normal.z);
 	//		slopeRate = 1.0f - (hit.normal.y / (normalLengthXZ + hit.normal.y));
 
-	//		//着地した
-	//		if (!isGround)
-	//		{
-	//			OnLanding();
-	//		}
-	//		isGround = true;
-	//		velocity.y = 0.0f;
-	//	}
-	//	else
-	//	{
-	//		//空中に浮いている
-	//		position.y += my;
-	//		isGround = false;
-	//	}
-	//}
-	////上昇中
-	//else if (my > 0.0f)
-	//{
-	//	position.y += my;
-	//	isGround = false;
-	//}
-
 	////地面の向きに沿うようにXZ軸回転
 	//{
 	//	//Y軸が法線ベクトル方面に向くオイラー角回転を算出
