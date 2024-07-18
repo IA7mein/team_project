@@ -8,6 +8,9 @@
 #include "StageManager.h"
 #include "StageMain.h"
 #include "SceneTitle.h"
+#include <ItemManager.h>
+#include <ItemHeart.h>
+#include <hari.h>
 
 void Stage1::Initialize()
 {
@@ -41,6 +44,20 @@ void Stage1::Initialize()
 		enemy = new Enemy();
 		enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
 	}
+	//ハート初期化
+	ItemManager& itemManager = ItemManager::Instance();
+	ItemHeart* heart;
+	heart = new ItemHeart(); 
+	heart->SetPosition(DirectX::XMFLOAT3(10.0f, 0.0f,40.0f));
+	itemManager.Register(heart);
+	//とげ初期化
+	hari* Hari[3];
+	for (int i = 0; i < 3; i++) { Hari[i] = new hari(); };
+	Hari[0]->SetPosition(DirectX::XMFLOAT3(0.0f, 0.0f, 30.0f));
+	Hari[1]->SetPosition(DirectX::XMFLOAT3(-10.0f, 0.0f, 40.0f));
+	Hari[2]->SetPosition(DirectX::XMFLOAT3(20.0f, 0.0f, 30.0f));
+	for (int i = 0; i < 3; i++) { itemManager.Register(Hari[i]); }
+
 	text = new Sprite("Data/Font/font6.png");
 
 	bgm = Audio::Instance().LoadAudioSource("Data/BGM/た、たいへん！どうしよう！！.wav");
@@ -108,6 +125,8 @@ void Stage1::Update(float elapsedTime)
 
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsedTime);
+	//アイテム更新処理
+	ItemManager::Instance().Update(elapsedTime);
 }
 
 void Stage1::Render()
@@ -145,6 +164,8 @@ void Stage1::Render()
 		{
 			enemy->Render(dc, shader);
 		}
+		//アイテム描画
+		ItemManager::Instance().Render(dc, shader);
 		shader->End(dc);
 	}
 
@@ -160,7 +181,8 @@ void Stage1::Render()
 		if(muluchmode == false)enemy->DrawDebugPrimitive();
 		// ラインレンダラ描画実行
 		graphics.GetLineRenderer()->Render(dc, rc.view, rc.projection);
-
+		//アイテムデバックプリミティブ描画
+		ItemManager::Instance().DrawDebugPrimitive();
 		// デバッグレンダラ描画実行
 		graphics.GetDebugRenderer()->Render(dc, rc.view, rc.projection);
 	}
