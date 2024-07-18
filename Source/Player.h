@@ -173,3 +173,4 @@ private:
 	std::unique_ptr<AudioSource>ItemGet;//アイテム、スコア入手SE
 	std::unique_ptr<AudioSource>HitObject;//障害物ヒットSE
 };
+extern  bool goal;

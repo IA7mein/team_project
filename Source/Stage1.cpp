@@ -11,7 +11,8 @@
 #include <ItemManager.h>
 #include <ItemHeart.h>
 #include <hari.h>
-
+#include "SceneManager.h"
+#include "SceneClear.h"
 void Stage1::Initialize()
 {
 	StageManager& stageManager = StageManager::Instance();
@@ -100,7 +101,7 @@ void Stage1::Finalize()
 		delete text;
 		text = nullptr;
 	}
-	
+	goal = false;
 	//ステージ終了化
 	StageManager::Instance().Clear();
 }
@@ -123,6 +124,10 @@ void Stage1::Update(float elapsedTime)
 	//プレイヤー更新処理
 	player->Update(elapsedTime);
 
+	if (goal)//ゴールしたら
+	{
+		SceneManager::Instance().ChangeScene(new SceneClear);
+	}
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsedTime);
 	//アイテム更新処理

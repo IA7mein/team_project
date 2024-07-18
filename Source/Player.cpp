@@ -7,7 +7,7 @@
 #include "Collision.h"
 #include "SceneTitle.h"
 static Player* instance = nullptr;
-
+bool goal;
 //インスタンス取得
 Player& Player::Instance()
 {
@@ -37,6 +37,7 @@ Player::Player()
 	hitEffect = new Effect("Data/Effect/damage.efk");
 	hart = new Effect("Data/Effect/efec1.efk");
 	shield = new Effect("Data/Effect/efec3.efk");
+	goal = false;
 	//待機ステートへ遷移
 	TransitionIdleState();
 }

@@ -8,6 +8,8 @@
 #include "StageManager.h"
 #include "StageMain.h"
 #include "SceneTitle.h"
+#include "SceneManager.h"
+#include "SceneClear.h"
 void Stage3::Initialize()
 {
 	StageManager& stageManager = StageManager::Instance();
@@ -79,7 +81,7 @@ void Stage3::Finalize()
 		delete text;
 		text = nullptr;
 	}
-
+	goal = false;
 	//ステージ終了化
 	StageManager::Instance().Clear();
 }
@@ -98,6 +100,10 @@ void Stage3::Update(float elapsedTime)
 	if (muluchmode == false)enemy->Update(elapsedTime);
 	//プレイヤー更新処理
 	player->Update(elapsedTime);
+	if (goal)//ゴールしたら
+	{
+		SceneManager::Instance().ChangeScene(new SceneClear);
+	}
 
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsedTime);
