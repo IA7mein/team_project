@@ -20,7 +20,7 @@ Player::Player()
 	//インスタンスポインタ設定
 	instance = this;
 
-	model = new Model("Data/Model/Jammo/Jammo.mdl");
+	model = new Model("Data/Model/Player/1P.mdl");
 
 	JumpStart = Audio::Instance().LoadAudioSource("Data/SE/JumpStart.wav");
 	JumpEnd = Audio::Instance().LoadAudioSource("Data/SE/JumpEnd.wav");
@@ -29,7 +29,7 @@ Player::Player()
 	HitObject = Audio::Instance().LoadAudioSource("Data/SE/HitObject.wav");
 
 	//モデルが大きいのでスケーリング
-	scale.x = scale.y = scale.z = 0.01f;
+	scale.x = scale.y = scale.z = 0.1f;
 
 	position.y = 5.4f;
 

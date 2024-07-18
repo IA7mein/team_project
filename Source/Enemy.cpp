@@ -18,7 +18,7 @@ Enemy::Enemy()
 	//インスタンスポインタ設定
 	instance = this;
 
-	model = new Model("Data/Model/Slime/Slime.mdl");
+	model = new Model("Data/Model/Player/2P.mdl");
 
 	JumpStart = Audio::Instance().LoadAudioSource("Data/SE/JumpStart.wav");
 	JumpEnd = Audio::Instance().LoadAudioSource("Data/SE/JumpEnd.wav");
@@ -27,7 +27,7 @@ Enemy::Enemy()
 	HitObject = Audio::Instance().LoadAudioSource("Data/SE/HitObject.wav");
 
 	//モデルのスケーリング
-	scale.x = scale.y = scale.z = 0.01f;
+	scale.x = scale.y = scale.z = 0.1f;
 
 	//徘徊ステートへ遷移
 	TransitionWanderState();

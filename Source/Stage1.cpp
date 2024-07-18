@@ -144,7 +144,7 @@ void Stage1::Update(float elapsedTime)
 
 	if (goal)//ゴールしたら
 	{
-		SceneManager::Instance().ChangeScene(new SceneClear);
+		//SceneManager::Instance().ChangeScene(new SceneClear);
 	}
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsedTime);
