@@ -129,7 +129,7 @@ void Stage1::Update(float elapsedTime)
 {
 	//カメラコントローラー更新処理
 	DirectX::XMFLOAT3 playerPos = player->GetPosition();
-	target.y = 5.0f;
+	target.y =6.0f;
 	target.z = playerPos.z - 5.0f;
 	cameraController->SetTarget(target);
 	cameraController->Update(elapsedTime);
