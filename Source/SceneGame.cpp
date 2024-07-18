@@ -6,7 +6,6 @@
 #include "Input/Input.h"
 #include "StageManager.h"
 #include "StageMain.h"
-//#include "StageMoveFloor.h"
 #include"ItemManager.h"
 #include"ItemHeart.h"
 #include "../ItemShield.h"
@@ -128,7 +127,7 @@ void SceneGame::Initialize()
 	//for (int i = 0; i < 17; i++) { itemManager.Register(heart[i]); }
 	//for (int i = 0; i < 17; i++) { itemManager.Register(shield[i]); }
 	//ゲージスプライト
-	//gauge = new Sprite();
+	
 }
 
 // 終了化
