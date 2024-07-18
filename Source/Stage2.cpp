@@ -46,7 +46,7 @@ void Stage2::Initialize()
 	}
 	text = new Sprite("Data/Font/font6.png");
 
-	bgm = Audio::Instance().LoadAudioSource("Data/BGM/た、たいへん！どうしよう！！.wav");
+	bgm = Audio::Instance().LoadAudioSource("Data/BGM/そんな雨上がり.wav");
 	bgm->Play(true);
 	gauge = new Sprite();
 }

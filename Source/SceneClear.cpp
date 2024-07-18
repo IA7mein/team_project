@@ -10,15 +10,25 @@ void SceneClear::Initialize()
 {
 	//sprite = new Sprite("Data/Sprite/Title.png");
 	text = new Sprite("Data/Font/font1.png");
+	bgm = Audio::Instance().LoadAudioSource("Data/BGM/ちょっと一息つきましょう？.wav");
+	bgm->Play(true);
+	PushButtan = Audio::Instance().LoadAudioSource("Data/SE/PushButtan.wav");
 }
 
 void SceneClear::Finalize()
 {
+	bgm->Stop();
+	PushButtan->Stop();
 	/*if (sprite != nullptr)
 	{
 		delete sprite;
 		sprite = nullptr;
 	}*/
+	if (text != false)
+	{
+		delete text;
+		text = nullptr;
+	}
 }
 
 void SceneClear::Update(float elapsedTime)
@@ -26,7 +36,17 @@ void SceneClear::Update(float elapsedTime)
 	GamePad& gamePad = Input::Instance().GetGamePad();
 	if (gamePad.GetButtonDown() & GamePad::BTN_X)
 	{
-		SceneManager::Instance().ChangeScene(new SceneTitle);
+		PushButtan->Play(false);
+		scene_change = true;
+	}
+
+	if (scene_change)
+	{
+		scene_timer += 1.0f * elapsedTime;
+		if (scene_timer >= 1.0f)
+		{
+			SceneManager::Instance().ChangeScene(new SceneTitle);
+		}
 	}
 }
 
@@ -48,9 +68,32 @@ void SceneClear::Render()
 		float screenHeight = static_cast<float>(graphics.GetScreenHeight());
 		/*float textureWidth = static_cast<float>(sprite->GetTextureWidth());
 		float textureHeight = static_cast<float>(sprite->GetTextureHeight());*/
-
-		if(!muluchmode)text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
-		if (!muluchmode)text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
+		if (!muluchmode)//ソロモード
+		{
+			//if(勝ったら)
+			{
+				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
+				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
+			}
+			//else 負けたら
+			{
+				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
+				text->textout(dc, "Lose", 440, 400, 130, 110, 150, 150, 30, 30, 0, 0, 0, 1, 1);
+			}
+		}
+		else
+		{
+			//if() プレイヤー1が勝ったら
+			{
+				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
+				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
+			}
+			//if()　プレイヤー２が勝ったら
+			{
+				text->textout(dc, "Player2", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
+				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
+			}
+		}
 	}
 
 }

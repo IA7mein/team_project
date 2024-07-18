@@ -26,4 +26,9 @@ private:
 	Sprite* sprite = nullptr;
 
 	int timer;
+	bool scene_change = false;
+	float scene_timer = 0.0f;
+
+	std::unique_ptr<AudioSource>bgm;
+	std::unique_ptr<AudioSource>PushButtan;
 };
