@@ -31,7 +31,7 @@ public:
 	void Clear();
 
 	//レイキャスト
-	bool RayCast(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, HitResult& hit);
+	//bool RayCast(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, HitResult& hit);
 
 public:
 	std::vector<Stage*> stages;

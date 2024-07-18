@@ -6,14 +6,22 @@
 #include "Input/Input.h"
 #include "StageManager.h"
 #include "StageMain.h"
+#include"ItemManager.h"
+#include"ItemHeart.h"
+#include "../ItemShield.h"
 
 // 初期化
 void SceneGame::Initialize()
 {
 	//ステージ初期化
-	StageManager& stageManager = StageManager::Instance();
-	StageMain* stageMain = new StageMain(1);
-	stageManager.Register(stageMain);
+	/*StageManager& stageManager = StageManager::Instance();
+	StageMain* stageMain = new StageMain(0);
+	stageManager.Register(stageMain);*/
+	/*StageMoveFloor* stageMoveFloor = new StageMoveFloor();
+	stageMoveFloor->SetStartPoint(DirectX::XMFLOAT3(0, 1, 3));
+	stageMoveFloor->SetGoalPoint(DirectX::XMFLOAT3(10, 2, 3));
+	stageMoveFloor->SetTorque(DirectX::XMFLOAT3(0, 1.0f, 0));
+	stageManager.Register(stageMoveFloor);*/
 
 	//プレイヤー初期化
 	player = new Player();
@@ -34,15 +42,92 @@ void SceneGame::Initialize()
 	);
 	//カメラコントローラー初期化
 	cameraController = new CameraController();
+	
+	//ハート初期化
+	ItemManager& itemManager = ItemManager::Instance();
+	ItemHeart* heart[17];
+	for (int i = 0; i < 17; i++) { heart[i] = new ItemHeart(); }
+	ItemShield* shield[17];
+	for (int i = 0; i < 17; i++) { shield[i] = new ItemShield(); }
+	//ステージ１
+	heart[0]->SetPosition(DirectX::XMFLOAT3(0.0f, 5.4f, 30.0f));
+	heart[0]->SetTerritory(heart[0]->GetPosition(), 10.0f);
 
-	//エネミーAI初期化
-	enemy = new Enemy();
-	enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
+	heart[1]->SetPosition(DirectX::XMFLOAT3(-10.0f, 5.4f, 40.0f));
+	heart[1]->SetTerritory(heart[1]->GetPosition(), 10.0f);
 
-	text = new Sprite("Data/Font/font6.png");
+	heart[2]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 30.0f));
+	heart[2]->SetTerritory(heart[2]->GetPosition(), 10.0f);
 
-	bgm = Audio::Instance().LoadAudioSource("Data/BGM/た、たいへん！どうしよう！！.wav");
-	bgm->Play(true);
+	heart[3]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 50.0f));
+	heart[3]->SetTerritory(heart[3]->GetPosition(), 10.0f);
+
+	heart[4]->SetPosition(DirectX::XMFLOAT3(-20.0f, 5.4f, 50.0f));
+	heart[4]->SetTerritory(heart[4]->GetPosition(), 10.0f);
+
+	heart[5]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 10.0f));
+	heart[5]->SetTerritory(heart[5]->GetPosition(), 10.0f);
+
+	heart[6]->SetPosition(DirectX::XMFLOAT3(10.0f, 5.4f, 40.0f));
+	heart[6]->SetTerritory(heart[6]->GetPosition(), 10.0f);
+
+	//ステージ２
+	//heart[0]->SetPosition(DirectX::XMFLOAT3(10.0f, 5.4f, 30.0f));
+	//heart[0]->SetTerritory(heart[0]->GetPosition(), 10.0f);
+
+	//heart[1]->SetPosition(DirectX::XMFLOAT3(0.0f, 5.4f, 40.0f));
+	//heart[1]->SetTerritory(heart[1]->GetPosition(), 10.0f);
+
+	//heart[2]->SetPosition(DirectX::XMFLOAT3(-10.0f, 5.4f, 40.0f));
+	//heart[2]->SetTerritory(heart[2]->GetPosition(), 10.0f);
+
+	//heart[3]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 30.0f));
+	//heart[3]->SetTerritory(heart[3]->GetPosition(), 10.0f);
+
+	//heart[4]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 50.0f));
+	//heart[4]->SetTerritory(heart[4]->GetPosition(), 10.0f);
+
+	//heart[5]->SetPosition(DirectX::XMFLOAT3(-20.0f, 5.4f, 50.0f));
+	//heart[5]->SetTerritory(heart[5]->GetPosition(), 10.0f);
+
+	//heart[6]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 0.0f));
+	//heart[6]->SetTerritory(heart[6]->GetPosition(), 10.0f);
+
+	//heart[7]->SetPosition(DirectX::XMFLOAT3(10.0f, 5.4f, 40.0f));
+	//heart[7]->SetTerritory(heart[7]->GetPosition(), 10.0f);
+
+	//heart[8]->SetPosition(DirectX::XMFLOAT3(0.0f, 5.4f, 20.0f));
+	//heart[8]->SetTerritory(heart[8]->GetPosition(), 10.0f);
+
+	//heart[9]->SetPosition(DirectX::XMFLOAT3(0.0f, 5.4f, 10.0f));
+	//heart[9]->SetTerritory(heart[9]->GetPosition(), 10.0f);
+
+	//heart[10]->SetPosition(DirectX::XMFLOAT3(-10.0f, 5.4f, 10.0f));
+	//heart[10]->SetTerritory(heart[10]->GetPosition(), 10.0f);
+
+	//heart[11]->SetPosition(DirectX::XMFLOAT3(-20.0f, 5.4f, 0.0f));
+	//heart[11]->SetTerritory(heart[11]->GetPosition(), 10.0f);
+
+	//heart[12]->SetPosition(DirectX::XMFLOAT3(-20.0f, 5.4f, -10.0f));
+	//heart[12]->SetTerritory(heart[12]->GetPosition(), 10.0f);
+
+	//heart[13]->SetPosition(DirectX::XMFLOAT3(-10.0f, 5.4f, -10.0f));
+	//heart[13]->SetTerritory(heart[13]->GetPosition(), 10.0f);
+
+	//heart[14]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, -10.0f));
+	//heart[14]->SetTerritory(heart[14]->GetPosition(), 10.0f);
+
+	//heart[15]->SetPosition(DirectX::XMFLOAT3(0.0f, 5.4f, -20.0f));
+	//heart[15]->SetTerritory(heart[15]->GetPosition(), 10.0f);
+
+	//heart[16]->SetPosition(DirectX::XMFLOAT3(-10.0f, 5.4f, 20.0f));
+	//heart[16]->SetTerritory(heart[16]->GetPosition(), 10.0f);
+
+	////生成したハートをアイテムマネージャーに登録
+	//for (int i = 0; i < 17; i++) { itemManager.Register(heart[i]); }
+	//for (int i = 0; i < 17; i++) { itemManager.Register(shield[i]); }
+	//ゲージスプライト
+	
 }
 
 // 終了化
@@ -91,7 +176,8 @@ void SceneGame::Update(float elapsedTime)
 	enemy->Update(elapsedTime);
 	//プレイヤー更新処理
 	player->Update(elapsedTime);
-	
+	//アイテム更新処理
+	ItemManager::Instance().Update(elapsedTime);
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsedTime);
 }
@@ -128,8 +214,8 @@ void SceneGame::Render()
 		StageManager::Instance().Render(dc, shader);
 		//プレイヤー描画
 		player->Render(dc, shader);
-		//エネミー描画
-		enemy->Render(dc, shader);
+		//アイテム描画
+		ItemManager::Instance().Render(dc, shader);
 		shader->End(dc);
 	}
 
@@ -142,8 +228,8 @@ void SceneGame::Render()
 	{
 		//プレイヤーデバッグプリミティブ描画
 		player->DrawDebugPrimitive();
-
-		enemy->DrawDebugPrimitive();
+		//アイテムデバックプリミティブ描画
+		ItemManager::Instance().DrawDebugPrimitive();
 		// ラインレンダラ描画実行
 		graphics.GetLineRenderer()->Render(dc, rc.view, rc.projection);
 
