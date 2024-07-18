@@ -405,6 +405,18 @@ bool Player::InputJump()
 					power = -1.0f;
 				}
 			}
+			else
+			{
+				DirectX::XMFLOAT3 Epos = Player2::Instance().GetPosition();
+				if (position.x - Epos.x > 0.0f)
+				{
+					power = 1.0f;
+				}
+				else if (position.x - Epos.x < 0.0f)
+				{
+					power = -1.0f;
+				}
+			}
 			//ƒWƒƒƒ“ƒv“ü—Í‚µ‚½
 			return true;
 		}		
