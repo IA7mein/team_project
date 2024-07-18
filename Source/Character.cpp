@@ -27,7 +27,8 @@ void Character::Move(float vx, float vz, float speed)
 {
 	//移動方向ベクトルを設定(移動方向の矢印を保存しておく)
 	moveVecX = vx;
-	moveVecZ = vz;
+	moveVecZ = position.z / 1000;
+	moveVecZ++;
 
 	//最大速度設定
 	maxMoveSpeed = speed;

@@ -114,7 +114,6 @@
     <ClInclude Include="External\imgui\imstb_rectpack.h" />
     <ClInclude Include="External\imgui\imstb_textedit.h" />
     <ClInclude Include="External\imgui\imstb_truetype.h" />
-    <ClInclude Include="ItemShield.h" />
     <ClInclude Include="Source\Audio\Audio.h" />
     <ClInclude Include="Source\Audio\AudioResource.h" />
     <ClInclude Include="Source\Audio\AudioSource.h" />
@@ -143,10 +142,12 @@
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\ItemHeart.h" />
     <ClInclude Include="Source\ItemManager.h" />
+    <ClInclude Include="Source\ItemShield.h" />
     <ClInclude Include="Source\Logger.h" />
     <ClInclude Include="Source\Mathf.h" />
     <ClInclude Include="Source\Misc.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Player2.h" />
     <ClInclude Include="Source\ResourceManager.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\SceneClear.h" />
@@ -170,7 +171,6 @@
     <ClCompile Include="External\imgui\imgui_demo.cpp" />
     <ClCompile Include="External\imgui\imgui_draw.cpp" />
     <ClCompile Include="External\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="ItemShield.cpp" />
     <ClCompile Include="Source\Audio\Audio.cpp" />
     <ClCompile Include="Source\Audio\AudioResource.cpp" />
     <ClCompile Include="Source\Audio\AudioSource.cpp" />
@@ -197,7 +197,9 @@
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\ItemHeart.cpp" />
     <ClCompile Include="Source\ItemManager.cpp" />
+    <ClCompile Include="Source\ItemShield.cpp" />
     <ClCompile Include="Source\Mathf.cpp" />
+    <ClCompile Include="Source\Player2.cpp" />
     <ClCompile Include="Source\ResourceManager.cpp" />
     <ClCompile Include="Source\SceneClear.cpp" />
     <ClCompile Include="Source\SceneLoading.cpp" />

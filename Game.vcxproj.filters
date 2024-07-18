@@ -174,9 +174,6 @@
     <ClInclude Include="Source\ItemHeart.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="ItemShield.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="Source\hari.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -186,6 +183,12 @@
     <ClInclude Include="Source\Stage3.h" />
     <ClInclude Include="Source\SceneRule.h" />
     <ClInclude Include="Source\StageSelect.h" />
+    <ClInclude Include="Source\ItemShield.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player2.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="External\imgui\imgui.cpp">
@@ -311,9 +314,6 @@
     <ClCompile Include="Source\ItemHeart.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="ItemShield.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\hari.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -333,6 +333,12 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\StageSelect.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ItemShield.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player2.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

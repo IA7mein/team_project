@@ -1,5 +1,6 @@
 #include <imgui.h>
 #include "Player.h"
+#include "Player2.h"
 #include "Input/Input.h"
 #include "Camera.h"
 #include "Graphics/Graphics.h"
@@ -452,7 +453,7 @@ bool Player::InputMove(float elapsedTime)
 	{
 		moveSpeed = 3.1f;
 	}
-	
+
 	//進行方向に応じて押す向きを設定
 	if (vx > 0.0f)
 	{
@@ -479,7 +480,8 @@ bool Player::InputMove(float elapsedTime)
 	{
 		return true;
 	}
-	else return false;
+	return false;
+
 }
 
 //プレイヤーとエネミーとの衝突判定
@@ -544,6 +546,67 @@ void Player::CollisionPlayerVsEnemies()
 	}
 }
 
+void Player::CollisionPlayerVsPlayer()
+{
+	Player2& player2 = Player2::Instance();
+	//衝突処理
+	DirectX::XMFLOAT3 outPosition;
+	if (Collision::IntersectCylinderVsCylinder(
+		position,
+		radius,
+		height,
+		player2.GetPosition(),
+		player2.GetRadius(),
+		player2.GetHeight(),
+		outPosition
+	))
+	{
+		DirectX::XMVECTOR P = DirectX::XMLoadFloat3(&position);
+		DirectX::XMVECTOR E = DirectX::XMLoadFloat3(&player2.GetPosition());
+		DirectX::XMVECTOR V = DirectX::XMVectorSubtract(P, E);
+		DirectX::XMVECTOR N = DirectX::XMVector3Normalize(V);
+		DirectX::XMFLOAT3 normal;
+		DirectX::XMStoreFloat3(&normal, N);
+		{
+			float L{};
+			DirectX::XMFLOAT3 l{};
+			DirectX::XMStoreFloat3(&l, DirectX::XMVectorScale(V, -1.0f));
+			if (l.x > 0.0f)
+			{
+				L = 1.0f;
+			}
+			else if (l.x < 0.0f)
+			{
+				L = -1.0f;
+			}
+
+			if (jumpFlag && !player2.GetJump())
+			{
+				Hit->Play(false);//攻撃のヒット音再生
+				outPosition.x = position.x + (2.0f * L);
+				player2.SetPosition(outPosition);
+			}
+			else if (power != 0.0f && player2.GetPower() * -1.0f == power)
+			{
+				outPosition.x = position.x + ((player2.GetRadius() * 0.5f) * L);
+				player2.SetPosition(outPosition);
+			}
+			else if (power != 0.0f && player2.GetPower() == 0.0f)
+			{
+				Hit->Play(false);
+				outPosition.x = position.x + (2.0f * L);
+				player2.SetPosition(outPosition);
+			}
+			else
+			{
+				Hit->Play(false);
+				outPosition.x = position.x + (2.0f * L);
+				player2.SetPosition(outPosition);
+			}
+		}
+	}
+}
+
 //ジャンプ入力処理
 bool Player::InputJump()
 {
@@ -563,6 +626,18 @@ bool Player::InputJump()
 			if (muluchmode != true)
 			{
 				DirectX::XMFLOAT3 Epos = Enemy::Instance().GetPosition();
+				if (position.x - Epos.x > 0.0f)
+				{
+					power = 1.0f;
+				}
+				else if (position.x - Epos.x < 0.0f)
+				{
+					power = -1.0f;
+				}
+			}
+			else
+			{
+				DirectX::XMFLOAT3 Epos = Player2::Instance().GetPosition();
 				if (position.x - Epos.x > 0.0f)
 				{
 					power = 1.0f;

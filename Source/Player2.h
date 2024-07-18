@@ -1,29 +1,24 @@
 #pragma once
-
 #include "Graphics/Shader.h"
 #include "Graphics/Model.h"
 #include "Character.h"
 #include "Effect.h"
-#include "Collision.h"
+
 //プレイヤー
-class Player :public Character
+class Player2 :public Character
 {
 public:
-	Player();
-	~Player() override;
+	Player2();
+	~Player2() override;
 
-	Collision atari;
 	//インスタンス取得
-	static Player& Instance();
+	static Player2& Instance();
 
 	//更新処理
 	void Update(float elapsedTime);
 
 	//描画処理
 	void Render(ID3D11DeviceContext* dc, Shader* shader);
-
-	//デバッグ用GUI描画
-	void DrawDebugGUI();
 
 	//デバッグプリミティブ描画
 	void DrawDebugPrimitive();
@@ -36,7 +31,7 @@ public:
 
 	//ジャンプ状態取得
 	bool GetJump() const { return jumpFlag; };
-	
+
 protected:
 	//着地した際に呼ばれる
 	void OnLanding() override;
@@ -48,7 +43,6 @@ protected:
 	bool InputMove(float elapsedTime);
 
 	//プレイヤーとエネミーの衝突判定
-	void CollisionPlayerVsEnemies();
 	void CollisionPlayerVsPlayer();
 
 	////ダメージを受けた際に呼ばれる
@@ -84,39 +78,6 @@ private:
 
 	//着地ステート更新処理
 	void UpdateLandState(float elapsedTime);
-
-	////2段ジャンプステートへ遷移
-	//void TransitionJumpFlipState();
-
-	////2段ジャンプステート更新処理
-	//void UpdateJumpFlipState(float elapsedTime);
-
-	////攻撃ステートへ遷移
-	//void TransitionAttackState();
-
-	////攻撃ステート更新処理
-	//void UpdateAttackState(float elapsedTime);
-
-	////ノードとエネミーの衝突判定
-	//void CollisionNodeVsEnemies(const char* nodeName, float nodeRadius);
-
-	////ダメージステートへ遷移
-	//void TransitionDamageState();
-
-	////ダメージステート更新処理
-	//void UpdateDamageState(float elapsedTime);
-
-	////死亡ステートへ遷移
-	//void TransitionDeathState();
-
-	////死亡ステート更新処理
-	//void UpdateDeathState(float elapsedTime);
-
-	////復活ステートへの遷移
-	//void TransitionReviveState();
-
-	////復活ステート更新処理
-	//void UpdateReviveState(float elapsedTime);
 
 private:
 	//ステート
@@ -157,7 +118,7 @@ private:
 	float jumpSpeed = 20.0f;
 	int jumpCount = 0;
 	int jumpLimit = 1;
-	
+
 	Effect* hitEffect = nullptr;
 	Effect* hart = nullptr;
 	Effect* shield = nullptr;
@@ -175,6 +136,4 @@ private:
 	std::unique_ptr<AudioSource>ItemGet;//アイテム、スコア入手SE
 	std::unique_ptr<AudioSource>HitObject;//障害物ヒットSE
 };
-extern  bool goal;
-extern int point1;
-extern int point2;
+extern  bool goalP2;
