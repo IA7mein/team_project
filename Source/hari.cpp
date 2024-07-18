@@ -10,7 +10,7 @@ hari::hari()
 
 	//モデルのスケーリング
 	scale.x = scale.y = scale.z = 1.0f;
-
+	
 	//幅、高さ設定
 	radius = 5.0f;
 	height = 1.5f;
