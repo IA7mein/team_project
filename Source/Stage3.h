@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Player.h"
+#include "Player2.h"
 #include "Enemy.h"
 #include "CameraController.h"
 #include "Scene.h"
@@ -26,6 +27,7 @@ public:
 
 private:
 	Player* player = nullptr;
+	Player2* player2 = nullptr;
 	Enemy* enemy = nullptr;
 	Sprite* text = nullptr;
 	CameraController* cameraController = nullptr;

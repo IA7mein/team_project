@@ -64,7 +64,7 @@ void Player::Update(float elapsedTime)
 {
 	//if (position.y < -10.0f)position = { 0, 1, -10 };
 
-	//if(ƒS[ƒ‹‚É‚Â‚¢‚½‚ç)
+	if(position.z >= 50.0f)
 	{
 		goal = true;
 	}
@@ -96,7 +96,10 @@ void Player::Update(float elapsedTime)
 	if(muluchmode==false)CollisionPlayerVsEnemies();
 
 	//ƒvƒŒƒCƒ„[‚ÆƒvƒŒƒCƒ„[‚ÌÕ“Ë”»’è
-	if (muluchmode)//‚±‚±‚É;
+	if (muluchmode == true)//‚±‚±‚É;
+	{
+		CollisionPlayerVsPlayer();
+	}
 
 	//–³“GŽžŠÔXVˆ—
 	UpdateInvincibleTimer(elapsedTime);
@@ -289,28 +292,31 @@ void Player::CollisionPlayerVsEnemies()
 				L = -1.0f;
 			}
 
-			if (jumpFlag && !enemy.GetJump())
+			if (power != 0)
 			{
-				Hit->Play(false);//UŒ‚‚Ìƒqƒbƒg‰¹Ä¶
-				outPosition.x = position.x + (2.0f * L);
-				enemy.SetPosition(outPosition);
-			}
-			else if (power != 0.0f && enemy.GetPower() * -1.0f == power)
-			{
-				outPosition.x = position.x + ((enemy.GetRadius() * 0.5f) * L);
-				enemy.SetPosition(outPosition);
-			}
-			else if (power != 0.0f && enemy.GetPower() == 0.0f)
-			{
-				Hit->Play(false);
-				outPosition.x = position.x + (2.0f * L);
-				enemy.SetPosition(outPosition);
-			}
-			else
-			{
-				Hit->Play(false);
-				outPosition.x = position.x + (2.0f * L);
-				enemy.SetPosition(outPosition);
+				if (jumpFlag && !enemy.GetJump())
+				{
+					Hit->Play(false);//UŒ‚‚Ìƒqƒbƒg‰¹Ä¶
+					outPosition.x = position.x + (5.0f * L);
+					enemy.SetPosition(outPosition);
+				}
+				else if (power != 0.0f && enemy.GetPower() * -1.0f == power)
+				{
+					outPosition.x = position.x + ((enemy.GetRadius()) * L);
+					enemy.SetPosition(outPosition);
+				}
+				else if (power != 0.0f && enemy.GetPower() == 0.0f)
+				{
+					Hit->Play(false);
+					outPosition.x = position.x + (5.0f * L);
+					enemy.SetPosition(outPosition);
+				}
+				else
+				{
+					Hit->Play(false);
+					outPosition.x = position.x + (5.0f * L);
+					enemy.SetPosition(outPosition);
+				}
 			}
 		}
 	}
@@ -350,28 +356,31 @@ void Player::CollisionPlayerVsPlayer()
 				L = -1.0f;
 			}
 
-			if (jumpFlag && !player2.GetJump())
+			if (power != 0)
 			{
-				Hit->Play(false);//UŒ‚‚Ìƒqƒbƒg‰¹Ä¶
-				outPosition.x = position.x + (2.0f * L);
-				player2.SetPosition(outPosition);
-			}
-			else if (power != 0.0f && player2.GetPower() * -1.0f == power)
-			{
-				outPosition.x = position.x + ((player2.GetRadius() * 0.5f) * L);
-				player2.SetPosition(outPosition);
-			}
-			else if (power != 0.0f && player2.GetPower() == 0.0f)
-			{
-				Hit->Play(false);
-				outPosition.x = position.x + (2.0f * L);
-				player2.SetPosition(outPosition);
-			}
-			else
-			{
-				Hit->Play(false);
-				outPosition.x = position.x + (2.0f * L);
-				player2.SetPosition(outPosition);
+				if (jumpFlag && !player2.GetJump())
+				{
+					Hit->Play(false);//UŒ‚‚Ìƒqƒbƒg‰¹Ä¶
+					outPosition.x = position.x + (3.0f * L);
+					player2.SetPosition(outPosition);
+				}
+				else if (power != 0.0f && player2.GetPower() * -1.0f == power)
+				{
+					outPosition.x = position.x + ((player2.GetRadius()) * L);
+					player2.SetPosition(outPosition);
+				}
+				else if (power != 0.0f && player2.GetPower() == 0.0f)
+				{
+					Hit->Play(false);
+					outPosition.x = position.x + (3.0f * L);
+					player2.SetPosition(outPosition);
+				}
+				else
+				{
+					Hit->Play(false);
+					outPosition.x = position.x + (3.0f * L);
+					player2.SetPosition(outPosition);
+				}
 			}
 		}
 	}

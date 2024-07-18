@@ -70,12 +70,12 @@ void SceneClear::Render()
 		float textureHeight = static_cast<float>(sprite->GetTextureHeight());*/
 		if (!muluchmode)//ソロモード
 		{
-			//if(勝ったら)
+			if(goal)
 			{
 				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
 			}
-			//else 負けたら
+			else if(goalP2)
 			{
 				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Lose", 440, 400, 130, 110, 150, 150, 30, 30, 0, 0, 0, 1, 1);
@@ -83,17 +83,18 @@ void SceneClear::Render()
 		}
 		else
 		{
-			//if() プレイヤー1が勝ったら
+			if(goal)
 			{
 				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
 			}
-			//if()　プレイヤー２が勝ったら
+			else if(goalP2)
 			{
 				text->textout(dc, "Player2", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
 			}
 		}
+		text->textout(dc, "C:Buck Title", 50, 500, 0, 0, 100, 100, 30, 30, 0, 1, 1, 1, 1);
 	}
 
 }

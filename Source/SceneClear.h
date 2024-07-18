@@ -1,6 +1,9 @@
 #pragma once
 #include "Graphics/Sprite.h"
 #include "Scene.h"
+#include "Player.h"
+#include "Player2.h"
+#include "enemy.h"
 
 //タイトルシーン
 class SceneClear :public Scene

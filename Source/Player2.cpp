@@ -29,7 +29,7 @@ Player2::Player2()
 	HitObject = Audio::Instance().LoadAudioSource("Data/SE/HitObject.wav");
 
 	//モデルが大きいのでスケーリング
-	scale.x = scale.y = scale.z = 0.1f;
+	scale.x = scale.y = scale.z = 0.5f;
 
 	position.y = 5.4f;
 
@@ -63,7 +63,7 @@ void Player2::Update(float elapsedTime)
 {
 	if (position.y < -10.0f)position = { 0, 1, -10 };
 
-	//if(ゴールについたら)
+	if (position.z >= 78.0f)
 	{
 		goalP2 = true;
 	}
@@ -143,7 +143,7 @@ DirectX::XMFLOAT3 Player2::GetMoveVec() const
 {
 	//入力情報を取得
 	GamePad& gamePad = Input::Instance().GetGamePad();
-	float ax = gamePad.GetAxisLX();
+	float ax = gamePad.GetAxisRX();
 	//進行ベクトルを計算する
 	if (ax < 0.0f)
 	{
@@ -253,28 +253,31 @@ void Player2::CollisionPlayerVsPlayer()
 				L = -1.0f;
 			}
 
-			if (jumpFlag && !player.GetJump())
+			if (power != 0)
 			{
-				Hit->Play(false);//攻撃のヒット音再生
-				outPosition.x = position.x + (2.0f * L);
-				player.SetPosition(outPosition);
-			}
-			else if (power != 0.0f && player.GetPower() * -1.0f == power)
-			{
-				outPosition.x = position.x + ((player.GetRadius() * 0.5f) * L);
-				player.SetPosition(outPosition);
-			}
-			else if (power != 0.0f && player.GetPower() == 0.0f)
-			{
-				Hit->Play(false);
-				outPosition.x = position.x + (2.0f * L);
-				player.SetPosition(outPosition);
-			}
-			else
-			{
-				Hit->Play(false);
-				outPosition.x = position.x + (2.0f * L);
-				player.SetPosition(outPosition);
+				if (jumpFlag && !player.GetJump())
+				{
+					Hit->Play(false);//攻撃のヒット音再生
+					outPosition.x = position.x + (5.0f * L);
+					player.SetPosition(outPosition);
+				}
+				else if (power != 0.0f && player.GetPower() * -1.0f == power)
+				{
+					outPosition.x = position.x + ((player.GetRadius()) * L);
+					player.SetPosition(outPosition);
+				}
+				else if (power != 0.0f && player.GetPower() == 0.0f)
+				{
+					Hit->Play(false);
+					outPosition.x = position.x + (5.0f * L);
+					player.SetPosition(outPosition);
+				}
+				else
+				{
+					Hit->Play(false);
+					outPosition.x = position.x + (5.0f * L);
+					player.SetPosition(outPosition);
+				}
 			}
 		}
 	}
@@ -284,7 +287,7 @@ void Player2::CollisionPlayerVsPlayer()
 bool Player2::InputJump()
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();
-	float ay = gamePad.GetAxisLY();
+	float ay = gamePad.GetAxisRY();
 	if (ay >= 0.1f)
 	{
 		//ジャンプ回数制限

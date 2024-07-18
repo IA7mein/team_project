@@ -11,7 +11,7 @@
 #include <ItemManager.h>
 #include <ItemHeart.h>
 #include <hari.h>
-#include "../ItemShield.h"
+#include "ItemShield.h"
 #include "SceneManager.h"
 #include "SceneClear.h"
 
@@ -26,7 +26,7 @@ void Stage2::Initialize()
 
 	//プレイヤー初期化
 	player = new Player();
-	player->SetPosition({ -1.0f, 0.0f, -10.0f });
+	player->SetPosition({ -5.0f, 0.0f, -58.0f });
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
 	Camera& camera = Camera::Instance();
@@ -44,10 +44,15 @@ void Stage2::Initialize()
 	player->SetPosition(DirectX::XMFLOAT3(0, 5, 10));
 	//カメラコントローラー初期化
 	cameraController = new CameraController();
-	if (muluchmode == false)
+	if (muluchmode == false)//一人用
 	{
 		enemy = new Enemy();
-		enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
+		enemy->SetPosition({ 5.0f, 0.0f, -58.0f });
+	}
+	else if (muluchmode != false)
+	{
+		player2 = new Player2();
+		player2->SetPosition({ 5.0f, 0.0f, -58.0f });
 	}
 	text = new Sprite("Data/Font/font6.png");
 
@@ -108,6 +113,11 @@ void Stage2::Finalize()
 		delete player;
 		player = nullptr;
 	}
+	if (player2 != nullptr)
+	{
+		delete player2;
+		player2 = nullptr;
+	}
 	//エネミーAI終了化
 	if (enemy != nullptr&& muluchmode == false)
 	{
@@ -128,18 +138,22 @@ void Stage2::Update(float elapsedTime)
 {
 	//カメラコントローラー更新処理
 	DirectX::XMFLOAT3 playerPos = player->GetPosition();
-	target.y = 5.0f;
-	target.z = playerPos.z - 5.0f;
+	target.y = 25.0f;
+	target.z = playerPos.z - 50.0f;
 	cameraController->SetTarget(target);
 	cameraController->Update(elapsedTime);
 	//ステージ更新処理
 	StageManager::Instance().Update(elapsedTime);
 	//エネミーAI更新処理
 	if (muluchmode == false)enemy->Update(elapsedTime);
+	else if (muluchmode != false)
+	{
+		player2->Update(elapsedTime);
+	}
 	//プレイヤー更新処理
 	player->Update(elapsedTime);
 
-	if (goal)//ゴールしたら
+	if (goal || goalP2)//ゴールしたら
 	{
 		SceneManager::Instance().ChangeScene(new SceneClear);
 	}
@@ -181,6 +195,10 @@ void Stage2::Render()
 		//プレイヤー描画
 		player->Render(dc, shader);
 		if (muluchmode == false)enemy->Render(dc, shader);
+		else if (muluchmode != false)
+		{
+			player2->Render(dc, shader);
+		}
 
 		//アイテム描画
 		ItemManager::Instance().Render(dc, shader);

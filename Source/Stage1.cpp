@@ -13,7 +13,7 @@
 #include <hari.h>
 #include "SceneManager.h"
 #include "SceneClear.h"
-#include "../ItemShield.h"
+#include "ItemShield.h"
 
 void Stage1::Initialize()
 {
@@ -24,7 +24,7 @@ void Stage1::Initialize()
 
 	//プレイヤー初期化
 	player = new Player();
-	player->SetPosition({ -1.0f, 0.0f, -10.0f });
+	player->SetPosition({ -5.0f, 0.0f, -58.0f });
 	//カメラ初期化
 	Graphics& graphics = Graphics::Instance();
 	Camera& camera = Camera::Instance();
@@ -39,13 +39,17 @@ void Stage1::Initialize()
 		0.1f,
 		1000.0f
 	);
-	player->SetPosition(DirectX::XMFLOAT3(0, 5, 10));
 	//カメラコントローラー初期化
 	cameraController = new CameraController();
 	if (muluchmode == false)//一人用
 	{
 		enemy = new Enemy();
-		enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
+		enemy->SetPosition({ 5.0f, 0.0f, -58.0f });
+	}
+	else if (muluchmode != false)
+	{
+		player2 = new Player2();
+		player2->SetPosition({ 5.0f, 0.0f, -58.0f });
 	}
 	//ハート初期化
 	ItemManager& itemManager = ItemManager::Instance();
@@ -106,6 +110,11 @@ void Stage1::Finalize()
 		delete player;
 		player = nullptr;
 	}
+	if (player2 != nullptr)
+	{
+		delete player2;
+		player2 = nullptr;
+	}
 	//エネミーAI終了化
 	if (muluchmode == false)
 	{
@@ -140,12 +149,16 @@ void Stage1::Update(float elapsedTime)
 	{
 		enemy->Update(elapsedTime);
 	}
+	else if (muluchmode != false)
+	{
+		player2->Update(elapsedTime);
+	}
 	//プレイヤー更新処理
 	player->Update(elapsedTime);
 
-	if (goal)//ゴールしたら
+	if (goal || goalP2)//ゴールしたら
 	{
-		//SceneManager::Instance().ChangeScene(new SceneClear);
+		SceneManager::Instance().ChangeScene(new SceneClear);
 	}
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsedTime);
@@ -187,6 +200,10 @@ void Stage1::Render()
 		if (muluchmode == false)
 		{
 			enemy->Render(dc, shader);
+		}
+		else if (muluchmode != false)
+		{
+			player2->Render(dc, shader);
 		}
 		//アイテム描画
 		ItemManager::Instance().Render(dc, shader);

@@ -74,7 +74,6 @@ void StageSelect::Update(float elapsedTime)
 	case 0:
 		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
-			muluchmode = false;
 			PushButtan->Play(false);
 			scene_change = true;
 		}
@@ -91,7 +90,6 @@ void StageSelect::Update(float elapsedTime)
 	case 1:
 		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
-			muluchmode = false;
 			PushButtan->Play(false);
 			scene_change = true;
 		}
@@ -108,7 +106,6 @@ void StageSelect::Update(float elapsedTime)
 	case 2:
 		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
-			muluchmode = false;
 			PushButtan->Play(false);
 			scene_change = true;
 		}

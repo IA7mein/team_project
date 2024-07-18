@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "Mathf.h"
 #include "Player.h"
+#include "Player2.h"
 #include "Collision.h"
 #include "Graphics/Graphics.h"
 
@@ -27,7 +28,7 @@ Enemy::Enemy()
 	HitObject = Audio::Instance().LoadAudioSource("Data/SE/HitObject.wav");
 
 	//モデルのスケーリング
-	scale.x = scale.y = scale.z = 0.1f;
+	scale.x = scale.y = scale.z = 0.5f;
 
 	//徘徊ステートへ遷移
 	TransitionWanderState();
@@ -52,6 +53,10 @@ void Enemy::Update(float elapsedTime)
 	{
 		position = { 0, 1, -10 };
 		SetRandomTargetPosition();
+	}
+	if (position.z >= 78.0f)
+	{
+		goalP2 = true;
 	}
 	//ステート毎の更新処理
 	switch (state)
@@ -212,28 +217,31 @@ void Enemy::CollisionPlayerVsEnemies()
 				L = -1.0f;
 			}
 
-			if (jumpFlag && !player.GetJump())
+			if (power != 0)
 			{
-				Hit->Play(false);//攻撃のヒット音再生
-				outPosition.x = position.x + (2.0f * L);
-				player.SetPosition(outPosition);
-			}
-			else if (power != 0.0f && player.GetPower() * -1.0f == power)
-			{
-				outPosition.x = position.x + ((player.GetRadius() * 0.5f) * L);
-				player.SetPosition(outPosition);
-			}
-			else if (power != 0.0f && player.GetPower() == 0.0f)
-			{
-				Hit->Play(false);
-				outPosition.x = position.x + (2.0f * L);
-				player.SetPosition(outPosition);
-			}
-			else
-			{
-				Hit->Play(false);
-				outPosition.x = position.x + (2.0f * L);
-				player.SetPosition(outPosition);
+				if (jumpFlag && !player.GetJump())
+				{
+					Hit->Play(false);//攻撃のヒット音再生
+					outPosition.x = position.x + (5.0f * L);
+					player.SetPosition(outPosition);
+				}
+				else if (power != 0.0f && player.GetPower() * -1.0f == power)
+				{
+					outPosition.x = position.x + ((player.GetRadius()) * L);
+					player.SetPosition(outPosition);
+				}
+				else if (power != 0.0f && player.GetPower() == 0.0f)
+				{
+					Hit->Play(false);
+					outPosition.x = position.x + (5.0f * L);
+					player.SetPosition(outPosition);
+				}
+				else
+				{
+					Hit->Play(false);
+					outPosition.x = position.x + (5.0f * L);
+					player.SetPosition(outPosition);
+				}
 			}
 		}
 	}

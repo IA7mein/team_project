@@ -8,7 +8,7 @@
 #include "StageMain.h"
 #include"ItemManager.h"
 #include"ItemHeart.h"
-#include "../ItemShield.h"
+#include "ItemShield.h"
 
 // ‰Šú‰»
 void SceneGame::Initialize()
