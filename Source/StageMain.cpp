@@ -13,7 +13,7 @@ StageMain::StageMain(int s)
 		model = new Model("Data/Model/ExampleStage/stage2.mdl");
 		break;
 	case 2:
-		//model=new Model("")
+		model = new Model("Data/Model/ExampleStage/stage3.mdl");
 		break;
 	}
 	QuadtreeNode::CreateQuadtree({ 30.5f, 5.0f , 0.0f }, 65.0f, segmentDepth, &stageNodesQuadtree);
