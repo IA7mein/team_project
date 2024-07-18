@@ -10,11 +10,14 @@
 bool muluchmode;
 void SceneTitle::Initialize()
 {
+
 	//スプライト初期化
 	sprite = new Sprite("Data/Sprite/1.png");
 	sprite2 = new Sprite("Data/Sprite/2.png");
 	spriterule = new Sprite("Data/Sprite/3.png");
 	font = new Sprite("Data/Font/font0.png");
+
+
 	//BGM,SE設定
 	bgm = Audio::Instance().LoadAudioSource("Data/BGM/野良猫のワルツ.wav");
 	bgm->Play(true);
@@ -24,6 +27,7 @@ void SceneTitle::Initialize()
 
 void SceneTitle::Finalize()
 {
+
 	//BGM,SE再生終了
 	bgm->Stop();
 	PushButtan->Stop();
@@ -37,13 +41,13 @@ void SceneTitle::Finalize()
 	}
 	if (sprite2 != nullptr)
 	{
-		delete sprite;
-		sprite = nullptr;
+		delete sprite2;
+		sprite2 = nullptr;
 	}
 	if (spriterule != nullptr)
 	{
-		delete sprite;
-		sprite = nullptr;
+		delete spriterule;
+		spriterule = nullptr;
 	}
 	if (font != nullptr)
 	{
@@ -55,6 +59,7 @@ void SceneTitle::Finalize()
 //更新処理
 void SceneTitle::Update(float elapsedTime)
 {
+
 	GamePad& gamePad = Input::Instance().GetGamePad();
 	float ay = gamePad.GetAxisLY();
 	if (carsol_timer > 0.0f)
