@@ -80,6 +80,7 @@ void SceneClear::Render()
 				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Lose", 440, 400, 130, 110, 150, 150, 30, 30, 0, 0, 0, 1, 1);
 			}
+			text->textout(dc, "Push:C", 50, 500, 130, 110, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 		}
 		else
 		{
