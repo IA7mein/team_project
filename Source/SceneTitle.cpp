@@ -67,8 +67,8 @@ void SceneTitle::Update(float elapsedTime)
 		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
 			muluchmode = false;
-			SceneManager::Instance().ChangeScene(new SceneClear);
-			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneClear));
+			SceneManager::Instance().ChangeScene(new StageSelect);
+			SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
 		}
 		break;
 	case 1://ìÒêlÉÇÅ[Éh
