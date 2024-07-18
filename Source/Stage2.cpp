@@ -41,7 +41,6 @@ void Stage2::Initialize()
 		0.1f,
 		1000.0f
 	);
-	player->SetPosition(DirectX::XMFLOAT3(0, 5, 10));
 	//カメラコントローラー初期化
 	cameraController = new CameraController();
 	if (muluchmode == false)//一人用
