@@ -8,6 +8,7 @@
 #include "SceneRule.h"
 #include "SceneClear.h"
 bool muluchmode;
+
 void SceneTitle::Initialize()
 {
 

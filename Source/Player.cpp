@@ -5,10 +5,13 @@
 #include "Camera.h"
 #include "Graphics/Graphics.h"
 #include "Enemy.h"
-#include "Collision.h"
+
 #include "SceneTitle.h"
+#include "StageSelect.h"
+
 static Player* instance = nullptr;
 bool goal;
+int point1;
 //インスタンス取得
 Player& Player::Instance()
 {
@@ -32,7 +35,7 @@ Player::Player()
 	//モデルが大きいのでスケーリング
 	scale.x = scale.y = scale.z = 0.5f;
 
-	position.y = 1.4f;
+	/*position.y = 1.4f;*/
 
 	//ヒットエフェクト読み込み
 	hitEffect = new Effect("Data/Effect/damage.efk");
@@ -41,6 +44,7 @@ Player::Player()
 	goal = false;
 	//待機ステートへ遷移
 	TransitionIdleState();
+
 }
 
 //デストラクタ
@@ -112,6 +116,232 @@ void Player::Update(float elapsedTime)
 
 	//モデル行列更新
 	model->UpdateTransform(transform);
+
+	switch (stagenum)
+	{
+	case 1:
+		//ハート当たり判定
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, 50.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-10.0f, 0.0f, 40.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-10.0f, 0.0f, 20.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, -30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, -20.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		//盾
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-10.0f, 0.0f, 30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			shield->Play(position);
+		};
+	if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, 10.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			shield->Play(position);
+		};
+	if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, -40.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			shield->Play(position);
+		};
+		//はり
+	if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(20.0f, 0.0f, -20.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+	{
+		point1--;
+		hitEffect->Play(position);
+	};
+	if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+	{
+		point1--;
+		hitEffect->Play(position);
+	};
+	if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(20.0f, 0.0f, 30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+	{
+		point1--;
+		hitEffect->Play(position);
+	};
+	if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, 20.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+	{
+		point1--;
+		hitEffect->Play(position);
+	};
+	if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-20.0f, 0.0f, -30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+	{
+		point1--;
+		hitEffect->Play(position);
+	};
+		
+		break;
+	case 2:
+		//ハート当たり判定
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, 30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-10.0f, 0.0f, 40.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-10.0f, 0.0f, 20.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, -30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, -20.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(20.0f, 0.0f, -10.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		//盾
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(20.0f, 0.0f, 30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			shield->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-10.0f, 0.0f, 10.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			shield->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, -40.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			shield->Play(position);
+		};
+		//はり
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, 40.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1--;
+			hitEffect->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-20.0f, 0.0f, 30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1--;
+			hitEffect->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, 20.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1--;
+			hitEffect->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, -30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1--;
+			hitEffect->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, -10.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1--;
+			hitEffect->Play(position);
+		};
+		break;
+
+	case 3:
+		//ハート当たり判定
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, 30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-10.0f, 0.0f, 40.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-10.0f, 0.0f, 20.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, -30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, -20.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(20.0f, 0.0f, -10.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			hart->Play(position);
+		};
+		//盾
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, 10.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			shield->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-10.0f, 0.0f, 30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			shield->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, -40.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1++;
+			shield->Play(position);
+		};
+		//はり
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-10.0f, 0.0f, 30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1--;
+			hitEffect->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(-20.0f, 0.0f, 30.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1--;
+			hitEffect->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(20.0f, 0.0f, 10.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1--;
+			hitEffect->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(0.0f, 0.0f, 10.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1--;
+			hitEffect->Play(position);
+		};
+		if (atari.IntersectSphereVsSphere(position, radius, DirectX::XMFLOAT3(10.0f, 0.0f, -10.0f), 3, DirectX::XMFLOAT3(0, 0, 0)))
+		{
+			point1--;
+			hitEffect->Play(position);
+		};
+		break;
+	}
 }
 
 //描画処理
