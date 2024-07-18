@@ -4,7 +4,7 @@
 #include "Graphics/Model.h"
 #include "Character.h"
 #include "Effect.h"
-#include "Collision.h"
+
 //プレイヤー
 class Player :public Character
 {
@@ -12,7 +12,6 @@ public:
 	Player();
 	~Player() override;
 
-	Collision atari;
 	//インスタンス取得
 	static Player& Instance();
 
@@ -176,5 +175,3 @@ private:
 	std::unique_ptr<AudioSource>HitObject;//障害物ヒットSE
 };
 extern  bool goal;
-extern int point1;
-extern int point2;

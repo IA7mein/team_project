@@ -38,4 +38,3 @@ private:
 	std::unique_ptr<AudioSource>PushButtan;
 	std::unique_ptr<AudioSource>MoveCarsol;
 };
-extern int stagenum;

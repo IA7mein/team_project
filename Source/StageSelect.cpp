@@ -8,7 +8,6 @@
 #include"Stage1.h"
 #include"Stage2.h"
 #include"Stage3.h"
-int stagenum;
 void StageSelect::Initialize()
 {
 	sprite = new Sprite("Data/Sprite/senntaku1.png");
@@ -84,7 +83,6 @@ void StageSelect::Update(float elapsedTime)
 			if (scene_timer >= 1.0f)
 			{
 				//SceneManager::Instance().ChangeScene(new Stage1);
-				stagenum = 1;
 				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage1));
 			}
 		}
@@ -100,7 +98,6 @@ void StageSelect::Update(float elapsedTime)
 			scene_timer += 1.0f * elapsedTime;
 			if (scene_timer >= 1.0f)
 			{
-				stagenum = 2;
 				//SceneManager::Instance().ChangeScene(new Stage2);
 				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage2));
 			}
@@ -117,7 +114,6 @@ void StageSelect::Update(float elapsedTime)
 			scene_timer += 1.0f * elapsedTime;
 			if (scene_timer >= 1.0f)
 			{
-				stagenum = 3;
 				//SceneManager::Instance().ChangeScene(new Stage3);
 				SceneManager::Instance().ChangeScene(new SceneLoading(new Stage3));
 			}
