@@ -77,6 +77,7 @@ void Stage3::Initialize()
 
 	bgm = Audio::Instance().LoadAudioSource("Data/BGM/‚±‚ê‚æ‚èŠJ–‹I.wav");
 	bgm->Play(true);
+	goal = false;
 	gauge = new Sprite();
 }
 

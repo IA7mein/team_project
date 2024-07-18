@@ -78,6 +78,7 @@ void Stage1::Initialize()
 
 	bgm = Audio::Instance().LoadAudioSource("Data/BGM/た、たいへん！どうしよう！！.wav");
 	bgm->Play(true);
+	goal = false;
 	gauge = new Sprite();
 }
 
