@@ -62,7 +62,7 @@ Player::~Player()
 void Player::Update(float elapsedTime)
 {
 	if (position.y < -10.0f)position = { 0, 1, -10 };
-	
+
 	//if(ƒS[ƒ‹‚É‚Â‚¢‚½‚ç)
 	{
 		goal = true;

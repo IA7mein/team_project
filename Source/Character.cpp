@@ -174,17 +174,37 @@ void Character::UpdateVerticalMove(float elapsedTime)
 	{
 		position.y = 5.5f;
 
-		if (!isGround)
+		//レイキャストによる地面判定
+		HitResult hit;
+		if (StageManager::Instance().RayCast(start, end, hit))
 		{
-			OnLanding();
+			//法線ベクトル取得
+			normal = hit.normal;
+
+			//地面に接している
+			position = hit.position;
+
+			//回転
+			angle = { angle.x + hit.rotetion.x, angle.y + hit.rotetion.y , angle.z + hit.rotetion.z };
+
+			//傾斜率の計算
+			float normalLengthXZ = sqrtf(hit.normal.x * hit.normal.x + hit.normal.z * hit.normal.z);
+			slopeRate = 1.0f - (hit.normal.y / (normalLengthXZ + hit.normal.y));
+
+			//着地した
+			if (!isGround)
+			{
+				OnLanding();
+			}
+			isGround = true;
+			velocity.y = 0.0f;
 		}
-		isGround = true;
-		velocity.y = 0.0f;
-	}
-	else
-	{
-		isGround = false;
-	}
+		else
+		{
+			//空中に浮いている
+			position.y += my;
+			isGround = false;
+		}
 	////垂直方向の移動量
 	//float my = velocity.y * elapsedTime;
 
@@ -361,9 +381,9 @@ void Character::UpdateHorizontalMove(float elapsedTime)
 		//}
 		/*else*/
 		if (position.x > 24.6f && velocity.x > 0)
-		{
+			{
 			position.z += mz;
-		}
+			}
 			else
 		{
 			position.z += mz;
@@ -374,5 +394,7 @@ void Character::UpdateHorizontalMove(float elapsedTime)
 			position.x += mx;
 			position.z += mz;
 		}
+		
 	}
+	
 }
