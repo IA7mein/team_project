@@ -70,12 +70,12 @@ void SceneClear::Render()
 		float textureHeight = static_cast<float>(sprite->GetTextureHeight());*/
 		if (!muluchmode)//ƒ\ƒƒ‚[ƒh
 		{
-			if(goal)
+			if(goal == true)
 			{
 				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
 			}
-			else if(goalP2)
+			else if(goalP2 == true)
 			{
 				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Lose", 440, 400, 130, 110, 150, 150, 30, 30, 0, 0, 0, 1, 1);
@@ -83,18 +83,17 @@ void SceneClear::Render()
 		}
 		else
 		{
-			if(goal)
+			if(goal == true)
 			{
 				text->textout(dc, "Player1", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
 			}
-			else if(goalP2)
+			else if(goalP2 == true)
 			{
 				text->textout(dc, "Player2", 240, 120, 110, 90, 150, 150, 30, 30, 0, 1, 1, 1, 1);
 				text->textout(dc, "Win", 440, 400, 130, 110, 150, 150, 30, 30, 0, 1, 0, 0, 1);
 			}
 		}
-		text->textout(dc, "C:Buck Title", 50, 500, 0, 0, 100, 100, 30, 30, 0, 1, 1, 1, 1);
 	}
 
 }
