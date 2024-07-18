@@ -9,11 +9,11 @@ EnemySlime::EnemySlime()
 	model = new Model("Data/Model/Slime/Slime.mdl");
 
 	//モデルのスケーリング
-	scale.x = scale.y = scale.z = 0.01f;
+	scale.x = scale.y = scale.z = 0.05f;
 
 	//幅、高さ設定
-	radius = 0.5f;
-	height = 1.0f;
+	radius = 5.0f;
+	height = 1.5f;
 
 	//徘徊ステートへ遷移
 	TransitionWanderState();
@@ -29,7 +29,7 @@ EnemySlime::~EnemySlime()
 void EnemySlime::Update(float elapsedTime)
 {
 	//ステート毎の更新処理
-	switch (state)
+	/*switch (state)
 	{
 	case State::Wander:
 		UpdateWanderState(elapsedTime);
@@ -52,7 +52,7 @@ void EnemySlime::Update(float elapsedTime)
 	case State::Death:
 		UpdateDeathState(elapsedTime);
 		break;
-	}
+	}*/
 
 	//速力更新処理
 	UpdateVelocity(elapsedTime);
@@ -68,6 +68,8 @@ void EnemySlime::Update(float elapsedTime)
 
 	//モデル行列更新
 	model->UpdateTransform(transform);
+
+	position.y = 5.4f;
 }
 
 //描画処理
@@ -98,18 +100,18 @@ void EnemySlime::DrawDebugPrimitive()
 
 	DebugRenderer* debugRenderer = Graphics::Instance().GetDebugRenderer();
 
-	////縄張り範囲をデバッグ円柱描画
-	debugRenderer->DrawCylinder(territoryOrigin, territoryRange, 1.0f,
-		DirectX::XMFLOAT4(0, 1, 0, 1));
+	//////縄張り範囲をデバッグ円柱描画
+	//debugRenderer->DrawCylinder(territoryOrigin, territoryRange, 1.0f,
+	//	DirectX::XMFLOAT4(0, 1, 0, 1));
 
-	//ターゲット位置をデバッグ球描画
-	debugRenderer->DrawSphere(targetPosition, radius, DirectX::XMFLOAT4(1, 1, 0, 1));
+	////ターゲット位置をデバッグ球描画
+	//debugRenderer->DrawSphere(targetPosition, radius, DirectX::XMFLOAT4(1, 1, 0, 1));
 
-	//索敵範囲をデバッグ円柱描画
-	debugRenderer->DrawCylinder(position, searchRange, 1.0f, DirectX::XMFLOAT4(0, 0, 1, 1));
+	////索敵範囲をデバッグ円柱描画
+	//debugRenderer->DrawCylinder(position, searchRange, 1.0f, DirectX::XMFLOAT4(0, 0, 1, 1));
 
-	//攻撃範囲をデバッグ円柱描画
-	debugRenderer->DrawCylinder(position, attackRange, 1.0f, DirectX::XMFLOAT4(1, 0, 0, 1));
+	////攻撃範囲をデバッグ円柱描画
+	//debugRenderer->DrawCylinder(position, attackRange, 1.0f, DirectX::XMFLOAT4(1, 0, 0, 1));
 }
 
 //縄張り設定
@@ -118,8 +120,8 @@ void EnemySlime::SetTerritory(const DirectX::XMFLOAT3& origin, float range)
 	territoryOrigin = origin;
 	territoryRange = range;
 }
-
-//ターゲット位置をランダムに設定
+       
+//ターゲット位置をランzダムに設定
 void EnemySlime::SetRandomTargetPosition()
 {
 	float targetRandomX{};//X軸ランダム値

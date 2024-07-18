@@ -4,8 +4,10 @@
 StageMain::StageMain()
 {
 	//ステージモデルを読み込み
-	model = new Model("Data/Model/ExampleStage/ExampleStage.mdl");
+	model = new Model("Data/Model/ExampleStage/Stage1.mdl");
 	QuadtreeNode::CreateQuadtree({ 30.5f, 5.0f , 0.0f }, 65.0f, segmentDepth, &stageNodesQuadtree);
+
+	
 
 	int count = 0;
 	// モデルのメッシュの三角形を四分割空間に登録

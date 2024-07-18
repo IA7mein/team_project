@@ -27,6 +27,8 @@ Player::Player()
 	//モデルが大きいのでスケーリング
 	scale.x = scale.y = scale.z = 0.01f;
 
+	position.y = 5.4f;
+
 	//ヒットエフェクト読み込み
 	hitEffect = new Effect("Data/Effect/Hit.efk");
 
@@ -45,7 +47,6 @@ Player::~Player()
 //更新処理
 void Player::Update(float elapsedTime)
 {
-	if (position.y < -10.0f)position = { 0, 1, 0 };
 	
 	//ステート毎の処理
 	switch (state)
@@ -78,7 +79,7 @@ void Player::Update(float elapsedTime)
 		UpdateReviveState(elapsedTime);
 		break;
 	}
-
+	
 	//速力更新処理
 	UpdateVelocity(elapsedTime);
 
@@ -86,7 +87,7 @@ void Player::Update(float elapsedTime)
 	CollisionPlayerVsEnemies();
 
 	//弾丸と敵の衝突判定
-	CollisionProjectileVsEnemies();
+	//CollisionProjectileVsEnemies();
 
 	//弾丸更新処理
 	projectileManager.Update(elapsedTime);
@@ -262,18 +263,8 @@ void Player::CollisionPlayerVsEnemies()
 			DirectX::XMVECTOR N = DirectX::XMVector3Normalize(V);
 			DirectX::XMFLOAT3 normal;
 			DirectX::XMStoreFloat3(&normal, N);
-			//上から踏んだ場合は小ジャンプする
-			if (normal.y > 0.8f)
-			{
-				//小ジャンプする
+			
 				Jump(jumpSpeed * 0.5f);
-				enemy->ApplyDamage(1, 0.5f);
-			}
-			else
-			{
-				//押し出し後の位置設定
-				enemy->SetPosition(outPosition);
-			}
 		}
 	}
 }

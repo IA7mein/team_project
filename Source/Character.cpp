@@ -155,6 +155,10 @@ void Character::UpdateVerticalVelocity(float elapsedFrame)
 
 void Character::UpdateVerticalMove(float elapsedTime)
 {
+	/*if (position.y < 5.4f)
+	{
+		position.y = 5.4f;
+	}*/
 	//垂直方向の移動量
 	float my = velocity.y * elapsedTime;
 
@@ -173,54 +177,55 @@ void Character::UpdateVerticalMove(float elapsedTime)
 
 		//レイキャストによる地面判定
 		HitResult hit;
-		if (StageManager::Instance().RayCast(start, end, hit))
+		if (position.y<=5.4f)
 		{
-			//法線ベクトル取得
-			normal = hit.normal;
+			////法線ベクトル取得
+			//normal = hit.normal;
 
-			//地面に接している
-			position = hit.position;
+			////地面に接している
+			//position = hit.position;
 
-			//回転
-			angle = {angle.x + hit.rotetion.x, angle.y + hit.rotetion.y , angle.z + hit.rotetion.z };
+			////回転
+			//angle = { angle.x + hit.rotetion.x, angle.y + hit.rotetion.y , angle.z + hit.rotetion.z };
 
-			//傾斜率の計算
-			float normalLengthXZ = sqrtf(hit.normal.x * hit.normal.x + hit.normal.z * hit.normal.z);
-			slopeRate = 1.0f - (hit.normal.y / (normalLengthXZ + hit.normal.y));
+			////傾斜率の計算
+			//float normalLengthXZ = sqrtf(hit.normal.x * hit.normal.x + hit.normal.z * hit.normal.z);
+			//slopeRate = 1.0f - (hit.normal.y / (normalLengthXZ + hit.normal.y));
 
 			//着地した
 			if (!isGround)
 			{
 				OnLanding();
+				velocity.z = 0.0f;
 			}
 			isGround = true;
 			velocity.y = 0.0f;
 		}
-		else
+		if(position.y>5.4f)
 		{
 			//空中に浮いている
 			position.y += my;
 			isGround = false;
 		}
 	}
-	//上昇中
-	else if (my > 0.0f)
-	{
-		position.y += my;
-		isGround = false;
-	}
+		//上昇中
+		if (my > 0.0f)
+		{
+			position.y += my;
+			isGround = false;
+		}
 
-	//地面の向きに沿うようにXZ軸回転
-	{
-		//Y軸が法線ベクトル方面に向くオイラー角回転を算出
-		float angleX = static_cast<float>(atan2(normal.z, normal.y));
-		float angleZ = static_cast<float>(-atan2(normal.x, normal.y));
+		//地面の向きに沿うようにXZ軸回転
+		{
+			//Y軸が法線ベクトル方面に向くオイラー角回転を算出
+			float angleX = static_cast<float>(atan2(normal.z, normal.y));
+			float angleZ = static_cast<float>(-atan2(normal.x, normal.y));
 
-		//線形補完で滑らかに回転
-		angle.x = Mathf::Lerp(angle.x, angleX, 0.1f);
-		angle.z = Mathf::Lerp(angle.z, angleZ, 0.1f);
+			//線形補完で滑らかに回転
+			angle.x = Mathf::Lerp(angle.x, angleX, 0.1f);
+			angle.z = Mathf::Lerp(angle.z, angleZ, 0.1f);
 
-	}
+		}
 }
 
 //水平速力更新処理
@@ -294,6 +299,8 @@ void Character::UpdateHorizontalVelocity(float elapsedFrame)
 	//移動ベクトルをリセット
 	moveVecX = 0.0f;
 	moveVecZ = 0.0f;
+
+
 }
 
 

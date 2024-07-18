@@ -160,4 +160,9 @@ private:
 	State state = State::Idle;
 	float leftHandRadius = 0.4f;
 	bool attackColisionFlag = false;
+
+	float timer;
+
+	int move;
+	bool jump=true;
 };

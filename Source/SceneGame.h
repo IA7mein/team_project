@@ -36,4 +36,6 @@ private:
 	Player* player = nullptr;
 	CameraController* cameraController = nullptr;
 	Sprite* gauge = nullptr;
+
+	
 };
