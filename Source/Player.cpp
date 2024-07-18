@@ -5,7 +5,7 @@
 #include "Graphics/Graphics.h"
 #include "Enemy.h"
 #include "Collision.h"
-
+#include "SceneTitle.h"
 static Player* instance = nullptr;
 
 //インスタンス取得
@@ -81,7 +81,10 @@ void Player::Update(float elapsedTime)
 	UpdateVelocity(elapsedTime);
 
 	//プレイヤーと敵の衝突判定
-	CollisionPlayerVsEnemies();
+	if(muluchmode==false)CollisionPlayerVsEnemies();
+
+	//プレイヤーとプレイヤーの衝突判定
+	if (muluchmode)//ここに;
 
 	//無敵時間更新処理
 	UpdateInvincibleTimer(elapsedTime);

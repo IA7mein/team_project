@@ -7,7 +7,7 @@
 #include "Input/Input.h"
 #include "StageManager.h"
 #include "StageMain.h"
-
+#include "SceneTitle.h"
 void Stage3::Initialize()
 {
 	StageManager& stageManager = StageManager::Instance();
@@ -35,8 +35,11 @@ void Stage3::Initialize()
 	player->SetPosition(DirectX::XMFLOAT3(0, 5, 10));
 	//カメラコントローラー初期化
 	cameraController = new CameraController();
-	enemy = new Enemy();
-	enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
+	if (muluchmode == false)
+	{
+		enemy = new Enemy();
+		enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
+	}
 	text = new Sprite("Data/Font/font6.png");
 
 	bgm = Audio::Instance().LoadAudioSource("Data/BGM/た、たいへん！どうしよう！！.wav");
@@ -66,7 +69,7 @@ void Stage3::Finalize()
 		player = nullptr;
 	}
 	//エネミーAI終了化
-	if (enemy != nullptr)
+	if (enemy != nullptr && muluchmode == false)
 	{
 		delete enemy;
 		enemy = nullptr;
@@ -92,7 +95,7 @@ void Stage3::Update(float elapsedTime)
 	//ステージ更新処理
 	StageManager::Instance().Update(elapsedTime);
 	//エネミーAI更新処理
-	enemy->Update(elapsedTime);
+	if (muluchmode == false)enemy->Update(elapsedTime);
 	//プレイヤー更新処理
 	player->Update(elapsedTime);
 
@@ -131,7 +134,7 @@ void Stage3::Render()
 		StageManager::Instance().Render(dc, shader);
 		//プレイヤー描画
 		player->Render(dc, shader);
-		enemy->Render(dc, shader);
+		if (muluchmode == false)enemy->Render(dc, shader);
 		shader->End(dc);
 	}
 
@@ -145,7 +148,7 @@ void Stage3::Render()
 		//プレイヤーデバッグプリミティブ描画
 		player->DrawDebugPrimitive();
 
-		enemy->DrawDebugPrimitive();
+		if (muluchmode == false)enemy->DrawDebugPrimitive();
 		// ラインレンダラ描画実行
 		graphics.GetLineRenderer()->Render(dc, rc.view, rc.projection);
 

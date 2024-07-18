@@ -7,7 +7,7 @@
 #include "SceneLoading.h"
 void SceneRule::Initialize()
 {
-	sprite = new Sprite("Data/Sprite/Title.png");
+	sprite = new Sprite("Data/Sprite/rule.png");
 }
 
 void SceneRule::Finalize()
@@ -40,6 +40,17 @@ void SceneRule::Render()
 	dc->ClearRenderTargetView(rtv, color);
 	dc->ClearDepthStencilView(dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	dc->OMSetRenderTargets(1, &rtv, dsv);
+	{
+		float screenWidth = static_cast<float>(graphics.GetScreenWidth());
+		float screenHeight = static_cast<float>(graphics.GetScreenHeight());
+		float textureWidth = static_cast<float>(sprite->GetTextureWidth());
+		float textureHeight = static_cast<float>(sprite->GetTextureHeight());
 
+		sprite->Render(dc,
+			0, 0, screenWidth, screenHeight,
+			0, 0, textureWidth, textureHeight,
+			0,
+			1, 1, 1, 1);
+	}
 
 }
