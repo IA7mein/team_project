@@ -54,6 +54,8 @@ Player::~Player()
 	delete model;
 
 	delete hitEffect;
+	delete hart;
+	delete shield;
 }
 
 //XVˆ—
