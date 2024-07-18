@@ -44,6 +44,11 @@ void SceneTitle::Finalize()
 		delete sprite;
 		sprite = nullptr;
 	}
+	if (font != nullptr)
+	{
+		delete font;
+		font = nullptr;
+	}
 }
 
 //XVˆ—

@@ -12,11 +12,11 @@ void SceneClear::Initialize()
 
 void SceneClear::Finalize()
 {
-	if (sprite != nullptr)
+	/*if (sprite != nullptr)
 	{
 		delete sprite;
 		sprite = nullptr;
-	}
+	}*/
 }
 
 void SceneClear::Update(float elapsedTime)
