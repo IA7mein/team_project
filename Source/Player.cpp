@@ -222,7 +222,7 @@ bool Player::InputMove(float elapsedTime)
 	{
 		moveSpeed = 3.1f;
 	}
-	
+
 	//進行方向に応じて押す向きを設定
 	if (vx > 0.0f)
 	{
@@ -249,7 +249,8 @@ bool Player::InputMove(float elapsedTime)
 	{
 		return true;
 	}
-	else return false;
+	return false;
+
 }
 
 //プレイヤーとエネミーとの衝突判定
