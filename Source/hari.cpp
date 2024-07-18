@@ -9,7 +9,7 @@ hari::hari()
 	model = new Model("Data/Model/Item/hari.mdl");
 
 	//モデルのスケーリング
-	scale.x = scale.y = scale.z = 0.05f;
+	scale.x = scale.y = scale.z = 1.0f;
 
 	//幅、高さ設定
 	radius = 5.0f;
@@ -28,7 +28,7 @@ void hari::Update(float elapsedTime)
 
 
 	//速力更新処理
-	UpdateVelocity(elapsedTime);
+	//UpdateVelocity(elapsedTime);
 
 	//無敵時間更新
 	UpdateInvincibleTimer(elapsedTime);

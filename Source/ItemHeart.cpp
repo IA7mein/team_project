@@ -28,7 +28,7 @@ void ItemHeart::Update(float elapsedTime)
 	
 
 	//速力更新処理
-	UpdateVelocity(elapsedTime);
+	//UpdateVelocity(elapsedTime);
 
 	//無敵時間更新
 	UpdateInvincibleTimer(elapsedTime);

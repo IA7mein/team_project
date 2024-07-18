@@ -44,32 +44,32 @@ void SceneGame::Initialize()
 	cameraController = new CameraController();
 	
 	//ハート初期化
-	/*ItemManager& itemManager = ItemManager::Instance();
+	ItemManager& itemManager = ItemManager::Instance();
 	ItemHeart* heart[17];
-	for (int i = 0; i < 17; i++) { heart[i] = new ItemHeart(); }*/
-	/*ItemShield* shield[17];
-	for (int i = 0; i < 17; i++) { shield[i] = new ItemShield(); }*/
+	for (int i = 0; i < 17; i++) { heart[i] = new ItemHeart(); }
+	ItemShield* shield[17];
+	for (int i = 0; i < 17; i++) { shield[i] = new ItemShield(); }
 	//ステージ１
-	//heart[0]->SetPosition(DirectX::XMFLOAT3(0.0f, 5.4f, 30.0f));
-	//heart[0]->SetTerritory(heart[0]->GetPosition(), 10.0f);
+	heart[0]->SetPosition(DirectX::XMFLOAT3(0.0f, 5.4f, 30.0f));
+	heart[0]->SetTerritory(heart[0]->GetPosition(), 10.0f);
 
-	//heart[1]->SetPosition(DirectX::XMFLOAT3(-10.0f, 5.4f, 40.0f));
-	//heart[1]->SetTerritory(heart[1]->GetPosition(), 10.0f);
+	heart[1]->SetPosition(DirectX::XMFLOAT3(-10.0f, 5.4f, 40.0f));
+	heart[1]->SetTerritory(heart[1]->GetPosition(), 10.0f);
 
-	//heart[2]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 30.0f));
-	//heart[2]->SetTerritory(heart[2]->GetPosition(), 10.0f);
+	heart[2]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 30.0f));
+	heart[2]->SetTerritory(heart[2]->GetPosition(), 10.0f);
 
-	//heart[3]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 50.0f));
-	//heart[3]->SetTerritory(heart[3]->GetPosition(), 10.0f);
+	heart[3]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 50.0f));
+	heart[3]->SetTerritory(heart[3]->GetPosition(), 10.0f);
 
-	//heart[4]->SetPosition(DirectX::XMFLOAT3(-20.0f, 5.4f, 50.0f));
-	//heart[4]->SetTerritory(heart[4]->GetPosition(), 10.0f);
+	heart[4]->SetPosition(DirectX::XMFLOAT3(-20.0f, 5.4f, 50.0f));
+	heart[4]->SetTerritory(heart[4]->GetPosition(), 10.0f);
 
-	//heart[5]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 10.0f));
-	//heart[5]->SetTerritory(heart[5]->GetPosition(), 10.0f);
+	heart[5]->SetPosition(DirectX::XMFLOAT3(20.0f, 5.4f, 10.0f));
+	heart[5]->SetTerritory(heart[5]->GetPosition(), 10.0f);
 
-	//heart[6]->SetPosition(DirectX::XMFLOAT3(10.0f, 5.4f, 40.0f));
-	//heart[6]->SetTerritory(heart[6]->GetPosition(), 10.0f);
+	heart[6]->SetPosition(DirectX::XMFLOAT3(10.0f, 5.4f, 40.0f));
+	heart[6]->SetTerritory(heart[6]->GetPosition(), 10.0f);
 
 	//ステージ２
 	//heart[0]->SetPosition(DirectX::XMFLOAT3(10.0f, 5.4f, 30.0f));
