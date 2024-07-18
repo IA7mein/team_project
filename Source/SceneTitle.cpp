@@ -56,34 +56,79 @@ void SceneTitle::Finalize()
 void SceneTitle::Update(float elapsedTime)
 {
 	GamePad& gamePad = Input::Instance().GetGamePad();
+	float ay = gamePad.GetAxisLY();
+	if (carsol_timer > 0.0f)
+	{
+		carsol_timer -= 1.0f * elapsedTime;
+	}
 	//何かボタンを押したらゲームシーンへ切り替え
-	if (gamePad.GetButtonDown() & GamePad::BTN_DOWN)mode++;
-	if (gamePad.GetButtonDown() & GamePad::BTN_UP)mode--;
-	if (mode < 0)mode = 0;
-	if (mode > 2)mode = 2;
+	if (carsol_timer <= 0.0f)
+	{
+		if (ay < 0.0f && scene_change != true)
+		{
+			MoveCarsol->Play(false);
+			mode++;
+			carsol_timer = 1.0f;
+		}
+		if (ay > 0.0f && scene_change != true)
+		{
+			MoveCarsol->Play(false);
+			mode--;
+			carsol_timer = 1.0f;
+		}
+	}
+	if (mode < 0)mode = 2;
+	if (mode > 2)mode = 0;
 	switch (mode)
 	{
 	case 0://一人モード
 		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
 			muluchmode = false;
-			SceneManager::Instance().ChangeScene(new SceneClear);
-			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneClear));
+			PushButtan->Play(false);
+			scene_change = true;
+		}
+		if (scene_change)
+		{
+			scene_timer += 1.0f * elapsedTime;
+			if (scene_timer >= 1.0f)
+			{
+				SceneManager::Instance().ChangeScene(new SceneClear);
+				SceneManager::Instance().ChangeScene(new SceneLoading(new SceneClear));
+			}
 		}
 		break;
 	case 1://二人モード
 		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
 			muluchmode = true;
-			SceneManager::Instance().ChangeScene(new StageSelect);
-			SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
+			PushButtan->Play(false);
+			scene_change = true;
+		}
+		if (scene_change)
+		{
+			scene_timer += 1.0f * elapsedTime;
+			if (scene_timer >= 1.0f)
+			{
+				SceneManager::Instance().ChangeScene(new StageSelect);
+				SceneManager::Instance().ChangeScene(new SceneLoading(new StageSelect));
+			}
 		}
 		break;
 	case 2://ルール
 		if (gamePad.GetButtonDown() & GamePad::BTN_X)
 		{
-			SceneManager::Instance().ChangeScene(new SceneRule);
-			SceneManager::Instance().ChangeScene(new SceneLoading(new SceneRule));
+			PushButtan->Play(false);
+			scene_change = true;
+		}
+		if (scene_change)
+		{
+			scene_timer += 1.0f * elapsedTime;
+			if (scene_timer >= 1.0f)
+			{
+				SceneManager::Instance().ChangeScene(new SceneRule);
+				SceneManager::Instance().ChangeScene(new SceneLoading(new SceneRule));
+			}
 		}
 		break;
 

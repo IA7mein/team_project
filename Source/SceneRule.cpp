@@ -8,10 +8,15 @@
 void SceneRule::Initialize()
 {
 	sprite = new Sprite("Data/Sprite/rule.png");
+	bgm = Audio::Instance().LoadAudioSource("Data/BGM/–ì—Ç”L‚Ìƒƒ‹ƒc.wav");
+	bgm->Play(true);
+	PushButtan = Audio::Instance().LoadAudioSource("Data/SE/PushButtan.wav");
 }
 
 void SceneRule::Finalize()
 {
+	bgm->Stop();
+	PushButtan->Stop();
 	if (sprite != nullptr)
 	{
 		delete sprite;
@@ -24,7 +29,17 @@ void SceneRule::Update(float elapsedTime)
 	GamePad& gamePad = Input::Instance().GetGamePad();
 	if (gamePad.GetButtonDown() & GamePad::BTN_X)
 	{
-		SceneManager::Instance().ChangeScene(new SceneTitle);
+		PushButtan->Play(false);
+		scene_change = true;
+	}
+
+	if (scene_change)
+	{
+		scene_timer += 1.0f * elapsedTime;
+		if (scene_timer >= 1.0f)
+		{
+			SceneManager::Instance().ChangeScene(new SceneTitle);
+		}
 	}
 }
 

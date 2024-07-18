@@ -30,6 +30,7 @@ private:
 	int statemode;
 	int timer;
 	int mode;
+	float carsol_timer = 0.0f;
 	float scene_timer = 0.0f;
 	bool scene_change = false;
 	//オーディオリソース

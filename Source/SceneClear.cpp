@@ -10,15 +10,25 @@ void SceneClear::Initialize()
 {
 	//sprite = new Sprite("Data/Sprite/Title.png");
 	text = new Sprite("Data/Font/font1.png");
+	bgm = Audio::Instance().LoadAudioSource("Data/BGM/‚¿‚å‚Á‚Æˆê‘§‚Â‚«‚Ü‚µ‚å‚¤H.wav");
+	bgm->Play(true);
+	PushButtan = Audio::Instance().LoadAudioSource("Data/SE/PushButtan.wav");
 }
 
 void SceneClear::Finalize()
 {
+	bgm->Stop();
+	PushButtan->Stop();
 	/*if (sprite != nullptr)
 	{
 		delete sprite;
 		sprite = nullptr;
 	}*/
+	if (text != false)
+	{
+		delete text;
+		text = nullptr;
+	}
 }
 
 void SceneClear::Update(float elapsedTime)
@@ -26,7 +36,17 @@ void SceneClear::Update(float elapsedTime)
 	GamePad& gamePad = Input::Instance().GetGamePad();
 	if (gamePad.GetButtonDown() & GamePad::BTN_X)
 	{
-		SceneManager::Instance().ChangeScene(new SceneTitle);
+		PushButtan->Play(false);
+		scene_change = true;
+	}
+
+	if (scene_change)
+	{
+		scene_timer += 1.0f * elapsedTime;
+		if (scene_timer >= 1.0f)
+		{
+			SceneManager::Instance().ChangeScene(new SceneTitle);
+		}
 	}
 }
 
