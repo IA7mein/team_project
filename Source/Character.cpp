@@ -78,7 +78,7 @@ void Character::Turn(float elapsedTime, float vx, float vz, float speed)
 void Character::Jump(float speed)
 {
 	//ã•ûŒü‚Ì—Í‚ğİ’è
-	velocity.y = speed;
+	position.y = speed;
 }
 
 //ÕŒ‚‚ğ—^‚¦‚é
@@ -171,9 +171,9 @@ void Character::UpdateVerticalMove(float elapsedTime)
 	//—‰º’†
 	if (my < 0.0f)
 	position.y += velocity.y * elapsedTime;
-	if (position.y <= 5.5f)
+	if (position.y <= 3.0f)
 	{
-		position.y = 5.5f;
+		position.y = 3.0f;
 
 			if (!isGround)
 			{
@@ -181,7 +181,7 @@ void Character::UpdateVerticalMove(float elapsedTime)
 			}
 			isGround = true;
 			velocity.y = 0.0f;
-		}
+	}
 		else
 		{
 			isGround = false;

@@ -30,9 +30,9 @@ Player::Player()
 	HitObject = Audio::Instance().LoadAudioSource("Data/SE/HitObject.wav");
 
 	//モデルが大きいのでスケーリング
-	scale.x = scale.y = scale.z = 0.1f;
+	scale.x = scale.y = scale.z = 0.5f;
 
-	position.y = 5.4f;
+	position.y = 1.4f;
 
 	//ヒットエフェクト読み込み
 	hitEffect = new Effect("Data/Effect/damage.efk");
@@ -62,7 +62,7 @@ Player::~Player()
 //更新処理
 void Player::Update(float elapsedTime)
 {
-	if (position.y < -10.0f)position = { 0, 1, -10 };
+	//if (position.y < -10.0f)position = { 0, 1, -10 };
 
 	//if(ゴールについたら)
 	{
