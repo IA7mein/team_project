@@ -106,6 +106,7 @@ void Character::UpdateVelocity(float elapsedTime)
 
 	//水平移動更新処理
 	UpdateHorizontalMove(elapsedTime);
+
 }
 
 bool Character::ApplyDamage(int damage, float invincibleTime)
@@ -154,72 +155,88 @@ void Character::UpdateVerticalVelocity(float elapsedFrame)
 
 void Character::UpdateVerticalMove(float elapsedTime)
 {
-	//垂直方向の移動量
-	float my = velocity.y * elapsedTime;
-
-	//キャラクターのY軸方向となる法線ベクトル
-	DirectX::XMFLOAT3 normal = { 0, 1, 0 };
-
-	slopeRate = 0.0f;
-
-	//落下中
-	if (my < 0.0f)
+	position.y += velocity.y * elapsedTime;
+	if (position.y <= 5.5f)
 	{
-		//レイの開始地点は足元より少し上
-		DirectX::XMFLOAT3 start = { position.x, position.y + stepOffset, position.z };
-		//レイの終点位置は移動後の位置
-		DirectX::XMFLOAT3 end = { position.x, position.y + my, position.z };
+		position.y = 5.5f;
 
-		//レイキャストによる地面判定
-		HitResult hit;
-		if (StageManager::Instance().RayCast(start, end, hit))
+		if (!isGround)
 		{
-			//法線ベクトル取得
-			normal = hit.normal;
-
-			//地面に接している
-			position = hit.position;
-
-			//回転
-			angle = {angle.x + hit.rotetion.x, angle.y + hit.rotetion.y , angle.z + hit.rotetion.z };
-
-			//傾斜率の計算
-			float normalLengthXZ = sqrtf(hit.normal.x * hit.normal.x + hit.normal.z * hit.normal.z);
-			slopeRate = 1.0f - (hit.normal.y / (normalLengthXZ + hit.normal.y));
-
-			//着地した
-			if (!isGround)
-			{
-				OnLanding();
-			}
-			isGround = true;
-			velocity.y = 0.0f;
+			OnLanding();
 		}
-		else
-		{
-			//空中に浮いている
-			position.y += my;
-			isGround = false;
-		}
+		isGround = true;
+		velocity.y = 0.0f;
 	}
-	//上昇中
-	else if (my > 0.0f)
+	else
 	{
-		position.y += my;
 		isGround = false;
 	}
+	////垂直方向の移動量
+	//float my = velocity.y * elapsedTime;
 
-	//地面の向きに沿うようにXZ軸回転
-	{
-		//Y軸が法線ベクトル方面に向くオイラー角回転を算出
-		float angleX = static_cast<float>(atan2(normal.z, normal.y));
-		float angleZ = static_cast<float>(-atan2(normal.x, normal.y));
+	////キャラクターのY軸方向となる法線ベクトル
+	//DirectX::XMFLOAT3 normal = { 0, 1, 0 };
 
-		//線形補完で滑らかに回転
-		angle.x = Mathf::Lerp(angle.x, angleX, 0.1f);
-		angle.z = Mathf::Lerp(angle.z, angleZ, 0.1f);
+	//slopeRate = 0.0f;
 
-	}
+	////落下中
+	//if (my < 0.0f)
+	//{
+	//	//レイの開始地点は足元より少し上
+	//	DirectX::XMFLOAT3 start = { position.x, position.y + stepOffset, position.z };
+	//	//レイの終点位置は移動後の位置
+	//	DirectX::XMFLOAT3 end = { position.x, position.y + my, position.z };
+
+	//	//レイキャストによる地面判定
+	//	HitResult hit;
+	//	if (StageManager::Instance().RayCast(start, end, hit))
+	//	{
+	//		//法線ベクトル取得
+	//		normal = hit.normal;
+
+	//		//地面に接している
+	//		position = hit.position;
+
+	//		//回転
+	//		angle = {angle.x + hit.rotetion.x, angle.y + hit.rotetion.y , angle.z + hit.rotetion.z };
+
+	//		//傾斜率の計算
+	//		float normalLengthXZ = sqrtf(hit.normal.x * hit.normal.x + hit.normal.z * hit.normal.z);
+	//		slopeRate = 1.0f - (hit.normal.y / (normalLengthXZ + hit.normal.y));
+
+	//		//着地した
+	//		if (!isGround)
+	//		{
+	//			OnLanding();
+	//		}
+	//		isGround = true;
+	//		velocity.y = 0.0f;
+	//	}
+	//	else
+	//	{
+	//		//空中に浮いている
+	//		position.y += my;
+	//		isGround = false;
+	//	}
+	//}
+	////上昇中
+	//else if (my > 0.0f)
+	//{
+	//	position.y += my;
+	//	isGround = false;
+	//}
+
+	////地面の向きに沿うようにXZ軸回転
+	//{
+	//	//Y軸が法線ベクトル方面に向くオイラー角回転を算出
+	//	float angleX = static_cast<float>(atan2(normal.z, normal.y));
+	//	float angleZ = static_cast<float>(-atan2(normal.x, normal.y));
+
+	//	//線形補完で滑らかに回転
+	//	angle.x = Mathf::Lerp(angle.x, angleX, 0.1f);
+	//	angle.z = Mathf::Lerp(angle.z, angleZ, 0.1f);
+
+	//}
 }
 
 //水平速力更新処理
@@ -264,10 +281,10 @@ void Character::UpdateHorizontalVelocity(float elapsedFrame)
 		{
 			//加速力
 			float accelaration = this->acceleration * elapsedFrame;
-			
+
 			//空中にいるときは加速力を減らす
 			if (this->isGround == false) accelaration *= airControl;
-			
+
 			//移動ベクトルによる加速処理(移動ベクトルに加速力分スケーリングし、速度ベクトルに追加)
 			velocity.x += moveVecX * accelaration;
 			velocity.z += moveVecZ * accelaration;
@@ -308,45 +325,54 @@ void Character::UpdateHorizontalMove(float elapsedTime)
 
 		// レイの開始位置と終点位置
 		//プレイヤーのY軸を中心に設定し、床と判定しないようにする
-		DirectX::XMFLOAT3 start = { position.x, position.y + stepOffset, position.z };
-		DirectX::XMFLOAT3 end = { position.x + mx, position.y + stepOffset, position.z + mz };
+		//DirectX::XMFLOAT3 start = { position.x, position.y + stepOffset, position.z };
+		//DirectX::XMFLOAT3 end = { position.x + mx, position.y + stepOffset, position.z + mz };
 
-		// レイキャストによる壁判定
-		HitResult hit;
-		if (StageManager::Instance().RayCast(start, end, hit))
+		//// レイキャストによる壁判定
+		//HitResult hit;
+		//if (StageManager::Instance().RayCast(start, end, hit))
+		//{
+		//	// 壁までのベクトル
+		//	DirectX::XMVECTOR Start = DirectX::XMLoadFloat3(&start);
+		//	DirectX::XMVECTOR End = DirectX::XMLoadFloat3(&end);
+		//	DirectX::XMVECTOR Vec = DirectX::XMVectorSubtract(Start, End);
+
+		//	// 壁の法線ベクトル
+		//	DirectX::XMVECTOR Normal = DirectX::XMLoadFloat3(&hit.normal);
+		//	// 進行方向ベクトルと壁の法線ベクトルの内積
+		//	DirectX::XMVECTOR Dot = DirectX::XMVector3Dot(Vec, Normal);
+		//	//補正位置の計算
+		//	//法線ベクトル方向にDot分スケーリング
+		//	DirectX::XMVECTOR CollectPosition = DirectX::XMVectorMultiply(Normal, Dot);
+		//	DirectX::XMFLOAT3 collectPosition;
+		//	//CollectPositionにEndの位置を足した値が最終的な位置
+		//	DirectX::XMStoreFloat3(&collectPosition, DirectX::XMVectorAdd(CollectPosition, End));
+
+		//	//hit.positionを開始位置とし、collectpositionを終点位置とし、さらにレイキャスト
+		//	HitResult hit2;
+		//	if (!StageManager::Instance().RayCast(hit.position, collectPosition, hit2))
+		//	{
+		//		//当たってないなら
+		//		//X,Z成分のみ反映
+		//		position.x = collectPosition.x;
+		//		position.z = collectPosition.z;
+		//	}
+		//	else
+		//	{
+		//		//当たっていたらhit2.positionを最終的な位置として反映
+		//		position.x = hit2.position.x;
+		//		position.z = hit2.position.z;
+		//	}
+		//	
+		//}
+		/*else*/
+		if (position.x > 24.6f && velocity.x > 0)
 		{
-			// 壁までのベクトル
-			DirectX::XMVECTOR Start = DirectX::XMLoadFloat3(&start);
-			DirectX::XMVECTOR End = DirectX::XMLoadFloat3(&end);
-			DirectX::XMVECTOR Vec = DirectX::XMVectorSubtract(Start, End);
-
-			// 壁の法線ベクトル
-			DirectX::XMVECTOR Normal = DirectX::XMLoadFloat3(&hit.normal);
-			// 進行方向ベクトルと壁の法線ベクトルの内積
-			DirectX::XMVECTOR Dot = DirectX::XMVector3Dot(Vec, Normal);
-			//補正位置の計算
-			//法線ベクトル方向にDot分スケーリング
-			DirectX::XMVECTOR CollectPosition = DirectX::XMVectorMultiply(Normal, Dot);
-			DirectX::XMFLOAT3 collectPosition;
-			//CollectPositionにEndの位置を足した値が最終的な位置
-			DirectX::XMStoreFloat3(&collectPosition, DirectX::XMVectorAdd(CollectPosition, End));
-
-			//hit.positionを開始位置とし、collectpositionを終点位置とし、さらにレイキャスト
-			HitResult hit2;
-			if (!StageManager::Instance().RayCast(hit.position, collectPosition, hit2))
-			{
-				//当たってないなら
-				//X,Z成分のみ反映
-				position.x = collectPosition.x;
-				position.z = collectPosition.z;
-			}
-			else
-			{
-				//当たっていたらhit2.positionを最終的な位置として反映
-				position.x = hit2.position.x;
-				position.z = hit2.position.z;
-			}
-			
+			position.z += mz;
+		}
+		else if (position.x < -24.6f && velocity.x < 0)
+		{
+			position.z += mz;
 		}
 		else
 		{
