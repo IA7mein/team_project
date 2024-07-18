@@ -5,13 +5,13 @@
 //更新処理
 void CameraController::Update(float elapsedTime)
 {
-	GamePad& gamePad = Input::Instance().GetGamePad();
-	float ax = gamePad.GetAxisRX();
-	float ay = gamePad.GetAxisRY();
-	float speed = rollSpeed * elapsedTime;
-	//スティックの入力値に合わせてX軸とY軸を回転
-	angle.x += ay * speed;
-	angle.y += ax * speed;
+	//GamePad& gamePad = Input::Instance().GetGamePad();
+	//float ax = gamePad.GetAxisRX();
+	//float ay = gamePad.GetAxisRY();
+	//float speed = rollSpeed * elapsedTime;
+	////スティックの入力値に合わせてX軸とY軸を回転
+	//angle.x += ay * speed;
+	//angle.y += ax * speed;
 
 	//X軸のカメラ回転を制限
 	/*if (angle.x > maxAngleX)

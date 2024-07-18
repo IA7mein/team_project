@@ -6,12 +6,12 @@
 //コンストラクタ
 ItemShield::ItemShield()
 {
-	model = new Model("Data/Model/Slime/tate.mdl");
+	model = new Model("Data/Model/Item/tate.mdl");
 
 	//モデルのスケーリング
-	scale.x = scale.y = scale.z = 0.05f;
+	scale.x = scale.y = scale.z = 1.0f;
 
-	//幅、高さ設定
+	//幅、高さ設定w
 	radius = 5.0f;
 	height = 1.5f;
 }

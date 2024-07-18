@@ -134,6 +134,10 @@ void SceneGame::Initialize()
 void SceneGame::Finalize()
 {
 	bgm->Stop();
+
+	//アイテム終了化
+	ItemManager::Instance().Clear();
+
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
 	{

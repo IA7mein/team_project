@@ -11,6 +11,7 @@
 #include <ItemManager.h>
 #include <ItemHeart.h>
 #include <hari.h>
+#include "../ItemShield.h"
 
 void Stage1::Initialize()
 {
@@ -46,17 +47,30 @@ void Stage1::Initialize()
 	}
 	//ハート初期化
 	ItemManager& itemManager = ItemManager::Instance();
-	ItemHeart* heart;
-	heart = new ItemHeart(); 
-	heart->SetPosition(DirectX::XMFLOAT3(10.0f, 0.0f,40.0f));
-	itemManager.Register(heart);
-	//とげ初期化
-	hari* Hari[3];
-	for (int i = 0; i < 3; i++) { Hari[i] = new hari(); };
-	Hari[0]->SetPosition(DirectX::XMFLOAT3(0.0f, 0.0f, 30.0f));
-	Hari[1]->SetPosition(DirectX::XMFLOAT3(-10.0f, 0.0f, 40.0f));
+	ItemHeart* heart[5];
+	for (int i = 0; i < 5; i++) { heart[i] = new ItemHeart(); };
+	heart[0]->SetPosition(DirectX::XMFLOAT3(10.0f, 0.0f, 50.0f));
+	heart[1]->SetPosition(DirectX::XMFLOAT3(-10.0f, 0.0f, 40.0f));
+	heart[2]->SetPosition(DirectX::XMFLOAT3(-10.0f, 0.0f, 20.0f));
+	heart[3]->SetPosition(DirectX::XMFLOAT3(10.0f, 0.0f, -30.0f));
+	heart[4]->SetPosition(DirectX::XMFLOAT3(0.0f, 0.0f, -20.0f));	
+	for (int i = 0; i < 5; i++) { itemManager.Register(heart[i]); }
+	//とげ初期化5
+	hari* Hari[5];
+	for (int i = 0; i < 5; i++) { Hari[i] = new hari(); };
+	Hari[0]->SetPosition(DirectX::XMFLOAT3(20.0f, 0.0f, -20.0f));
+	Hari[1]->SetPosition(DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f));
 	Hari[2]->SetPosition(DirectX::XMFLOAT3(20.0f, 0.0f, 30.0f));
-	for (int i = 0; i < 3; i++) { itemManager.Register(Hari[i]); }
+	Hari[3]->SetPosition(DirectX::XMFLOAT3(10.0f, 0.0f, 20.0f));
+	Hari[4]->SetPosition(DirectX::XMFLOAT3(-20.0f, 0.0f, -30.0f));
+	for (int i = 0; i < 5; i++) { itemManager.Register(Hari[i]); }
+	//盾初期化
+	ItemShield* shield[3];
+	for (int i = 0; i < 3; i++) { shield[i] = new ItemShield(); };
+	shield[0]->SetPosition(DirectX::XMFLOAT3(-10.0f, 0.0f, 30.0f));
+	shield[1]->SetPosition(DirectX::XMFLOAT3(10.0f, 0.0f, 10.0f));
+	shield[2]->SetPosition(DirectX::XMFLOAT3(0.0f, 0.0f, -40.0f));
+	for (int i = 0; i < 3; i++) { itemManager.Register(shield[i]); }
 
 	text = new Sprite("Data/Font/font6.png");
 
@@ -73,6 +87,9 @@ void Stage1::Finalize()
 		delete gauge;
 		gauge = nullptr;
 	}
+
+	//アイテム終了化
+	ItemManager::Instance().Clear();
 
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
@@ -100,7 +117,6 @@ void Stage1::Finalize()
 		delete text;
 		text = nullptr;
 	}
-	
 	//ステージ終了化
 	StageManager::Instance().Clear();
 }

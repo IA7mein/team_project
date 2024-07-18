@@ -8,6 +8,10 @@
 #include "StageManager.h"
 #include "StageMain.h"
 #include "SceneTitle.h"
+#include "ItemManager.h"
+#include "ItemHeart.h"
+#include "hari.h"
+#include "../ItemShield.h"
 void Stage3::Initialize()
 {
 	StageManager& stageManager = StageManager::Instance();
@@ -41,6 +45,33 @@ void Stage3::Initialize()
 		enemy->SetPosition({ 1.0f, 0.0f, -10.0f });
 	}
 	text = new Sprite("Data/Font/font6.png");
+	//ハート初期化
+	ItemManager& itemManager = ItemManager::Instance();
+	ItemHeart* heart[6];
+	for (int i = 0; i < 6; i++) { heart[i] = new ItemHeart(); };
+	heart[0]->SetPosition(DirectX::XMFLOAT3(10.0f, 0.0f, 30.0f));
+	heart[1]->SetPosition(DirectX::XMFLOAT3(-10.0f, 0.0f, 40.0f));
+	heart[2]->SetPosition(DirectX::XMFLOAT3(-10.0f, 0.0f, 20.0f));
+	heart[3]->SetPosition(DirectX::XMFLOAT3(10.0f, 0.0f, -30.0f));
+	heart[4]->SetPosition(DirectX::XMFLOAT3(0.0f, 0.0f, -20.0f));
+	heart[5]->SetPosition(DirectX::XMFLOAT3(20.0f, 0.0f, -10.0f));
+	for (int i = 0; i < 6; i++) { itemManager.Register(heart[i]); }
+	//とげ初期化
+	hari* Hari[5];
+	for (int i = 0; i < 5; i++) { Hari[i] = new hari(); };
+	Hari[0]->SetPosition(DirectX::XMFLOAT3(-10.0f, 0.0f, 30.0f));
+	Hari[1]->SetPosition(DirectX::XMFLOAT3(-20.0f, 0.0f, 30.0f));
+	Hari[2]->SetPosition(DirectX::XMFLOAT3(20.0f, 0.0f, 10.0f));
+	Hari[3]->SetPosition(DirectX::XMFLOAT3(0.0f, 0.0f, 10.0f));
+	Hari[4]->SetPosition(DirectX::XMFLOAT3(10.0f, 0.0f, -10.0f));
+	for (int i = 0; i < 5; i++) { itemManager.Register(Hari[i]); }
+	//盾初期化
+	ItemShield* shield[3];
+	for (int i = 0; i < 3; i++) { shield[i] = new ItemShield(); };
+	shield[0]->SetPosition(DirectX::XMFLOAT3(0.0f, 0.0f, 10.0f));
+	shield[1]->SetPosition(DirectX::XMFLOAT3(-10.0f, 0.0f, 30.0f));
+	shield[2]->SetPosition(DirectX::XMFLOAT3(10.0f, 0.0f, -40.0f));
+	for (int i = 0; i < 3; i++) { itemManager.Register(shield[i]); }
 
 	bgm = Audio::Instance().LoadAudioSource("Data/BGM/これより開幕！.wav");
 	bgm->Play(true);
@@ -55,6 +86,8 @@ void Stage3::Finalize()
 		delete gauge;
 		gauge = nullptr;
 	}
+	//アイテム終了化
+	ItemManager::Instance().Clear();
 
 	//カメラコントローラー終了化
 	if (cameraController != nullptr)
@@ -101,6 +134,8 @@ void Stage3::Update(float elapsedTime)
 
 	//エフェクト更新処理
 	EffectManager::Instance().Update(elapsedTime);
+	//アイテム更新処理
+	ItemManager::Instance().Update(elapsedTime);
 }
 
 void Stage3::Render()
@@ -154,6 +189,8 @@ void Stage3::Render()
 
 		// デバッグレンダラ描画実行
 		graphics.GetDebugRenderer()->Render(dc, rc.view, rc.projection);
+		//アイテムデバックプリミティブ描画
+		ItemManager::Instance().DrawDebugPrimitive();
 	}
 
 	// 2DデバッグGUI描画
